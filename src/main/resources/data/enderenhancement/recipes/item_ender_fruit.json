@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"mmm",
+		"bxb",
+		" b "
+	],
+	"key": {
+		"m": {
+			"item": "enderenhancement:item_empowered_ender_pearl"
+		},
+		"x": {
+			"item": "enderenhancement:item_extreme_ender_pearl"
+		},
+		"b": {
+			"item": "enderenhancement:block_ender_block"
+		}
+	},
+	"result": {
+		"item": "enderenhancement:item_ender_fruit"
+	}
+}

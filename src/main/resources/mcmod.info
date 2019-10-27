@@ -1,0 +1,16 @@
+[
+{
+  "modid": "enderenhancement",
+  "name": "Ender Enhancement",
+  "description": "Enhance your Ender Experience!",
+  "version": "2.0.1",
+  "mcversion": "1.9.4, 1.10.2, 1.11.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Wavebrother"],
+  "credits": "Kinla for the Ender Fruit texture and jdog1408 for the other textures that look good",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

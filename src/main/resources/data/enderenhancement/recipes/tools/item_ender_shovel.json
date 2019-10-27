@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"e",
+		"s",
+		"s"
+	],
+	"key": {
+		"e": {
+			"item": "minecraft:ender_pearl"
+		},
+		"s": {
+			"item": "enderenhancement:item_ender_stick"
+		}
+	},
+	"result": {
+		"item": "enderenhancement:item_ender_shovel"
+	}
+}

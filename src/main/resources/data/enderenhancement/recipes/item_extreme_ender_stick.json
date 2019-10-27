@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"e",
+		"e"
+	],
+	"key": {
+		"e": {
+			"item": "enderenhancement:item_extreme_ender_pearl"
+		}
+	},
+	"result": {
+		"item": "enderenhancement:item_extreme_ender_stick",
+		"count": 2
+	}
+}

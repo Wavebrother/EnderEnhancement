@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ee",
+		" s",
+		" s"
+	],
+	"key": {
+		"e": {
+			"item": "enderenhancement:item_empowered_ender_pearl"
+		},
+		"s": {
+			"item": "enderenhancement:item_empowered_ender_stick"
+		}
+	},
+	"result": {
+		"item": "enderenhancement:item_empowered_ender_hoe"
+	}
+}

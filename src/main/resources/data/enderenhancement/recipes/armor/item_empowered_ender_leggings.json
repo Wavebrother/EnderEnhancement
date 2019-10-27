@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "eee",
+        "e e",
+        "e e"
+    ],
+    "key":
+    {
+        "e":
+        {
+            "item": "enderenhancement:item_empowered_ender_pearl"
+        }
+    },
+    "result":
+    {
+        "item": "enderenhancement:item_empowered_ender_leggings"
+    }
+}

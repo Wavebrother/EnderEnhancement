@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "enderenhancement:blocks/dull_ender_block"
+    }
+}
