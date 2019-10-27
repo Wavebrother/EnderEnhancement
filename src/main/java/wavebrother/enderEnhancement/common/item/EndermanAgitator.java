@@ -2,11 +2,13 @@ package wavebrother.enderEnhancement.common.item;
 
 import java.util.List;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
@@ -16,6 +18,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -24,6 +27,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
+import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
+import wavebrother.enderEnhancement.common.init.ModBlocks;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
@@ -51,14 +56,33 @@ public class EndermanAgitator extends Item implements IEnderItem {
 			NBT.putBoolean(agitatorTag, !NBT.getBoolean(agitatorTag));
 			if (NBT.getBoolean(agitatorTag)) {
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_SCREAM,
-						SoundCategory.PLAYERS, 1, 1);
+						SoundCategory.PLAYERS, 0.3F, 1);
 			} else {
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_AMBIENT,
-						SoundCategory.PLAYERS, 1, 1);
+						SoundCategory.PLAYERS, 0.3F, 1);
 			}
 			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, item);
 		} else
 			return new ActionResult<ItemStack>(ActionResultType.PASS, item);
+	}
+
+	@Override
+	public ActionResultType onItemUse(ItemUseContext context) {
+		World world = context.getWorld();
+		BlockPos blockpos = context.getPos();
+		BlockState blockstate = world.getBlockState(blockpos);
+		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)) {
+			ItemStack itemstack = context.getItem();
+			if (!world.isRemote) {
+				((EnderPedestal) ModBlocks.enderPedestal).insertAgitator(world, blockpos, blockstate, itemstack);
+				world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
+				itemstack.shrink(1);
+			}
+
+			return ActionResultType.SUCCESS;
+		} else {
+			return ActionResultType.PASS;
+		}
 	}
 
 	@Override

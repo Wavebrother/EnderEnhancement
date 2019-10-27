@@ -29,8 +29,8 @@ import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
 
 public class EnderPedestal extends ContainerBlock {
 	public static final BooleanProperty HAS_AGITATOR = BooleanProperty.create("has_agitator");
-	protected static final VoxelShape SHAPE = VoxelShapes.or(
-			Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 14.0D, 12.0D));
+	protected static final VoxelShape SHAPE = VoxelShapes
+			.or(Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 14.0D, 12.0D));
 
 	public final EnderPedestalItem blockItem;
 
@@ -39,6 +39,16 @@ public class EnderPedestal extends ContainerBlock {
 		setRegistryName(name);
 		this.setDefaultState(this.stateContainer.getBaseState().with(HAS_AGITATOR, Boolean.valueOf(false)));
 		blockItem = new EnderPedestalItem();
+	}
+
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+	
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new EnderPedestalTileEntity();
 	}
 
 	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,

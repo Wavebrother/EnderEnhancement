@@ -110,119 +110,119 @@ public class ModItems {
 
 		// Pearls
 		dullEnderPearl = new EnderPearl(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERPEARL.getRegistryName());
+				Reference.Items.DULLENDERPEARL.getRegistryName());
 		empoweredEnderPearl = new EnderPearl(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERPEARL.getRegistryName());
+				Reference.Items.EMPOWEREDENDERPEARL.getRegistryName());
 		extremeEnderPearl = new EnderPearl(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERPEARL.getRegistryName());
+				Reference.Items.EXTREMEENDERPEARL.getRegistryName());
 
 		// Sticks
 		dullEnderStick = new EnderStick(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERSTICK.getRegistryName());
-		enderStick = new EnderStick(EnderTier.ENDER, Reference.EnderEnhancementItems.ENDERSTICK.getRegistryName());
+				Reference.Items.DULLENDERSTICK.getRegistryName());
+		enderStick = new EnderStick(EnderTier.ENDER, Reference.Items.ENDERSTICK.getRegistryName());
 		empoweredEnderStick = new EnderStick(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERSTICK.getRegistryName());
+				Reference.Items.EMPOWEREDENDERSTICK.getRegistryName());
 		extremeEnderStick = new EnderStick(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERSTICK.getRegistryName());
+				Reference.Items.EXTREMEENDERSTICK.getRegistryName());
 
 		// Axes
-		dullEnderAxe = new EnderAxe(EnderTier.DULL, Reference.EnderEnhancementItems.DULLENDERAXE.getRegistryName());
-		enderAxe = new EnderAxe(EnderTier.ENDER, Reference.EnderEnhancementItems.ENDERAXE.getRegistryName());
+		dullEnderAxe = new EnderAxe(EnderTier.DULL, Reference.Items.DULLENDERAXE.getRegistryName());
+		enderAxe = new EnderAxe(EnderTier.ENDER, Reference.Items.ENDERAXE.getRegistryName());
 		empoweredEnderAxe = new EnderAxe(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERAXE.getRegistryName());
+				Reference.Items.EMPOWEREDENDERAXE.getRegistryName());
 		extremeEnderAxe = new EnderAxe(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERAXE.getRegistryName());
+				Reference.Items.EXTREMEENDERAXE.getRegistryName());
 
 		// Hoes
-		dullEnderHoe = new EnderHoe(EnderTier.DULL, Reference.EnderEnhancementItems.DULLENDERHOE.getRegistryName());
-		enderHoe = new EnderHoe(EnderTier.ENDER, Reference.EnderEnhancementItems.ENDERHOE.getRegistryName());
+		dullEnderHoe = new EnderHoe(EnderTier.DULL, Reference.Items.DULLENDERHOE.getRegistryName());
+		enderHoe = new EnderHoe(EnderTier.ENDER, Reference.Items.ENDERHOE.getRegistryName());
 		empoweredEnderHoe = new EnderHoe(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERHOE.getRegistryName());
+				Reference.Items.EMPOWEREDENDERHOE.getRegistryName());
 		extremeEnderHoe = new EnderHoe(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERHOE.getRegistryName());
+				Reference.Items.EXTREMEENDERHOE.getRegistryName());
 
 		// Pickaxes
 		dullEnderPickaxe = new EnderPickaxe(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERPICKAXE.getRegistryName());
+				Reference.Items.DULLENDERPICKAXE.getRegistryName());
 		enderPickaxe = new EnderPickaxe(EnderTier.ENDER,
-				Reference.EnderEnhancementItems.ENDERPICKAXE.getRegistryName());
+				Reference.Items.ENDERPICKAXE.getRegistryName());
 		empoweredEnderPickaxe = new EnderPickaxe(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERPICKAXE.getRegistryName());
+				Reference.Items.EMPOWEREDENDERPICKAXE.getRegistryName());
 		extremeEnderPickaxe = new EnderPickaxe(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERPICKAXE.getRegistryName());
+				Reference.Items.EXTREMEENDERPICKAXE.getRegistryName());
 
 		// Shovels
 		dullEnderShovel = new EnderShovel(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERSHOVEL.getRegistryName());
-		enderShovel = new EnderShovel(EnderTier.ENDER, Reference.EnderEnhancementItems.ENDERSHOVEL.getRegistryName());
+				Reference.Items.DULLENDERSHOVEL.getRegistryName());
+		enderShovel = new EnderShovel(EnderTier.ENDER, Reference.Items.ENDERSHOVEL.getRegistryName());
 		empoweredEnderShovel = new EnderShovel(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERSHOVEL.getRegistryName());
+				Reference.Items.EMPOWEREDENDERSHOVEL.getRegistryName());
 		extremeEnderShovel = new EnderShovel(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERSHOVEL.getRegistryName());
+				Reference.Items.EXTREMEENDERSHOVEL.getRegistryName());
 
 		// Swords
 		dullEnderSword = new EnderSword(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERSWORD.getRegistryName());
-		enderSword = new EnderSword(EnderTier.ENDER, Reference.EnderEnhancementItems.ENDERSWORD.getRegistryName());
+				Reference.Items.DULLENDERSWORD.getRegistryName());
+		enderSword = new EnderSword(EnderTier.ENDER, Reference.Items.ENDERSWORD.getRegistryName());
 		empoweredEnderSword = new EnderSword(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERSWORD.getRegistryName());
+				Reference.Items.EMPOWEREDENDERSWORD.getRegistryName());
 		extremeEnderSword = new EnderSword(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERSWORD.getRegistryName());
+				Reference.Items.EXTREMEENDERSWORD.getRegistryName());
 
 		// Helmets
 		dullEnderHelmet = new EnderArmor(EnderTier.DULL, EquipmentSlotType.HEAD,
-				Reference.EnderEnhancementItems.DULLENDERHELMET.getRegistryName());
+				Reference.Items.DULLENDERHELMET.getRegistryName());
 		enderHelmet = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.HEAD,
-				Reference.EnderEnhancementItems.ENDERHELMET.getRegistryName());
+				Reference.Items.ENDERHELMET.getRegistryName());
 		empoweredEnderHelmet = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.HEAD,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERHELMET.getRegistryName());
+				Reference.Items.EMPOWEREDENDERHELMET.getRegistryName());
 		extremeEnderHelmet = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.HEAD,
-				Reference.EnderEnhancementItems.EXTREMEENDERHELMET.getRegistryName());
+				Reference.Items.EXTREMEENDERHELMET.getRegistryName());
 
 		// Chestplates
 		dullEnderChestplate = new EnderArmor(EnderTier.DULL, EquipmentSlotType.CHEST,
-				Reference.EnderEnhancementItems.DULLENDERCHESTPLATE.getRegistryName());
+				Reference.Items.DULLENDERCHESTPLATE.getRegistryName());
 		enderChestplate = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.CHEST,
-				Reference.EnderEnhancementItems.ENDERCHESTPLATE.getRegistryName());
+				Reference.Items.ENDERCHESTPLATE.getRegistryName());
 		empoweredEnderChestplate = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.CHEST,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERCHESTPLATE.getRegistryName());
+				Reference.Items.EMPOWEREDENDERCHESTPLATE.getRegistryName());
 		extremeEnderChestplate = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.CHEST,
-				Reference.EnderEnhancementItems.EXTREMEENDERCHESTPLATE.getRegistryName());
+				Reference.Items.EXTREMEENDERCHESTPLATE.getRegistryName());
 
 		// Leggings
 		dullEnderLeggings = new EnderArmor(EnderTier.DULL, EquipmentSlotType.LEGS,
-				Reference.EnderEnhancementItems.DULLENDERLEGGINGS.getRegistryName());
+				Reference.Items.DULLENDERLEGGINGS.getRegistryName());
 		enderLeggings = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.LEGS,
-				Reference.EnderEnhancementItems.ENDERLEGGINGS.getRegistryName());
+				Reference.Items.ENDERLEGGINGS.getRegistryName());
 		empoweredEnderLeggings = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.LEGS,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERLEGGINGS.getRegistryName());
+				Reference.Items.EMPOWEREDENDERLEGGINGS.getRegistryName());
 		extremeEnderLeggings = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.LEGS,
-				Reference.EnderEnhancementItems.EXTREMEENDERLEGGINGS.getRegistryName());
+				Reference.Items.EXTREMEENDERLEGGINGS.getRegistryName());
 
 		// Boots
 		dullEnderBoots = new EnderArmor(EnderTier.DULL, EquipmentSlotType.FEET,
-				Reference.EnderEnhancementItems.DULLENDERBOOTS.getRegistryName());
+				Reference.Items.DULLENDERBOOTS.getRegistryName());
 		enderBoots = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.FEET,
-				Reference.EnderEnhancementItems.ENDERBOOTS.getRegistryName());
+				Reference.Items.ENDERBOOTS.getRegistryName());
 		empoweredEnderBoots = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.FEET,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERBOOTS.getRegistryName());
+				Reference.Items.EMPOWEREDENDERBOOTS.getRegistryName());
 		extremeEnderBoots = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.FEET,
-				Reference.EnderEnhancementItems.EXTREMEENDERBOOTS.getRegistryName());
+				Reference.Items.EXTREMEENDERBOOTS.getRegistryName());
 
 		// Misc Tools
 		extremeEnderTool = new EnderMultiTool(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERTOOL.getRegistryName());
+				Reference.Items.EXTREMEENDERTOOL.getRegistryName());
 		enderPearler = new ItemEnderPearler();
 
 		// Agitators
 		dullEnderAgitator = new EndermanAgitator(EnderTier.DULL,
-				Reference.EnderEnhancementItems.DULLENDERAGITATOR.getRegistryName());
+				Reference.Items.DULLENDERAGITATOR.getRegistryName());
 		enderAgitator = new EndermanAgitator(EnderTier.ENDER,
-				Reference.EnderEnhancementItems.ENDERAGITATOR.getRegistryName());
+				Reference.Items.ENDERAGITATOR.getRegistryName());
 		empoweredEnderAgitator = new EndermanAgitator(EnderTier.EMPOWERED,
-				Reference.EnderEnhancementItems.EMPOWEREDENDERAGITATOR.getRegistryName());
+				Reference.Items.EMPOWEREDENDERAGITATOR.getRegistryName());
 		extremeEnderAgitator = new EndermanAgitator(EnderTier.EXTREME,
-				Reference.EnderEnhancementItems.EXTREMEENDERAGITATOR.getRegistryName());
+				Reference.Items.EXTREMEENDERAGITATOR.getRegistryName());
 
 		// Food
 		enderFruit = new ItemEnderFruit();

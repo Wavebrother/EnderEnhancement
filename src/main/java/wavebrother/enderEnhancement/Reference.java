@@ -10,7 +10,7 @@ public class Reference {
 	public static final String CLIENT_PROXY_CLASS = "wavebrother.enderEnhancement.proxy.ClientProxy";
 	public static final String SERVER_PROXY_CLASS = "wavebrother.enderEnhancement.proxy.CommonProxy";
 	
-	public static enum EnderEnhancementItems{
+	public static enum Items{
 		
 		//Basic Crafting Ingredients
 		DULLENDERPEARL("item_dull_ender_pearl"), 
@@ -92,7 +92,7 @@ public class Reference {
 		
 		private String registryName;		
 		
-		EnderEnhancementItems(String registryName){
+		Items(String registryName){
 			this.registryName = registryName;
 		}
 		
@@ -101,15 +101,16 @@ public class Reference {
 		}
 	}
 
-	public static enum EnderEnhancementBlocks{
+	public static enum Blocks{
 		DULLENDERBLOCK("block_dull_ender_block"),
 		ENDERBLOCK("block_ender_block"),
 		EMPOWEREDENDERBLOCK("block_empowered_ender_block"),
-		EXTREMEENDERBLOCK("block_extreme_ender_block");
+		EXTREMEENDERBLOCK("block_extreme_ender_block"),
+		ENDERPEDESTAL("block_ender_pedestal");
 		
 		private String registryName;		
 		
-		EnderEnhancementBlocks(String registryName){
+		Blocks(String registryName){
 			this.registryName = registryName;
 		}
 		
@@ -118,4 +119,17 @@ public class Reference {
 		}
 	}
 
+	public static enum TileEntities{
+		ENDERPEDESTAL("tileentity_ender_pedestal");
+		
+		private String registryName;		
+		
+		TileEntities(String registryName){
+			this.registryName = registryName;
+		}
+		
+		public String getRegistryName() {
+			return registryName;
+		}
+	}
 }

@@ -22,10 +22,10 @@ public class ModBlocks {
 	public static EnderPedestal enderPedestal;
 
 	public static void init(){
-		dullEnderBlock = new EnderBlock(EnderTier.DULL, Reference.EnderEnhancementBlocks.DULLENDERBLOCK.getRegistryName());
-		enderBlock = new EnderBlock(EnderTier.ENDER, Reference.EnderEnhancementBlocks.ENDERBLOCK.getRegistryName());
-		empoweredEnderBlock = new EnderBlock(EnderTier.EMPOWERED, Reference.EnderEnhancementBlocks.EMPOWEREDENDERBLOCK.getRegistryName());
-		extremeEnderBlock = new EnderBlock(EnderTier.EXTREME, Reference.EnderEnhancementBlocks.EXTREMEENDERBLOCK.getRegistryName());
+		dullEnderBlock = new EnderBlock(EnderTier.DULL, Reference.Blocks.DULLENDERBLOCK.getRegistryName());
+		enderBlock = new EnderBlock(EnderTier.ENDER, Reference.Blocks.ENDERBLOCK.getRegistryName());
+		empoweredEnderBlock = new EnderBlock(EnderTier.EMPOWERED, Reference.Blocks.EMPOWEREDENDERBLOCK.getRegistryName());
+		extremeEnderBlock = new EnderBlock(EnderTier.EXTREME, Reference.Blocks.EXTREMEENDERBLOCK.getRegistryName());
 		enderPedestal = new EnderPedestal("block_ender_pedestal");
 	}
 	

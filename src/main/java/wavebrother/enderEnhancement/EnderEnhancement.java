@@ -6,8 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import wavebrother.enderEnhancement.common.init.ModTileEntities;
 
 @Mod(value = Reference.MOD_ID)
 public class EnderEnhancement {
@@ -45,7 +48,9 @@ public class EnderEnhancement {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(MobDropsHandler.class);
 
-//        DistExecutor.runWhenOn(Dist.CLIENT, () -> ModBlocks::registerRenderers);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+			ModTileEntities.registerRenderers();
+		});
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {

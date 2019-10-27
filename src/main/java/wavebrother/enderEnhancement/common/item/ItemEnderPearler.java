@@ -22,7 +22,7 @@ public class ItemEnderPearler extends Item {
 
 	public ItemEnderPearler() {
 		super(new Properties().maxDamage(64).group(EnderEnhancement.CREATIVE_TAB));
-		setRegistryName(Reference.EnderEnhancementItems.ENDERPEARLER.getRegistryName());
+		setRegistryName(Reference.Items.ENDERPEARLER.getRegistryName());
 	}
 
 	@Override

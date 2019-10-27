@@ -28,10 +28,10 @@ public class Config {
 
 	public static ForgeConfigSpec.BooleanValue HARDMODE;
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_TIER_MULTIPLIER = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
-	
+
 	public static ForgeConfigSpec.IntValue AGITATOR_RANGE;
-	//public static ForgeConfigSpec.BooleanValue AGITATOR_RANGE_TIER_MODIFY;
-	
+	// public static ForgeConfigSpec.BooleanValue AGITATOR_RANGE_TIER_MODIFY;
+
 	public static ForgeConfigSpec.IntValue ENDER_ARMOR_TELEPORT_RANGE;
 
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_ARMOR_WATER_MINIMUM = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
@@ -39,16 +39,15 @@ public class Config {
 
 	static {
 
-        COMMON_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
+		COMMON_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
 //        HARDMODE = COMMON_BUILDER.comment("Enable hardmode recipes (For modpacks) ~Not yet implemented~").define("hardmode", false);
 		for (EnderTier tier : EnderTier.values()) {
-			ENDER_TIER_MULTIPLIER.put(tier, COMMON_BUILDER
-					.comment("Multiplier for " + tier + " tier.")
+			ENDER_TIER_MULTIPLIER.put(tier, COMMON_BUILDER.comment("Multiplier for " + tier + " tier.")
 					.defineInRange(tier.toString().toLowerCase(), tier.defaultMultiplier(), 1, 16));
 		}
-		AGITATOR_RANGE = COMMON_BUILDER.comment("Agitator range base (Modified by tier multiplier)").defineInRange("agitator_range", 4, 1,
-				128);
-        COMMON_BUILDER.pop();
+		AGITATOR_RANGE = COMMON_BUILDER.comment("Agitator range base (Modified by tier multiplier)")
+				.defineInRange("agitator_range", 4, 1, 128);
+		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Ender Armor Settings").push(CATEGORY_ENDER_ARMOR);
 		ENDER_ARMOR_TELEPORT_RANGE = COMMON_BUILDER.comment("Range to teleport").defineInRange("teleport_range", 32, 1,

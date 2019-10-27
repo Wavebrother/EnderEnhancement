@@ -14,7 +14,7 @@ public class ItemEnderFruit extends Item {
 
 	public ItemEnderFruit() {
 		super(new Properties().group(EnderEnhancement.CREATIVE_TAB).food(createFruit()));
-		setRegistryName(Reference.EnderEnhancementItems.ENDERFRUIT.getRegistryName());
+		setRegistryName(Reference.Items.ENDERFRUIT.getRegistryName());
 	}
 
 	private static Food createFruit() {

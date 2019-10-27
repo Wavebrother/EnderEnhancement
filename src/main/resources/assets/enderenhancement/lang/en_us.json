@@ -82,6 +82,7 @@
 	"block.enderenhancement.block_ender_block": "Ender Block",
 	"block.enderenhancement.block_empowered_ender_block": "Empowered Ender Block",
 	"block.enderenhancement.block_extreme_ender_block": "Extreme Ender Block",
+	"block.enderenhancement.block_ender_pedestal":"Ender Pedestal",
 	
 	//Creative Tab
 	"itemGroup.enderenhancement": "Ender Enhancement"
