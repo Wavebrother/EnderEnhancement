@@ -11,10 +11,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -25,13 +22,15 @@ import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 import wavebrother.enderEnhancement.common.util.EnderTier.EnderArmorMaterial;
+import wavebrother.enderEnhancement.common.util.TeleportUtil;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
 public class EnderArmor extends ArmorItem implements IEnderItem {
 
-	protected final Random rand = new Random();
+	public static final Item COOLDOWNITEM = new Item(new Item.Properties());
 
 	private static final int cooldownBase = 1200;
+	protected final Random rand = new Random();
 
 	private static final DamageSource[] doNotTeleportSource = { DamageSource.ON_FIRE, DamageSource.FALL,
 			DamageSource.FIREWORKS, DamageSource.STARVE };
@@ -57,13 +56,15 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 	@SubscribeEvent
 	public static void entityAttacked(LivingAttackEvent event) {
 		if (event.getEntityLiving() instanceof PlayerEntity && event.getEntityLiving().isServerWorld()
-				&& event.getSource() instanceof IndirectEntityDamageSource
-				&& !Arrays.asList(doNotTeleportSource).contains(event.getSource())) {
+				&& ((event.getSource() instanceof IndirectEntityDamageSource
+						&& !Arrays.asList(doNotTeleportSource).contains(event.getSource()))
+						|| event.getSource().isExplosion())) {
 			PlayerEntity attacked = (PlayerEntity) event.getEntityLiving();
 			ArrayList<ItemStack> enderArmor = new ArrayList<ItemStack>();
 			if (checkArmor(null, enderArmor, attacked)) {
 				for (int i = 0; i < 64; ++i) {
-					if (((EnderArmor) enderArmor.get(0).getItem()).teleportRandomly(attacked)) {
+					if (TeleportUtil.teleportRandomly(attacked,
+							((EnderArmor) enderArmor.get(0).getItem()).maxCooldown())) {
 						event.setCanceled(true);
 						return;
 					}
@@ -113,74 +114,18 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 		} else if (!(source instanceof IndirectEntityDamageSource) && source != DamageSource.FIREWORKS) {
 			boolean flag = entityIn.attackEntityFrom(source, amount);
 			if (source.isUnblockable() && this.rand.nextInt(10) != 0) {
-				this.teleportRandomly(entityIn);
+				TeleportUtil.teleportRandomly(entityIn, maxCooldown());
 			}
 
 			return flag;
 		} else {
 			for (int i = 0; i < 64; ++i) {
-				if (this.teleportRandomly(entityIn)) {
+				if (TeleportUtil.teleportRandomly(entityIn, maxCooldown())) {
 					return true;
 				}
 			}
 
 			return false;
-		}
-	}
-
-	/**
-	 * Teleport the enderman to a random nearby position
-	 */
-	protected boolean teleportRandomly(PlayerEntity entityIn) {
-		entityIn.getCooldownTracker().setCooldown(this, maxCooldown());
-		int range = Config.ENDER_ARMOR_TELEPORT_RANGE.get();
-		double d0 = entityIn.posX + (this.rand.nextDouble() - 0.5D) * range;
-		double d1 = entityIn.posY + (double) (this.rand.nextInt(range) - (range / 2));
-		double d2 = entityIn.posZ + (this.rand.nextDouble() - 0.5D) * range;
-		return this.teleportTo(entityIn, d0, d1, d2);
-	}
-
-	/**
-	 * Teleport the enderman to another entity
-	 */
-//	private boolean teleportToEntity(Entity p_70816_1_) {
-//		Vec3d vec3d = new Vec3d(equippedPlayer.posX - p_70816_1_.posX, equippedPlayer.getBoundingBox().minY
-//				+ (double) (equippedPlayer.getHeight() / 2.0F) - p_70816_1_.posY + (double) p_70816_1_.getEyeHeight(),
-//				equippedPlayer.posZ - p_70816_1_.posZ);
-//		vec3d = vec3d.normalize();
-//		double d0 = 16.0D;
-//		double d1 = equippedPlayer.posX + (this.rand.nextDouble() - 0.5D) * 8.0D - vec3d.x * 16.0D;
-//		double d2 = equippedPlayer.posY + (double) (this.rand.nextInt(16) - 8) - vec3d.y * 16.0D;
-//		double d3 = equippedPlayer.posZ + (this.rand.nextDouble() - 0.5D) * 8.0D - vec3d.z * 16.0D;
-//		return this.teleportTo(d1, d2, d3);
-//	}
-
-	/**
-	 * Teleport the enderman
-	 */
-	private boolean teleportTo(PlayerEntity entityIn, double x, double y, double z) {
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(x, y, z);
-
-		while (blockpos$mutableblockpos.getY() > 0
-				&& !entityIn.world.getBlockState(blockpos$mutableblockpos).getMaterial().blocksMovement()) {
-			blockpos$mutableblockpos.move(Direction.DOWN);
-		}
-
-		if (!entityIn.world.getBlockState(blockpos$mutableblockpos).getMaterial().blocksMovement()) {
-			return false;
-		} else {
-			net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(
-					entityIn, x, y, z, 0);
-			if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
-				return false;
-			boolean flag = entityIn.attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
-			if (flag) {
-				entityIn.world.playSound((PlayerEntity) null, entityIn.prevPosX, entityIn.prevPosY, entityIn.prevPosZ,
-						SoundEvents.ENTITY_ENDERMAN_TELEPORT, entityIn.getSoundCategory(), 1.0F, 1.0F);
-				entityIn.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
-			}
-
-			return flag;
 		}
 	}
 

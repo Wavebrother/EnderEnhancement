@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "e e",
+        "e e",
+        "eee"
+    ],
+    "key":
+    {
+        "e":
+        {
+            "item": "enderenhancement:item_dull_ender_pearl"
+        }
+    },
+    "result":
+    {
+        "item": "enderenhancement:item_dull_item_accumulator"
+    }
+}

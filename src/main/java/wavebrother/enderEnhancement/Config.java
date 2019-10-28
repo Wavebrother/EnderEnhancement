@@ -30,6 +30,9 @@ public class Config {
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_TIER_MULTIPLIER = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
 
 	public static ForgeConfigSpec.IntValue AGITATOR_RANGE;
+	public static ForgeConfigSpec.IntValue PORTER_RANGE;
+	public static ForgeConfigSpec.IntValue ACCUMULATOR_RANGE;
+	public static ForgeConfigSpec.IntValue ENDERGY_MAX;
 	// public static ForgeConfigSpec.BooleanValue AGITATOR_RANGE_TIER_MODIFY;
 
 	public static ForgeConfigSpec.IntValue ENDER_ARMOR_TELEPORT_RANGE;
@@ -47,6 +50,12 @@ public class Config {
 		}
 		AGITATOR_RANGE = COMMON_BUILDER.comment("Agitator range base (Modified by tier multiplier)")
 				.defineInRange("agitator_range", 4, 1, 128);
+		ACCUMULATOR_RANGE = COMMON_BUILDER.comment("Accumulator range base (Modified by tier multiplier)")
+				.defineInRange("accumulator_range", 4, 1, 128);
+		PORTER_RANGE = COMMON_BUILDER.comment("Ender Porter range base (Modified by tier multiplier)")
+				.defineInRange("porter_range", 25, 10, 128);
+		ENDERGY_MAX = COMMON_BUILDER.comment("Maximum Endergy Storage")
+				.defineInRange("endergy_storage", 1000, 1, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Ender Armor Settings").push(CATEGORY_ENDER_ARMOR);

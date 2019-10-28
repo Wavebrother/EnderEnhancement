@@ -1,19 +1,19 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"ee",
-		"se",
-		"s "
+		" b ",
+		"bsb",
+		" b "
 	],
 	"key": {
-		"e": {
-			"item": "minecraft:ender_pearl"
+		"b": {
+			"item": "enderenhancement:block_ender_block"
 		},
 		"s": {
 			"item": "enderenhancement:item_ender_stick"
 		}
 	},
 	"result": {
-		"item": "enderenhancement:item_ender_axe"
+		"item": "enderenhancement:item_enderman_agitator"
 	}
 }

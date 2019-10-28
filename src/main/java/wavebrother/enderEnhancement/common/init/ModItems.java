@@ -12,8 +12,9 @@ import wavebrother.enderEnhancement.common.item.EnderArmor;
 import wavebrother.enderEnhancement.common.item.EnderPearl;
 import wavebrother.enderEnhancement.common.item.EnderStick;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
+import wavebrother.enderEnhancement.common.item.ItemAccumulator;
 import wavebrother.enderEnhancement.common.item.ItemEnderFruit;
-import wavebrother.enderEnhancement.common.item.ItemEnderPearler;
+import wavebrother.enderEnhancement.common.item.ItemEnderPorter;
 import wavebrother.enderEnhancement.common.item.tool.EnderAxe;
 import wavebrother.enderEnhancement.common.item.tool.EnderHoe;
 import wavebrother.enderEnhancement.common.item.tool.EnderMultiTool;
@@ -95,7 +96,7 @@ public class ModItems {
 
 	// Misc Tools
 	public static Item extremeEnderTool;
-	public static Item enderPearler;
+	public static Item extremeEnderPorter;
 
 	// Agitators
 	public static Item dullEnderAgitator;
@@ -103,71 +104,63 @@ public class ModItems {
 	public static Item empoweredEnderAgitator;
 	public static Item extremeEnderAgitator;
 
+	// Accumulators
+	public static Item dullAccumulator;
+	public static Item enderAccumulator;
+	public static Item empoweredAccumulator;
+	public static Item extremeAccumulator;
+
 	// Food
 	public static Item enderFruit;
 
 	public static void init() {
 
 		// Pearls
-		dullEnderPearl = new EnderPearl(EnderTier.DULL,
-				Reference.Items.DULLENDERPEARL.getRegistryName());
+		dullEnderPearl = new EnderPearl(EnderTier.DULL, Reference.Items.DULLENDERPEARL.getRegistryName());
 		empoweredEnderPearl = new EnderPearl(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERPEARL.getRegistryName());
-		extremeEnderPearl = new EnderPearl(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERPEARL.getRegistryName());
+		extremeEnderPearl = new EnderPearl(EnderTier.EXTREME, Reference.Items.EXTREMEENDERPEARL.getRegistryName());
 
 		// Sticks
-		dullEnderStick = new EnderStick(EnderTier.DULL,
-				Reference.Items.DULLENDERSTICK.getRegistryName());
+		dullEnderStick = new EnderStick(EnderTier.DULL, Reference.Items.DULLENDERSTICK.getRegistryName());
 		enderStick = new EnderStick(EnderTier.ENDER, Reference.Items.ENDERSTICK.getRegistryName());
 		empoweredEnderStick = new EnderStick(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERSTICK.getRegistryName());
-		extremeEnderStick = new EnderStick(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERSTICK.getRegistryName());
+		extremeEnderStick = new EnderStick(EnderTier.EXTREME, Reference.Items.EXTREMEENDERSTICK.getRegistryName());
 
 		// Axes
 		dullEnderAxe = new EnderAxe(EnderTier.DULL, Reference.Items.DULLENDERAXE.getRegistryName());
 		enderAxe = new EnderAxe(EnderTier.ENDER, Reference.Items.ENDERAXE.getRegistryName());
-		empoweredEnderAxe = new EnderAxe(EnderTier.EMPOWERED,
-				Reference.Items.EMPOWEREDENDERAXE.getRegistryName());
-		extremeEnderAxe = new EnderAxe(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERAXE.getRegistryName());
+		empoweredEnderAxe = new EnderAxe(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERAXE.getRegistryName());
+		extremeEnderAxe = new EnderAxe(EnderTier.EXTREME, Reference.Items.EXTREMEENDERAXE.getRegistryName());
 
 		// Hoes
 		dullEnderHoe = new EnderHoe(EnderTier.DULL, Reference.Items.DULLENDERHOE.getRegistryName());
 		enderHoe = new EnderHoe(EnderTier.ENDER, Reference.Items.ENDERHOE.getRegistryName());
-		empoweredEnderHoe = new EnderHoe(EnderTier.EMPOWERED,
-				Reference.Items.EMPOWEREDENDERHOE.getRegistryName());
-		extremeEnderHoe = new EnderHoe(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERHOE.getRegistryName());
+		empoweredEnderHoe = new EnderHoe(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERHOE.getRegistryName());
+		extremeEnderHoe = new EnderHoe(EnderTier.EXTREME, Reference.Items.EXTREMEENDERHOE.getRegistryName());
 
 		// Pickaxes
-		dullEnderPickaxe = new EnderPickaxe(EnderTier.DULL,
-				Reference.Items.DULLENDERPICKAXE.getRegistryName());
-		enderPickaxe = new EnderPickaxe(EnderTier.ENDER,
-				Reference.Items.ENDERPICKAXE.getRegistryName());
+		dullEnderPickaxe = new EnderPickaxe(EnderTier.DULL, Reference.Items.DULLENDERPICKAXE.getRegistryName());
+		enderPickaxe = new EnderPickaxe(EnderTier.ENDER, Reference.Items.ENDERPICKAXE.getRegistryName());
 		empoweredEnderPickaxe = new EnderPickaxe(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERPICKAXE.getRegistryName());
 		extremeEnderPickaxe = new EnderPickaxe(EnderTier.EXTREME,
 				Reference.Items.EXTREMEENDERPICKAXE.getRegistryName());
 
 		// Shovels
-		dullEnderShovel = new EnderShovel(EnderTier.DULL,
-				Reference.Items.DULLENDERSHOVEL.getRegistryName());
+		dullEnderShovel = new EnderShovel(EnderTier.DULL, Reference.Items.DULLENDERSHOVEL.getRegistryName());
 		enderShovel = new EnderShovel(EnderTier.ENDER, Reference.Items.ENDERSHOVEL.getRegistryName());
 		empoweredEnderShovel = new EnderShovel(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERSHOVEL.getRegistryName());
-		extremeEnderShovel = new EnderShovel(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERSHOVEL.getRegistryName());
+		extremeEnderShovel = new EnderShovel(EnderTier.EXTREME, Reference.Items.EXTREMEENDERSHOVEL.getRegistryName());
 
 		// Swords
-		dullEnderSword = new EnderSword(EnderTier.DULL,
-				Reference.Items.DULLENDERSWORD.getRegistryName());
+		dullEnderSword = new EnderSword(EnderTier.DULL, Reference.Items.DULLENDERSWORD.getRegistryName());
 		enderSword = new EnderSword(EnderTier.ENDER, Reference.Items.ENDERSWORD.getRegistryName());
 		empoweredEnderSword = new EnderSword(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERSWORD.getRegistryName());
-		extremeEnderSword = new EnderSword(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERSWORD.getRegistryName());
+		extremeEnderSword = new EnderSword(EnderTier.EXTREME, Reference.Items.EXTREMEENDERSWORD.getRegistryName());
 
 		// Helmets
 		dullEnderHelmet = new EnderArmor(EnderTier.DULL, EquipmentSlotType.HEAD,
@@ -209,16 +202,30 @@ public class ModItems {
 		extremeEnderBoots = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.FEET,
 				Reference.Items.EXTREMEENDERBOOTS.getRegistryName());
 
-		// Misc Tools
-		extremeEnderTool = new EnderMultiTool(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERTOOL.getRegistryName());
-		enderPearler = new ItemEnderPearler();
+		// Multi Tools
+//		dullEnderTool = new EnderMultiTool(EnderTier.DULL, Reference.Items.DULLENDERTOOL.getRegistryName());
+//		enderTool = new EnderMultiTool(EnderTier.ENDER, Reference.Items.ENDERTOOL.getRegistryName());
+//		empoweredEnderTool = new EnderMultiTool(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERTOOL.getRegistryName());
+		extremeEnderTool = new EnderMultiTool(EnderTier.EXTREME, Reference.Items.EXTREMEENDERTOOL.getRegistryName());
+
+		// Porters
+//		dullEnderPorter = new ItemEnderPorter(EnderTier.DULL, Reference.Items.DULLENDERPORTER.getRegistryName());
+//		enderPorter = new ItemEnderPorter(EnderTier.ENDER, Reference.Items.ENDERPORTER.getRegistryName());
+//		empoweredEnderPorter = new ItemEnderPorter(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERPORTER.getRegistryName());
+		extremeEnderPorter = new ItemEnderPorter(EnderTier.EXTREME,
+				Reference.Items.EXTREMEENDERPORTER.getRegistryName());
+
+		// Accumulators
+		dullAccumulator = new ItemAccumulator(EnderTier.DULL, Reference.Items.DULLITEMACCUMULATOR.getRegistryName());
+		enderAccumulator = new ItemAccumulator(EnderTier.ENDER, Reference.Items.ENDERITEMACCUMULATOR.getRegistryName());
+		empoweredAccumulator = new ItemAccumulator(EnderTier.EMPOWERED,
+				Reference.Items.EMPOWEREDITEMACCUMULATOR.getRegistryName());
+		extremeAccumulator = new ItemAccumulator(EnderTier.EXTREME,
+				Reference.Items.EXTREMEITEMACCUMULATOR.getRegistryName());
 
 		// Agitators
-		dullEnderAgitator = new EndermanAgitator(EnderTier.DULL,
-				Reference.Items.DULLENDERAGITATOR.getRegistryName());
-		enderAgitator = new EndermanAgitator(EnderTier.ENDER,
-				Reference.Items.ENDERAGITATOR.getRegistryName());
+		dullEnderAgitator = new EndermanAgitator(EnderTier.DULL, Reference.Items.DULLENDERAGITATOR.getRegistryName());
+		enderAgitator = new EndermanAgitator(EnderTier.ENDER, Reference.Items.ENDERAGITATOR.getRegistryName());
 		empoweredEnderAgitator = new EndermanAgitator(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERAGITATOR.getRegistryName());
 		extremeEnderAgitator = new EndermanAgitator(EnderTier.EXTREME,
@@ -236,43 +243,25 @@ public class ModItems {
 //		EnderEnhancement.LOGGER.info("REGISTER THE ITEMS\n\n\n\n\n\n\n\nREGISTER THE ITEMS");
 //		System.out.println("REGISTER THE ITEMS\n\n\n\n\n\n\n\nREGISTER THE ITEMS");
 		// Pearls
-		event.getRegistry().registerAll(dullEnderPearl, empoweredEnderPearl, extremeEnderPearl,
-
-				// Sticks
-				dullEnderStick, enderStick, empoweredEnderStick, extremeEnderStick,
-
-				// Axes
-				dullEnderAxe, enderAxe, empoweredEnderAxe, extremeEnderAxe,
-
-				// Hoes
-				dullEnderHoe, enderHoe, empoweredEnderHoe, extremeEnderHoe,
-
-				// Pickaxes
-				dullEnderPickaxe, enderPickaxe, empoweredEnderPickaxe, extremeEnderPickaxe,
-
-				// Shovels
-				dullEnderShovel, enderShovel, empoweredEnderShovel, extremeEnderShovel,
-
-				// Swords
-				dullEnderSword, enderSword, empoweredEnderSword, extremeEnderSword,
-
-				// Helmets
-				dullEnderHelmet, enderHelmet, empoweredEnderHelmet, extremeEnderHelmet,
-
-				// Chestplates
-				dullEnderChestplate, enderChestplate, empoweredEnderChestplate, extremeEnderChestplate,
-
-				// Leggings
-				dullEnderLeggings, enderLeggings, empoweredEnderLeggings, extremeEnderLeggings,
-
-				// Boots
-				dullEnderBoots, enderBoots, empoweredEnderBoots, extremeEnderBoots,
+		event.getRegistry().registerAll(
+				// Dull
+				dullEnderPearl, dullEnderStick, dullEnderAxe, dullEnderHoe, dullEnderPickaxe, dullEnderShovel,
+				dullEnderSword, dullEnderHelmet, dullEnderChestplate, dullEnderLeggings, dullEnderBoots,
+				dullEnderAgitator, dullAccumulator,
+				// Ender
+				enderStick, enderAxe, enderHoe, enderPickaxe, enderShovel, enderSword, enderHelmet, enderChestplate,
+				enderLeggings, enderBoots, enderAgitator, enderAccumulator,
+				// Empowered
+				empoweredEnderPearl, empoweredEnderStick, empoweredEnderAxe, empoweredEnderHoe, empoweredEnderPickaxe,
+				empoweredEnderShovel, empoweredEnderSword, empoweredEnderHelmet, empoweredEnderChestplate,
+				empoweredEnderLeggings, empoweredEnderBoots, empoweredEnderAgitator, empoweredAccumulator,
+				// Extreme
+				extremeEnderPearl, extremeEnderStick, extremeEnderAxe, extremeEnderHoe, extremeEnderPickaxe,
+				extremeEnderShovel, extremeEnderSword, extremeEnderHelmet, extremeEnderChestplate, extremeEnderLeggings,
+				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator,
 
 				// Misc Tools
-				extremeEnderTool, enderPearler,
-
-				// Agitators
-				dullEnderAgitator, enderAgitator, empoweredEnderAgitator, extremeEnderAgitator,
+				extremeEnderTool, extremeEnderPorter,
 
 				// Food
 				enderFruit,
@@ -281,87 +270,55 @@ public class ModItems {
 				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
 				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem,
 				ModBlocks.enderPedestal.blockItem);
-
+		// event.getRegistry().registerAll(dullEnderPearl, empoweredEnderPearl,
+		// extremeEnderPearl,
+//
+//				// Sticks
+//				dullEnderStick, enderStick, empoweredEnderStick, extremeEnderStick,
+//
+//				// Axes
+//				dullEnderAxe, enderAxe, empoweredEnderAxe, extremeEnderAxe,
+//
+//				// Hoes
+//				dullEnderHoe, enderHoe, empoweredEnderHoe, extremeEnderHoe,
+//
+//				// Pickaxes
+//				dullEnderPickaxe, enderPickaxe, empoweredEnderPickaxe, extremeEnderPickaxe,
+//
+//				// Shovels
+//				dullEnderShovel, enderShovel, empoweredEnderShovel, extremeEnderShovel,
+//
+//				// Swords
+//				dullEnderSword, enderSword, empoweredEnderSword, extremeEnderSword,
+//
+//				// Helmets
+//				dullEnderHelmet, enderHelmet, empoweredEnderHelmet, extremeEnderHelmet,
+//
+//				// Chestplates
+//				dullEnderChestplate, enderChestplate, empoweredEnderChestplate, extremeEnderChestplate,
+//
+//				// Leggings
+//				dullEnderLeggings, enderLeggings, empoweredEnderLeggings, extremeEnderLeggings,
+//
+//				// Boots
+//				dullEnderBoots, enderBoots, empoweredEnderBoots, extremeEnderBoots,
+//
+//				// Misc Tools
+//				extremeEnderTool, extremeEnderPorter,
+//
+//				// Agitators
+//				dullEnderAgitator, enderAgitator, empoweredEnderAgitator, extremeEnderAgitator,
+//
+//				// Accumulators
+//				dullAccumulator, enderAccumulator, empoweredAccumulator, extremeAccumulator,
+//
+//				// Food
+//				enderFruit,
+//
+//				// Blocks
+//				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
+//				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem,
+//				ModBlocks.enderPedestal.blockItem);
 	}
-//
-//	public static void registerRenders() {
-//
-//		// Pearls
-//		registerRender(dullEnderPearl);
-//		registerRender(empoweredEnderPearl);
-//		registerRender(extremeEnderPearl);
-//
-//		// Sticks
-//		registerRender(dullEnderStick);
-//		registerRender(enderStick);
-//		registerRender(empoweredEnderStick);
-//		registerRender(extremeEnderStick);
-//
-//		// Axes
-//		registerRender(dullEnderAxe);
-//		registerRender(enderAxe);
-//		registerRender(empoweredEnderAxe);
-//		registerRender(extremeEnderAxe);
-//
-//		// Hoes
-//		registerRender(dullEnderHoe);
-//		registerRender(enderHoe);
-//		registerRender(empoweredEnderHoe);
-//		registerRender(extremeEnderHoe);
-//
-//		// Pickaxes
-//		registerRender(dullEnderPickaxe);
-//		registerRender(enderPickaxe);
-//		registerRender(empoweredEnderPickaxe);
-//		registerRender(extremeEnderPickaxe);
-//
-//		// Shovels
-//		registerRender(dullEnderShovel);
-//		registerRender(enderShovel);
-//		registerRender(empoweredEnderShovel);
-//		registerRender(extremeEnderShovel);
-//
-//		// Swords
-//		registerRender(dullEnderSword);
-//		registerRender(enderSword);
-//		registerRender(empoweredEnderSword);
-//		registerRender(extremeEnderSword);
-//
-//		// Helmets
-//		registerRender(dullEnderHelmet);
-//		registerRender(enderHelmet);
-//		registerRender(empoweredEnderHelmet);
-//		registerRender(extremeEnderHelmet);
-//
-//		// Chestplates
-//		registerRender(dullEnderChestplate);
-//		registerRender(enderChestplate);
-//		registerRender(empoweredEnderChestplate);
-//		registerRender(extremeEnderChestplate);
-//
-//		// Leggings
-//		registerRender(dullEnderLeggings);
-//		registerRender(enderLeggings);
-//		registerRender(empoweredEnderLeggings);
-//		registerRender(extremeEnderLeggings);
-//
-//		// Boots
-//		registerRender(dullEnderBoots);
-//		registerRender(enderBoots);
-//		registerRender(empoweredEnderBoots);
-//		registerRender(extremeEnderBoots);
-//
-//		// Food
-//		registerRender(enderPearler);
-//
-//		// Food
-//		registerRender(enderFruit);
-//
-//	}
-//
-//	private static void registerRender(Item item) {
-//		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0,
-//				new ModelResourceLocation(item.getRegistryName(), "inventory"));
-//	}
 
 }

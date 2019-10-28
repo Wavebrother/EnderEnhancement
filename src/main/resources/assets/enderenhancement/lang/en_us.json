@@ -67,15 +67,29 @@
 	//Food
 	"item.enderenhancement.item_ender_fruit": "Ender Fruit",
 	
-	//Misc Items
-	"item.enderenhancement.item_ender_pearler": "Ender Pearler",
+	//Multi Tools
+	"item.enderenhancement.item_dull_ender_tool": "Dull Ender Tool",
+	"item.enderenhancement.item_ender_tool": "Ender Tool",
+	"item.enderenhancement.item_empowered_ender_tool": "Empowered Ender Tool",
 	"item.enderenhancement.item_extreme_ender_tool": "Extreme Ender Tool",
+	
+	//Porters
+	"item.enderenhancement.item_dull_ender_porter": "Dull Ender Porter",
+	"item.enderenhancement.item_ender_porter": "Ender Porter",
+	"item.enderenhancement.item_empowered_ender_porter": "Empowered Ender Porter",
+	"item.enderenhancement.item_extreme_ender_porter": "Extreme Ender Porter",
 	
 	//Agitators
 	"item.enderenhancement.item_dull_enderman_agitator": "Dull Enderman Agitator",
 	"item.enderenhancement.item_enderman_agitator": "Enderman Agitator",
 	"item.enderenhancement.item_empowered_enderman_agitator": "Empowered Enderman Agitator",
 	"item.enderenhancement.item_extreme_enderman_agitator": "Extreme Enderman Agitator",
+	
+	//Accumulators
+	"item.enderenhancement.item_dull_item_accumulator": "Dull Item Accumulator",
+	"item.enderenhancement.item_ender_item_accumulator": "Ender Item Accumulator",
+	"item.enderenhancement.item_empowered_item_accumulator": "Empowered Item Accumulator",
+	"item.enderenhancement.item_extreme_item_accumulator": "Extreme Item Accumulator",
 	
 	//Blocks
 	"block.enderenhancement.block_dull_ender_block": "Dull Ender Block",

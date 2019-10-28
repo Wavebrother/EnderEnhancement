@@ -50,6 +50,7 @@ public class EndermanAgitator extends Item implements IEnderItem {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		EnderEnhancement.getLogger().debug(playerIn.getPersistentData());
 		ItemStack item = playerIn.getHeldItem(handIn);
 		CompoundNBT NBT = item.getOrCreateTag();
 		if (playerIn.isSneaking()) {

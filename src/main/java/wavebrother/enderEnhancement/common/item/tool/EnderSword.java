@@ -1,7 +1,6 @@
 package wavebrother.enderEnhancement.common.item.tool;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -21,34 +20,45 @@ public class EnderSword extends SwordItem implements IEnderItem {
 
 	public static final String hitTag = "HitWithEnderSword";
 
+	static {
+		MinecraftForge.EVENT_BUS.register(EnderSword.class);
+	}
+
 	public EnderSword(EnderTier material, String name) {
 		super(material.toolTier, tool.getDamage(material).intValue(), tool.getSpeed(material),
 				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
 		setRegistryName(name);
 		this.tier = material;
-		MinecraftForge.EVENT_BUS.register(this);
 		// TODO Auto-generated constructor stub
 	}
 
 	private final EnderTier tier;
 
 	@Override
-	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		if (target instanceof EndermanEntity)
-			target.getPersistentData().putString(hitTag, tier.name());
-		return super.hitEntity(stack, target, attacker);
-	}
-
-	@Override
 	public EnderTier getEnderTier() {
 		return tier;
 	}
 
+	@Override
+	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		target.getPersistentData().putString(hitTag, tier.name());
+		target.addTag(hitTag);
+		target.addTag(getTagFromTier());
+		EnderEnhancement.getLogger().debug("Hit is remote:" + target.world.isRemote);
+		return super.hitEntity(stack, target, attacker);
+	}
+
 	@SubscribeEvent
-	public void onEnderTeleport(EnderTeleportEvent event) {
-		if (event.getEntityLiving().getPersistentData().contains(hitTag)) {
+	public static void onEnderTeleport(EnderTeleportEvent event) {
+		EnderEnhancement.getLogger().debug("Teleport is remote:" + event.getEntityLiving().world.isRemote);
+		if (event.getEntity().getPersistentData().contains(hitTag) || event.getEntity().getTags().contains(hitTag)) {
+			EnderEnhancement.getLogger().debug("Stopped!");
 			event.setCanceled(true);
 		}
+	}
+
+	public String getTagFromTier() {
+		return hitTag + ":" + tier.name();
 	}
 
 }

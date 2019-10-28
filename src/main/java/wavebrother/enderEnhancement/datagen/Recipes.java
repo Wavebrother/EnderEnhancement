@@ -93,7 +93,7 @@ public class Recipes extends RecipeProvider {
 						InventoryChangeTrigger.Instance.forItems(ModItems.empoweredEnderPearl))
 				.build(consumer);
 		// Misc
-		ShapedRecipeBuilder.shapedRecipe(ModItems.enderPearler).patternLine("  p").patternLine(" s ").patternLine("s  ")
+		ShapedRecipeBuilder.shapedRecipe(ModItems.extremeEnderPorter).patternLine("  p").patternLine(" s ").patternLine("s  ")
 				.key('p', ModItems.extremeEnderPearl).key('s', ModItems.extremeEnderStick)
 				.addCriterion("has_extreme_ender_stick",
 						InventoryChangeTrigger.Instance.forItems(ModItems.extremeEnderStick))

@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "enderenhancement:items/dull_item_accumulator"
+    }
+}

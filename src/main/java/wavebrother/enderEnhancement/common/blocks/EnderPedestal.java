@@ -45,7 +45,7 @@ public class EnderPedestal extends ContainerBlock {
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new EnderPedestalTileEntity();
@@ -82,9 +82,9 @@ public class EnderPedestal extends ContainerBlock {
 					if (player != null && !player.addItemStackToInventory(itemstack)) {
 						worldIn.playEvent(1010, pos, 0);
 						float f = 0.7F;
-						double d0 = (double) (worldIn.rand.nextFloat() * 0.7F) + (double) 0.15F;
-						double d1 = (double) (worldIn.rand.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
-						double d2 = (double) (worldIn.rand.nextFloat() * 0.7F) + (double) 0.15F;
+						double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
+						double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.060000002F + 0.6D;
+						double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
 						ItemStack itemstack1 = itemstack.copy();
 						ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX() + d0,
 								(double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
@@ -96,6 +96,7 @@ public class EnderPedestal extends ContainerBlock {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			this.extractAgitator(worldIn, null, pos);

@@ -77,15 +77,29 @@ public class Reference {
 		EMPOWEREDENDERBOOTS("item_empowered_ender_boots"),
 		EXTREMEENDERBOOTS("item_extreme_ender_boots"),
 		
-		//Misc Tools
+		//Multi Tools
+		DULLENDERTOOL("item_dull_ender_tool"),
+		ENDERTOOL("item_ender_tool"),
+		EMPOWEREDENDERTOOL("item_empowered_ender_tool"),
 		EXTREMEENDERTOOL("item_extreme_ender_tool"),
-		ENDERPEARLER("item_ender_pearler"),
+		
+		//Porters
+		DULLENDERPORTER("item_dull_ender_porter"),
+		ENDERPORTER("item_ender_porter"),
+		EMPOWEREDENDERPORTER("item_empowered_ender_porter"),
+		EXTREMEENDERPORTER("item_extreme_ender_porter"),
 		
 		//Agitators
 		DULLENDERAGITATOR("item_dull_enderman_agitator"),
 		ENDERAGITATOR("item_enderman_agitator"),
 		EMPOWEREDENDERAGITATOR("item_empowered_enderman_agitator"),
 		EXTREMEENDERAGITATOR("item_extreme_enderman_agitator"),
+		
+		//Accumulators
+		DULLITEMACCUMULATOR("item_dull_item_accumulator"),
+		ENDERITEMACCUMULATOR("item_ender_item_accumulator"),
+		EMPOWEREDITEMACCUMULATOR("item_empowered_item_accumulator"),
+		EXTREMEITEMACCUMULATOR("item_extreme_item_accumulator"),
 		
 		//Food
 		ENDERFRUIT("item_ender_fruit");
@@ -119,15 +133,29 @@ public class Reference {
 		}
 	}
 
-	public static enum TileEntities{
+	public static enum TileEntities {
 		ENDERPEDESTAL("tileentity_ender_pedestal");
-		
-		private String registryName;		
-		
-		TileEntities(String registryName){
+
+		private String registryName;
+
+		TileEntities(String registryName) {
 			this.registryName = registryName;
 		}
-		
+
+		public String getRegistryName() {
+			return registryName;
+		}
+	}
+
+	public static enum Capabilities {
+		ENDERGYCAPABILITY("capability_endergy");
+
+		private String registryName;
+
+		Capabilities(String registryName) {
+			this.registryName = registryName;
+		}
+
 		public String getRegistryName() {
 			return registryName;
 		}
