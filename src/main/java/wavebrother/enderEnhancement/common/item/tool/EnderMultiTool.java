@@ -47,7 +47,6 @@ public class EnderMultiTool extends ToolItem implements IEnderItem {
 		return tier;
 	}
 
-
 	@SubscribeEvent
 	public static void onHarvestBlock(HarvestDropsEvent event) {
 		EnderEnhancement.getLogger().debug("Harvest");
@@ -59,19 +58,21 @@ public class EnderMultiTool extends ToolItem implements IEnderItem {
 			event.setCanceled(true);
 		}
 	}
-	
+
 	@Override
 	public float getDestroySpeed(ItemStack stack, BlockState state) {
 		return efficiency;
 	}
 
 	public boolean canHarvestBlock(BlockState blockIn) {
+		@SuppressWarnings("unused")
 		Block block = blockIn.getBlock();
 		int i = this.getTier().getHarvestLevel();
 		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE) {
 			return i >= blockIn.getHarvestLevel();
 		}
 		Material material = blockIn.getMaterial();
-		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL;
+		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL
+				|| material == Material.DRAGON_EGG || material == Material.SHULKER;
 	}
 }
