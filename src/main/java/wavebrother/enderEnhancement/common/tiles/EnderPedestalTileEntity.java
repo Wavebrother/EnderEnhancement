@@ -19,7 +19,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
 import wavebrother.enderEnhancement.common.containers.EnderPedestalContainer;
 import wavebrother.enderEnhancement.common.init.ModTileEntities;
@@ -39,7 +39,7 @@ public class EnderPedestalTileEntity extends TileEntity
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(getType().getRegistryName().toString());
+		return new StringTextComponent(getType().getRegistryName().toString());
 	}
 
 	private NonNullList<ItemStack> inventory = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
