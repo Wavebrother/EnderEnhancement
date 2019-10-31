@@ -19,7 +19,6 @@ import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 import wavebrother.enderEnhancement.common.util.EndergyHandler;
-import wavebrother.enderEnhancement.common.util.NBTKeys;
 import wavebrother.enderEnhancement.common.util.TeleportUtil;
 import wavebrother.enderEnhancement.common.util.VectorHelper;
 
