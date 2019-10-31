@@ -15,7 +15,6 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import wavebrother.enderEnhancement.Reference;
-import wavebrother.enderEnhancement.common.network.packets.PacketDamagePearler;
 
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = Integer.toString(2);
@@ -34,7 +33,6 @@ public class PacketHandler {
 //        registerMessage(PacketInsertUpgrade.class, PacketInsertUpgrade::encode, PacketInsertUpgrade::decode, PacketInsertUpgrade.Handler::handle);
 
         //Client Side
-        registerMessage(PacketDamagePearler.class, PacketDamagePearler::encode, PacketDamagePearler::decode, PacketDamagePearler.Handler::handle);
     }
 
     public static void sendTo(Object msg, ServerPlayerEntity player) {
@@ -54,7 +52,8 @@ public class PacketHandler {
         HANDLER.sendToServer(msg);
     }
 
-    private static <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, PacketBuffer> encoder, Function<PacketBuffer, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
+    @SuppressWarnings("unused")
+	private static <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, PacketBuffer> encoder, Function<PacketBuffer, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
         HANDLER.registerMessage(index, messageType, encoder, decoder, messageConsumer);
         index++;
         if (index > 0xFF)

@@ -17,7 +17,6 @@ import net.minecraft.world.storage.loot.ILootConditionConsumer;
 import net.minecraft.world.storage.loot.ItemLootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.StandaloneLootEntry;
 import net.minecraft.world.storage.loot.conditions.SurvivesExplosion;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
