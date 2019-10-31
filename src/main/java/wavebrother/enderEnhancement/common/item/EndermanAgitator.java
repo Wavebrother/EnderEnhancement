@@ -72,11 +72,12 @@ public class EndermanAgitator extends Item implements IEnderItem {
 		World world = context.getWorld();
 		BlockPos blockpos = context.getPos();
 		BlockState blockstate = world.getBlockState(blockpos);
-		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)) {
+		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)
+				&& !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)) {
 			ItemStack itemstack = context.getItem();
+			EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
+			world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
 			if (!world.isRemote) {
-				((EnderPedestal) ModBlocks.enderPedestal).insertAgitator(world, blockpos, blockstate, itemstack);
-				world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
 				itemstack.shrink(1);
 			}
 

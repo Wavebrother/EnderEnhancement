@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"e e",
+		" e ",
+		" e "
+	],
+	"key": {
+		"e": {
+			"item": "enderenhancement:block_ender_block"
+		}
+	},
+	"result": {
+		"item": "enderenhancement:block_ender_pedestal"
+	}
+}

@@ -5,10 +5,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.client.renderer.EnderPedestalTER;
 import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
@@ -28,12 +28,14 @@ public class ModTileEntities {
 	public static void onTileEntitiesRegistry(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegistryEvent) {
 		init();
 		tileEntityRegistryEvent.getRegistry().registerAll(enderPedestal);
+
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+			registerRenderers();
+		});
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(event -> {
-			ClientRegistry.bindTileEntitySpecialRenderer(EnderPedestalTileEntity.class, new EnderPedestalTER());
-		});
+		ClientRegistry.bindTileEntitySpecialRenderer(EnderPedestalTileEntity.class, new EnderPedestalTER());
 	}
 }

@@ -101,6 +101,7 @@ dependencies {
 
     // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    runtimeOnly fg.deobf("mezz.jei:jei-1.14.4:6.0.0.18")
 
     // These dependencies get remapped to your current MCP mappings
     // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
@@ -146,4 +147,16 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+repositories {
+  maven {
+    // location of the maven that hosts JEI files
+    name = "Progwml6 maven"
+    url = "https://dvs1.progwml6.com/files/maven/"
+  }
+  maven {
+    // location of a maven mirror for JEI files, as a fallback
+    name = "ModMaven"
+    url = "https://modmaven.k-4u.nl"
+  }
 }

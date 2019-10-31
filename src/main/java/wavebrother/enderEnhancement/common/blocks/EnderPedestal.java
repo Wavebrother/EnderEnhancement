@@ -1,5 +1,8 @@
 package wavebrother.enderEnhancement.common.blocks;
-//Made with Blockbench
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -8,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,11 +28,16 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameters;
 import wavebrother.enderEnhancement.EnderEnhancement;
+import wavebrother.enderEnhancement.common.item.EndermanAgitator;
+import wavebrother.enderEnhancement.common.item.ItemAccumulator;
 import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
 
 public class EnderPedestal extends ContainerBlock {
 	public static final BooleanProperty HAS_AGITATOR = BooleanProperty.create("has_agitator");
+	public static final BooleanProperty HAS_ACCUMULATOR = BooleanProperty.create("has_accumulator");
 	protected static final VoxelShape SHAPE = VoxelShapes
 			.or(Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 14.0D, 12.0D));
 
@@ -37,7 +46,8 @@ public class EnderPedestal extends ContainerBlock {
 	public EnderPedestal(String name) {
 		super(Block.Properties.from(Blocks.STONE));
 		setRegistryName(name);
-		this.setDefaultState(this.stateContainer.getBaseState().with(HAS_AGITATOR, Boolean.valueOf(false)));
+		this.setDefaultState(this.stateContainer.getBaseState().with(HAS_AGITATOR, Boolean.valueOf(false))
+				.with(HAS_ACCUMULATOR, Boolean.valueOf(false)));
 		blockItem = new EnderPedestalItem();
 	}
 
@@ -48,49 +58,74 @@ public class EnderPedestal extends ContainerBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new EnderPedestalTileEntity();
+		return createNewTileEntity(world);
 	}
 
 	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit) {
-		if (state.get(HAS_AGITATOR)) {
-			this.extractAgitator(worldIn, player, pos);
+		if ((state.get(HAS_AGITATOR) || state.get(HAS_ACCUMULATOR)) && player.isSneaking()) {
+			extract(worldIn, player, pos);
 			state = state.with(HAS_AGITATOR, Boolean.valueOf(false));
+			state = state.with(HAS_ACCUMULATOR, Boolean.valueOf(false));
 			worldIn.setBlockState(pos, state, 2);
 			return true;
-		} else {
+		} else if (player.getHeldItem(handIn).getItem() instanceof EndermanAgitator
+				|| player.getHeldItem(handIn).getItem() instanceof ItemAccumulator) {
 			return false;
-		}
+		} else if (!worldIn.isRemote) {
+			INamedContainerProvider inamedcontainerprovider = this.getContainer(state, worldIn, pos);
+			if (inamedcontainerprovider != null) {
+				player.openContainer(inamedcontainerprovider);
+			}
+
+			return true;
+		} else
+			return true;
 	}
 
-	public void insertAgitator(IWorld worldIn, BlockPos pos, BlockState state, ItemStack recordStack) {
+	public static void insertItem(IWorld worldIn, PlayerEntity player, BlockPos pos, BlockState state,
+			ItemStack itemStack) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof EnderPedestalTileEntity) {
-			((EnderPedestalTileEntity) tileentity).setAgitator(recordStack.copy());
-			worldIn.setBlockState(pos, state.with(HAS_AGITATOR, Boolean.valueOf(true)), 2);
+			((EnderPedestalTileEntity) tileentity).setPedestalItem(itemStack.copy());
+			((EnderPedestalTileEntity) tileentity).setItemOwner(player);
+			if (itemStack.getItem() instanceof EndermanAgitator)
+				worldIn.setBlockState(pos, state.with(HAS_AGITATOR, Boolean.valueOf(true)), 2);
+			else if (itemStack.getItem() instanceof ItemAccumulator)
+				worldIn.setBlockState(pos, state.with(HAS_ACCUMULATOR, Boolean.valueOf(true)), 2);
 		}
 	}
 
-	private void extractAgitator(World worldIn, PlayerEntity player, BlockPos pos) {
-		if (!worldIn.isRemote) {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-			if (tileentity instanceof EnderPedestalTileEntity) {
-				EnderPedestalTileEntity enderPedestalTileEntity = (EnderPedestalTileEntity) tileentity;
-				ItemStack itemstack = enderPedestalTileEntity.getAgitator();
-				if (!itemstack.isEmpty()) {
-					enderPedestalTileEntity.clear();
-					if (player != null && !player.addItemStackToInventory(itemstack)) {
-						worldIn.playEvent(1010, pos, 0);
-						float f = 0.7F;
-						double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
-						double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.060000002F + 0.6D;
-						double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
-						ItemStack itemstack1 = itemstack.copy();
-						ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX() + d0,
-								(double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
-						itementity.setDefaultPickupDelay();
-						worldIn.addEntity(itementity);
-					}
+	private static void extractItem(World worldIn, PlayerEntity player, BlockPos pos, ItemStack itemstack) {
+		if (player != null && !player.addItemStackToInventory(itemstack)) {
+			worldIn.playEvent(1010, pos, 0);
+			float f = 0.7F;
+			double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
+			double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.060000002F + 0.6D;
+			double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) 0.15F;
+			ItemStack itemstack1 = itemstack.copy();
+			ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1,
+					(double) pos.getZ() + d2, itemstack1);
+			itementity.setDefaultPickupDelay();
+			worldIn.addEntity(itementity);
+		}
+	}
+
+	private static void extract(World worldIn, PlayerEntity player, BlockPos pos) {
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (tileentity instanceof EnderPedestalTileEntity) {
+			LogManager.getLogger().debug("tileentity instanceof EnderPedestalTileEntity");
+			EnderPedestalTileEntity enderPedestalTileEntity = (EnderPedestalTileEntity) tileentity;
+			ItemStack itemstack = enderPedestalTileEntity.getPedestalItem();
+			if (!itemstack.isEmpty()) {
+				LogManager.getLogger().debug("!itemstack.isEmpty()");
+				enderPedestalTileEntity.clearPedestal();
+				extractItem(worldIn, player, pos, itemstack);
+			}
+			for (int i = 0; i < enderPedestalTileEntity.getSizeInventory(); i++) {
+				if (!enderPedestalTileEntity.getStackInSlot(i).isEmpty()) {
+					ItemStack item = enderPedestalTileEntity.removeStackFromSlot(i);
+					extractItem(worldIn, player, pos, item);
 				}
 			}
 		}
@@ -99,17 +134,37 @@ public class EnderPedestal extends ContainerBlock {
 	@SuppressWarnings("deprecation")
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			this.extractAgitator(worldIn, null, pos);
+			extract(worldIn, null, pos);
 			super.onReplaced(state, worldIn, pos, newState, isMoving);
 		}
 	}
 
+	@Override
+	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+		@SuppressWarnings("deprecation")
+		List<ItemStack> drops = super.getDrops(state, builder);
+		if (builder.get(LootParameters.BLOCK_ENTITY) instanceof EnderPedestalTileEntity) {
+			EnderPedestalTileEntity te = (EnderPedestalTileEntity) builder.get(LootParameters.BLOCK_ENTITY);
+			if (te.getPedestalItem() != ItemStack.EMPTY)
+				drops.add(te.getPedestalItem());
+			for (int i = 0; i < te.getSizeInventory(); i++) {
+				if (te.getStackInSlot(i) != null && te.getStackInSlot(i) != ItemStack.EMPTY)
+					drops.add(te.removeStackFromSlot(i));
+			}
+		}
+		return drops;
+	}
+
 	public TileEntity createNewTileEntity(IBlockReader worldIn) {
-		return new EnderPedestalTileEntity();
+		EnderPedestalTileEntity pedestal = new EnderPedestalTileEntity();
+		EnderEnhancement.getLogger().debug(worldIn.getClass());
+		// pedestal.init((World) worldIn);
+		return pedestal;
 	}
 
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(HAS_AGITATOR);
+		builder.add(HAS_ACCUMULATOR);
 	}
 
 	public BlockRenderLayer getRenderLayer() {
@@ -131,7 +186,5 @@ public class EnderPedestal extends ContainerBlock {
 			setRegistryName(EnderPedestal.this.getRegistryName());
 			// TODO Auto-generated constructor stub
 		}
-
 	}
-
 }

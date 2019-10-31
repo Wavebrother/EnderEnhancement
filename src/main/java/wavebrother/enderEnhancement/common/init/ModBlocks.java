@@ -6,9 +6,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import wavebrother.enderEnhancement.Reference;
-import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
 import wavebrother.enderEnhancement.common.blocks.EnderBlock;
-import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
+import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
 @EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
