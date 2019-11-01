@@ -50,7 +50,7 @@ public class EnderMultiTool extends ToolItem implements IEnderItem {
 	@SubscribeEvent
 	public static void onHarvestBlock(HarvestDropsEvent event) {
 		EnderEnhancement.getLogger().debug("Harvest");
-		if (!event.getWorld().isRemote()) {
+		if (!event.getWorld().isRemote() && event.isCancelable()) {
 			for (ItemStack drop : event.getDrops())
 				if (!event.getHarvester().addItemStackToInventory(drop)) {
 					Block.spawnAsEntity((World) event.getWorld(), event.getPos(), drop);
