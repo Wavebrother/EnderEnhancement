@@ -21,12 +21,8 @@ import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
 @EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
 public class ModCapabilities {
 
-	public static TileEntityType<EnderPedestalTileEntity> enderPedestal;
 
 	public static void init() {
-		enderPedestal = TileEntityType.Builder.create(EnderPedestalTileEntity::new, ModBlocks.enderPedestal)
-				.build(null);
-		enderPedestal.setRegistryName(Reference.TileEntities.ENDERPEDESTAL.getRegistryName());
 	}
 
 	@SubscribeEvent
