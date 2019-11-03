@@ -3,14 +3,111 @@ package wavebrother.enderEnhancement.common.containers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EnderPedestalContainer extends Container {
+public class EnderPedestalContainer extends Container
+{
+    private final IInventory inventory;
+
+    public static EnderPedestalContainer createIronContainer(int windowId, PlayerInventory playerInventory)
+    {
+        return new EnderPedestalContainer(ContainerType.GENERIC_9X3, windowId, playerInventory, new Inventory(27));
+    }
+
+    public static EnderPedestalContainer createIronContainer(int windowId, PlayerInventory playerInventory, IInventory inventory)
+    {
+        return new EnderPedestalContainer(ContainerType.GENERIC_9X3, windowId, playerInventory, inventory);
+    }
+
+    public EnderPedestalContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory, IInventory inventory)
+    {
+        super(containerType, windowId);
+        assertInventorySize(inventory, 27);
+
+        this.inventory = inventory;
+
+        inventory.openInventory(playerInventory.player);
+
+            for (int chestRow = 0; chestRow < 3; chestRow++)
+            {
+                for (int chestCol = 0; chestCol < 9; chestCol++)
+                {
+                    this.addSlot(new Slot(inventory, chestCol + chestRow * 9, 12 + chestCol * 18, 18 + chestRow * 18));
+                }
+            }
+
+        int leftCol = (184 - 162) / 2 + 1;
+
+        for (int playerInvRow = 0; playerInvRow < 3; playerInvRow++)
+        {
+            for (int playerInvCol = 0; playerInvCol < 9; playerInvCol++)
+            {
+                this.addSlot(new Slot(playerInventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, 222 - (4 - playerInvRow) * 18 - 10));
+            }
+
+        }
+
+        for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++)
+        {
+            this.addSlot(new Slot(playerInventory, hotbarSlot, leftCol + hotbarSlot * 18, 222 - 24));
+        }
+    }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn)
+    {
+        return this.inventory.isUsableByPlayer(playerIn);
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
+    {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+
+        if (slot != null && slot.getHasStack())
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (index < 27)
+            {
+                if (!this.mergeItemStack(itemstack1, 27, this.inventorySlots.size(), true))
+                {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else if (!this.mergeItemStack(itemstack1, 0, 27, false))
+            {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty())
+            {
+                slot.putStack(ItemStack.EMPTY);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
+        }
+
+        return itemstack;
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn)
+    {
+        super.onContainerClosed(playerIn);
+        this.inventory.closeInventory(playerIn);
+    }
+}
+
+/* extends Container {
 	private final IInventory lowerChestInventory;
 	private final int numRows;
 
@@ -41,17 +138,17 @@ public class EnderPedestalContainer extends Container {
 
 	}
 
-	/**
+	*//**
 	 * Determines whether supplied player can use this container
-	 */
+	 *//*
 	public boolean canInteractWith(PlayerEntity playerIn) {
 		return this.lowerChestInventory.isUsableByPlayer(playerIn);
 	}
 
-	/**
+	*//**
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this
 	 * moves the stack between the player inventory and the other inventory(s).
-	 */
+	 *//*
 	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
@@ -76,19 +173,19 @@ public class EnderPedestalContainer extends Container {
 		return itemstack;
 	}
 
-	/**
+	*//**
 	 * Called when the container is closed.
-	 */
+	 *//*
 	public void onContainerClosed(PlayerEntity playerIn) {
 		super.onContainerClosed(playerIn);
 		this.lowerChestInventory.closeInventory(playerIn);
 	}
 
-	/**
+	*//**
 	 * Gets the inventory associated with this chest container.
 	 * 
 	 * @see #field_75155_e
-	 */
+	 *//*
 	public IInventory getLowerChestInventory() {
 		return this.lowerChestInventory;
 	}
@@ -112,3 +209,4 @@ public class EnderPedestalContainer extends Container {
 	}
 
 }
+*/
