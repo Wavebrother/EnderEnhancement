@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "enderenhancement:items/ender_porter"
+        "layer0": "enderenhancement:items/extreme_ender_porter"
     }
 }

@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients":
+    [
+        {
+            "item": "enderenhancement:item_ender_pickaxe"
+        },
+        {
+            "item": "enderenhancement:item_ender_axe"
+        },
+        {
+            "item": "enderenhancement:item_ender_shovel"
+        }
+    ],
+    "result":
+    {
+        "item": "enderenhancement:item_ender_tool"
+    }
+}

@@ -70,7 +70,8 @@ public class ItemEnderPorter extends Item implements IEnderItem, IEndergyItem {
 			/* if (EndergyHandler.useEndergy(playerIn, 50) && */TeleportUtil.teleportTo(playerIn,
 					finalPos.getX() + 0.5F, finalPos.getY(), finalPos.getZ() + 0.5F)/* ) */
 			;
-			return new ActionResult<ItemStack>(ActionResultType.FAIL, itemstack);
+			itemstack.setDamage(itemstack.getDamage() - 1);
+			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, itemstack);
 		}
 		return new ActionResult<ItemStack>(ActionResultType.PASS, itemstack);
 	}

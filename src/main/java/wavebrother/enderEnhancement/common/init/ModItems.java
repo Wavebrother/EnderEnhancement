@@ -94,8 +94,16 @@ public class ModItems {
 	public static Item empoweredEnderBoots;
 	public static Item extremeEnderBoots;
 
-	// Misc Tools
+	// Multi Tools
+	public static Item dullEnderTool;
+	public static Item enderTool;
+	public static Item empoweredEnderTool;
 	public static Item extremeEnderTool;
+
+	// Porters
+	public static Item dullEnderPorter;
+	public static Item enderPorter;
+	public static Item empoweredEnderPorter;
 	public static Item extremeEnderPorter;
 
 	// Agitators
@@ -203,15 +211,17 @@ public class ModItems {
 				Reference.Items.EXTREMEENDERBOOTS.getRegistryName());
 
 		// Multi Tools
-//		dullEnderTool = new EnderMultiTool(EnderTier.DULL, Reference.Items.DULLENDERTOOL.getRegistryName());
-//		enderTool = new EnderMultiTool(EnderTier.ENDER, Reference.Items.ENDERTOOL.getRegistryName());
-//		empoweredEnderTool = new EnderMultiTool(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERTOOL.getRegistryName());
+		dullEnderTool = new EnderMultiTool(EnderTier.DULL, Reference.Items.DULLENDERTOOL.getRegistryName());
+		enderTool = new EnderMultiTool(EnderTier.ENDER, Reference.Items.ENDERTOOL.getRegistryName());
+		empoweredEnderTool = new EnderMultiTool(EnderTier.EMPOWERED,
+				Reference.Items.EMPOWEREDENDERTOOL.getRegistryName());
 		extremeEnderTool = new EnderMultiTool(EnderTier.EXTREME, Reference.Items.EXTREMEENDERTOOL.getRegistryName());
 
 		// Porters
-//		dullEnderPorter = new ItemEnderPorter(EnderTier.DULL, Reference.Items.DULLENDERPORTER.getRegistryName());
-//		enderPorter = new ItemEnderPorter(EnderTier.ENDER, Reference.Items.ENDERPORTER.getRegistryName());
-//		empoweredEnderPorter = new ItemEnderPorter(EnderTier.EMPOWERED, Reference.Items.EMPOWEREDENDERPORTER.getRegistryName());
+		dullEnderPorter = new ItemEnderPorter(EnderTier.DULL, Reference.Items.DULLENDERPORTER.getRegistryName());
+		enderPorter = new ItemEnderPorter(EnderTier.ENDER, Reference.Items.ENDERPORTER.getRegistryName());
+		empoweredEnderPorter = new ItemEnderPorter(EnderTier.EMPOWERED,
+				Reference.Items.EMPOWEREDENDERPORTER.getRegistryName());
 		extremeEnderPorter = new ItemEnderPorter(EnderTier.EXTREME,
 				Reference.Items.EXTREMEENDERPORTER.getRegistryName());
 
@@ -260,8 +270,11 @@ public class ModItems {
 				extremeEnderShovel, extremeEnderSword, extremeEnderHelmet, extremeEnderChestplate, extremeEnderLeggings,
 				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator,
 
-				// Misc Tools
-				extremeEnderTool, extremeEnderPorter,
+				// Multi Tools
+				dullEnderTool, enderTool, empoweredEnderTool, extremeEnderTool,
+
+				// Pearlers
+				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter,
 
 				// Food
 				enderFruit,
