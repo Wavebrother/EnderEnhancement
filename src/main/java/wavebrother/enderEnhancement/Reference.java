@@ -62,7 +62,7 @@ public class Reference {
 		EMPOWEREDENDERTOOL("item_empowered_ender_tool"), EXTREMEENDERTOOL("item_extreme_ender_tool"),
 
 		// Porters
-		DULLENDERPORTER("item_dull_ender_porter"), ENDERPORTER("item_ender_porter"),
+		DULLENDERPORTER("item_dull_ender_porter"), ENDERPORTER("item_ender_pearler"),
 		EMPOWEREDENDERPORTER("item_empowered_ender_porter"), EXTREMEENDERPORTER("item_extreme_ender_porter"),
 
 		// Agitators
