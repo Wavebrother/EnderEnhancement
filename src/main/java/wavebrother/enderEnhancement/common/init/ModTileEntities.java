@@ -16,18 +16,18 @@ import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
 @EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
 public class ModTileEntities {
 
-//	public static TileEntityType<EnderPedestalTileEntity> enderPedestal;
+	public static TileEntityType<EnderPedestalTileEntity> enderPedestal;
 
 	public static void init() {
-//		enderPedestal = TileEntityType.Builder.create(EnderPedestalTileEntity::new, ModBlocks.enderPedestal)
-//				.build(null);
-//		enderPedestal.setRegistryName(Reference.TileEntities.ENDERPEDESTAL.getRegistryName());
+		enderPedestal = TileEntityType.Builder.create(EnderPedestalTileEntity::new, ModBlocks.enderPedestal)
+				.build(null);
+		enderPedestal.setRegistryName(Reference.TileEntities.ENDERPEDESTAL.getRegistryName());
 	}
 
 	@SubscribeEvent
 	public static void onTileEntitiesRegistry(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegistryEvent) {
 		init();
-//		tileEntityRegistryEvent.getRegistry().registerAll(enderPedestal);
+		tileEntityRegistryEvent.getRegistry().registerAll(enderPedestal);
 
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
 			registerRenderers();

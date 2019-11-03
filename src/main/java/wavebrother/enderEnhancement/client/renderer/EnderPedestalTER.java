@@ -21,10 +21,7 @@ public class EnderPedestalTER extends TileEntityRenderer<EnderPedestalTileEntity
 		if (itemstack != null && itemstack != ItemStack.EMPTY) {
 			GlStateManager.pushMatrix();
 			GlStateManager.translatef((float) x + 0.5F, (float) y + 1, (float) z + 0.5F);
-			if (!(itemstack.hasTag() && itemstack.getTag().contains(EndermanAgitator.agitatorTag)
-					&& itemstack.getTag().getBoolean(EndermanAgitator.agitatorTag))
-					|| (itemstack.hasTag() && itemstack.getTag().contains(ItemAccumulator.accumulatorTag)
-							&& itemstack.getTag().getBoolean(ItemAccumulator.accumulatorTag))) {
+			if (checkRotation(itemstack)) {
 				float rotation = (float) (getWorld().getGameTime() % 160);
 				GlStateManager.rotatef(360f * rotation / 160f, 0, 1, 0);
 			}
@@ -32,5 +29,19 @@ public class EnderPedestalTER extends TileEntityRenderer<EnderPedestalTileEntity
 			GlStateManager.popMatrix();
 		}
 
+	}
+
+	private boolean checkRotation(ItemStack item) {
+		if (item.getItem() instanceof EndermanAgitator) {
+			if (!item.hasTag())
+				return true;
+			return !(item.getTag().contains(EndermanAgitator.agitatorTag)
+					&& item.getTag().getBoolean(EndermanAgitator.agitatorTag));
+		}
+		if (item.getItem() instanceof ItemAccumulator) {
+			return item.hasTag() && item.getTag().contains(ItemAccumulator.accumulatorTag)
+					&& item.getTag().getBoolean(ItemAccumulator.accumulatorTag);
+		}
+		return false;
 	}
 }

@@ -2,11 +2,13 @@ package wavebrother.enderEnhancement.common.item;
 
 import java.util.List;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
@@ -16,6 +18,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -24,6 +27,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
+import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
+import wavebrother.enderEnhancement.common.init.ModBlocks;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
@@ -61,25 +66,25 @@ public class EndermanAgitator extends Item implements IEnderItem {
 			return new ActionResult<ItemStack>(ActionResultType.PASS, item);
 	}
 
-//	@Override
-//	public ActionResultType onItemUse(ItemUseContext context) {
-//		World world = context.getWorld();
-//		BlockPos blockpos = context.getPos();
-//		BlockState blockstate = world.getBlockState(blockpos);
-//		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)
-//				&& !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)) {
-//			ItemStack itemstack = context.getItem();
-//			EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
-//			world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
-//			if (!world.isRemote) {
-//				itemstack.shrink(1);
-//			}
-//
-//			return ActionResultType.SUCCESS;
-//		} else {
-//			return ActionResultType.PASS;
-//		}
-//	}
+	@Override
+	public ActionResultType onItemUse(ItemUseContext context) {
+		World world = context.getWorld();
+		BlockPos blockpos = context.getPos();
+		BlockState blockstate = world.getBlockState(blockpos);
+		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)
+				&& !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)) {
+			ItemStack itemstack = context.getItem();
+			EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
+			world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
+			if (!world.isRemote) {
+				itemstack.shrink(1);
+			}
+
+			return ActionResultType.SUCCESS;
+		} else {
+			return ActionResultType.PASS;
+		}
+	}
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
@@ -94,7 +99,7 @@ public class EndermanAgitator extends Item implements IEnderItem {
 //		return false;
 //	}
 
-	private static int getRange(EnderTier tier) {
+	public static int getRange(EnderTier tier) {
 		return Config.AGITATOR_RANGE.get() * Config.ENDER_TIER_MULTIPLIER.get(tier).get();
 	}
 
@@ -123,12 +128,6 @@ public class EndermanAgitator extends Item implements IEnderItem {
 				player.getPersistentData().putString(agitatorTag, getEnderTier().name());
 			}
 		}
-	}
-
-	@Override
-	public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
-		player.removeTag(agitatorTag);
-		return true;
 	}
 
 	@SubscribeEvent
@@ -169,8 +168,8 @@ public class EndermanAgitator extends Item implements IEnderItem {
 		}
 	}
 
-	private static class DummyAgitator extends Item {
-		protected static final DummyAgitator INSTANCE = new DummyAgitator();
+	public static class DummyAgitator extends Item {
+		public static final DummyAgitator INSTANCE = new DummyAgitator();
 
 		private DummyAgitator() {
 			super(new Item.Properties());

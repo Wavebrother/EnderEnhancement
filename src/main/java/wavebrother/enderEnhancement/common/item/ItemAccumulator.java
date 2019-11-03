@@ -60,25 +60,25 @@ public class ItemAccumulator extends Item implements IEnderItem {
 			return new ActionResult<ItemStack>(ActionResultType.PASS, item);
 	}
 
-//	@Override
-//	public ActionResultType onItemUse(ItemUseContext context) {
-//		World world = context.getWorld();
-//		BlockPos blockpos = context.getPos();
-//		BlockState blockstate = world.getBlockState(blockpos);
-//		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)
-//				&& !blockstate.get(EnderPedestal.HAS_AGITATOR)) {
-//			ItemStack itemstack = context.getItem();
-//			if (!world.isRemote) {
-//				EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
-//				world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
-//				itemstack.shrink(1);
-//			}
-//
-//			return ActionResultType.SUCCESS;
-//		} else {
-//			return ActionResultType.PASS;
-//		}
-//	}
+	@Override
+	public ActionResultType onItemUse(ItemUseContext context) {
+		World world = context.getWorld();
+		BlockPos blockpos = context.getPos();
+		BlockState blockstate = world.getBlockState(blockpos);
+		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)
+				&& !blockstate.get(EnderPedestal.HAS_AGITATOR)) {
+			ItemStack itemstack = context.getItem();
+			EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
+			world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
+			if (!world.isRemote) {
+				itemstack.shrink(1);
+			}
+
+			return ActionResultType.SUCCESS;
+		} else {
+			return ActionResultType.PASS;
+		}
+	}
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
@@ -119,10 +119,10 @@ public class ItemAccumulator extends Item implements IEnderItem {
 						itemEntity.setNoPickupDelay();
 						itemEntity.onCollideWithPlayer(playerIn);
 					}
-//				} else if (pedestal != null) {
-//					//pedestal.addItemStackToInventory(itemEntity.getItem());
-//					if (itemEntity.getItem().isEmpty())
-//						itemEntity.remove();
+				} else if (pedestal != null) {
+					pedestal.addItemStackToInventory(itemEntity.getItem());
+					if (itemEntity.getItem().isEmpty())
+						itemEntity.remove();
 				} else
 					return;
 			}
