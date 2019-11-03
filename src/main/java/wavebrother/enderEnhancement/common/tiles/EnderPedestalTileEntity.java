@@ -93,9 +93,7 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 	}
 
 	public void clearPedestal() {
-		pedestalItem = ItemStack.EMPTY;
-		if (hasWorld() && !getWorld().isRemote)
-			MinecraftForge.EVENT_BUS.post(new EnderPedestalUpdateEvent(pedestalItem, pos, false));
+		setPedestalItem(ItemStack.EMPTY, false);
 	}
 
 	private void clearInventory() {
@@ -347,6 +345,11 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		return ItemStackHelper.getAndRemove(inventory, index);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack item) {
+		return false;
 	}
 
 	public static class EnderPedestalUpdateEvent extends Event {
