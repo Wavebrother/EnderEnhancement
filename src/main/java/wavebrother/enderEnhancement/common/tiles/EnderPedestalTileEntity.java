@@ -62,8 +62,10 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 							pos.getX() + EndermanAgitator.getRange(tier), pos.getY() + EndermanAgitator.getRange(tier),
 							pos.getZ() + EndermanAgitator.getRange(tier)),
 					EntityPredicates.NOT_SPECTATING);
-			for (PlayerEntity player : players)
+			for (PlayerEntity player : players) {
 				player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
+				player.getPersistentData().putString(EndermanAgitator.agitatorTag, tier.name());
+			}
 		}
 
 	}
