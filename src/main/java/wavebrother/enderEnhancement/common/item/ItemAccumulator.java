@@ -116,10 +116,9 @@ public class ItemAccumulator extends Item implements IEnderItem {
 			for (ItemEntity itemEntity : items) {
 				if (playerIn != null) {
 					if (itemEntity.getThrowerId() != playerIn.getUniqueID()) {
-						itemEntity.setNoPickupDelay();
 						itemEntity.onCollideWithPlayer(playerIn);
 					}
-				} else if (pedestal != null) {
+				} else if (pedestal != null && !itemEntity.cannotPickup()) {
 					pedestal.addItemStackToInventory(itemEntity.getItem());
 					if (itemEntity.getItem().isEmpty())
 						itemEntity.remove();
