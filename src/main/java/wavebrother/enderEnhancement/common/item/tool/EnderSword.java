@@ -44,15 +44,12 @@ public class EnderSword extends SwordItem implements IEnderItem {
 		target.getPersistentData().putString(hitTag, tier.name());
 		target.addTag(hitTag);
 		target.addTag(getTagFromTier());
-		EnderEnhancement.getLogger().debug("Hit is remote:" + target.world.isRemote);
 		return super.hitEntity(stack, target, attacker);
 	}
 
 	@SubscribeEvent
 	public static void onEnderTeleport(EnderTeleportEvent event) {
-		EnderEnhancement.getLogger().debug("Teleport is remote:" + event.getEntityLiving().world.isRemote);
 		if (event.getEntity().getPersistentData().contains(hitTag) || event.getEntity().getTags().contains(hitTag)) {
-			EnderEnhancement.getLogger().debug("Stopped!");
 			event.setCanceled(true);
 		}
 	}
