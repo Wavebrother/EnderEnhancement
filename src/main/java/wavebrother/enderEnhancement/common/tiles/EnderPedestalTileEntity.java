@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ReportedException;
+import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -49,22 +50,37 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 
 	@Override
 	public void tick() {
-		if (!getWorld().isRemote && getPedestalItem().getItem() instanceof ItemAccumulator) {
+		if (getWorld().isRemote)
+			return;
+		if (getPedestalItem().getItem() instanceof ItemAccumulator) {
 			((ItemAccumulator) getPedestalItem().getItem()).collectItems(getPedestalItem(), getWorld(), null, this);
-		}
-		if (!getWorld().isRemote && getPedestalItem().getItem() instanceof EndermanAgitator
-				&& !(getPedestalItem().hasTag()
-						&& getPedestalItem().getTag().getBoolean(EndermanAgitator.agitatorTag))) {
-			EnderTier tier = ((EndermanAgitator) getPedestalItem().getItem()).getEnderTier();
-			List<PlayerEntity> players = getWorld().getEntitiesWithinAABB(PlayerEntity.class,
-					new AxisAlignedBB(pos.getX() - EndermanAgitator.getRange(tier),
-							pos.getY() - EndermanAgitator.getRange(tier), pos.getZ() - EndermanAgitator.getRange(tier),
-							pos.getX() + EndermanAgitator.getRange(tier), pos.getY() + EndermanAgitator.getRange(tier),
-							pos.getZ() + EndermanAgitator.getRange(tier)),
-					EntityPredicates.NOT_SPECTATING);
-			for (PlayerEntity player : players) {
-				player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
-				player.getPersistentData().putString(EndermanAgitator.agitatorTag, tier.name());
+		} else if (getPedestalItem().getItem() instanceof EndermanAgitator) {
+			if (!(getPedestalItem().hasTag() && getPedestalItem().getTag().getBoolean(EndermanAgitator.agitatorTag))) {
+				EnderTier tier = ((EndermanAgitator) getPedestalItem().getItem()).getEnderTier();
+				List<PlayerEntity> players = getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(
+						pos.getX() - EndermanAgitator.getRange(tier), pos.getY() - EndermanAgitator.getRange(tier),
+						pos.getZ() - EndermanAgitator.getRange(tier), pos.getX() + EndermanAgitator.getRange(tier),
+						pos.getY() + EndermanAgitator.getRange(tier), pos.getZ() + EndermanAgitator.getRange(tier)),
+						EntityPredicates.NOT_SPECTATING);
+				for (PlayerEntity player : players) {
+					player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
+					player.getPersistentData().putString(EndermanAgitator.agitatorTag, tier.name());
+				}
+			} else if (itemOwner != null) {
+				EnderTier tier = ((EndermanAgitator) getPedestalItem().getItem()).getEnderTier();
+				List<EndermanEntity> endermen = getWorld().getEntitiesWithinAABB(EndermanEntity.class,
+						new AxisAlignedBB(pos.getX() - EndermanAgitator.getRange(tier),
+								pos.getY() - EndermanAgitator.getRange(tier),
+								pos.getZ() - EndermanAgitator.getRange(tier),
+								pos.getX() + EndermanAgitator.getRange(tier),
+								pos.getY() + EndermanAgitator.getRange(tier),
+								pos.getZ() + EndermanAgitator.getRange(tier)),
+						EntityPredicates.NOT_SPECTATING);
+				for (EndermanEntity enderman : endermen) {
+					// enderman.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getX(),
+					// enderman.getAIMoveSpeed());
+					enderman.setAttackTarget(itemOwner);
+				}
 			}
 		}
 
