@@ -1,24 +1,17 @@
 package wavebrother.enderEnhancement.common.item;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.common.extensions.IForgeItem;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@EventBusSubscriber(bus = Bus.FORGE)
-public interface IEndergyItem extends IForgeItem {
+public interface IEndergyItem extends IEnderItem {
 
-	@SubscribeEvent
-	default public void onItemTooltip(ItemTooltipEvent event) {
-		if (getEndergyDisplay(null) != null)
-			event.getToolTip().add(getEndergyDisplay(null).getRight());
-	}
+//	@OnlyIn(Dist.CLIENT)
+//	default public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
+//			ITooltipFlag flagIn) {
+//		if (getEndergyDisplay(stack) != null)
+//			tooltip.add(getEndergyDisplay(stack));
+//	}
 
-	public Pair<PlayerEntity, StringTextComponent> getEndergyDisplay(PlayerEntity player);
-	
+	public StringTextComponent getEndergyDisplay(ItemStack stack);
+
 }

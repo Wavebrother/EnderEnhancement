@@ -8,27 +8,27 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import wavebrother.enderEnhancement.common.capabilities.CapabilityEndergy.EndergyStorage;
+import wavebrother.enderEnhancement.common.capabilities.EndergyCapability;
 
 public class CapabilityEndergyProvider implements ICapabilitySerializable<CompoundNBT> {
 	private static final String endergyCapacityNBT = "endergyCapacity";
 	private static final String endergyStoredNBT = "endergyStored";
 	private int endergyCapacity;
 	private int endergyStored;
-	private final EndergyStorage storage;
-	private LazyOptional<EndergyStorage> capability;
+	private final EndergyCapability storage;
+	private LazyOptional<EndergyCapability> capability;
 
 	public CapabilityEndergyProvider(int endergyCapacity, int endergyStored) {
 		this.endergyCapacity = endergyCapacity;
 		this.endergyStored = endergyStored;
-		storage = new EndergyStorage(endergyCapacity, endergyStored);
+		storage = new EndergyCapability(endergyCapacity, endergyStored);
 		capability = LazyOptional.of(() -> storage);
 	}
 
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		return cap == CapabilityEndergy.ENDERGY ? capability.cast() : LazyOptional.empty();
+		return cap == EndergyCapability.ENDERGY ? capability.cast() : LazyOptional.empty();
 	}
 
 	@Override

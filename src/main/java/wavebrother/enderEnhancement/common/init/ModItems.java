@@ -11,6 +11,7 @@ import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.item.EnderArmor;
 import wavebrother.enderEnhancement.common.item.EnderPearl;
 import wavebrother.enderEnhancement.common.item.EnderStick;
+import wavebrother.enderEnhancement.common.item.EndergyCollector;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
 import wavebrother.enderEnhancement.common.item.ItemAccumulator;
 import wavebrother.enderEnhancement.common.item.ItemEnderFruit;
@@ -117,6 +118,12 @@ public class ModItems {
 	public static Item enderAccumulator;
 	public static Item empoweredAccumulator;
 	public static Item extremeAccumulator;
+
+	// Endergy Collectors
+	public static Item dullEndergyCollector;
+	public static Item endergyCollector;
+	public static Item empoweredEndergyCollector;
+	public static Item extremeEndergyCollector;
 
 	// Food
 	public static Item enderFruit;
@@ -241,6 +248,13 @@ public class ModItems {
 		extremeEnderAgitator = new EndermanAgitator(EnderTier.EXTREME,
 				Reference.Items.EXTREMEENDERAGITATOR.getRegistryName());
 
+		// gyCollectors
+		dullEndergyCollector = new EndergyCollector(EnderTier.DULL, Reference.Items.DULLENDERGYCOLLECTOR.getRegistryName());
+		endergyCollector = new EndergyCollector(EnderTier.ENDER, Reference.Items.ENDERGYCOLLECTOR.getRegistryName());
+		empoweredEndergyCollector = new EndergyCollector(EnderTier.EMPOWERED,
+				Reference.Items.EMPOWEREDENDERGYCOLLECTOR.getRegistryName());
+		extremeEndergyCollector = new EndergyCollector(EnderTier.EXTREME, Reference.Items.EXTREMEENDERGYCOLLECTOR.getRegistryName());
+
 		// Food
 		enderFruit = new ItemEnderFruit();
 
@@ -257,18 +271,18 @@ public class ModItems {
 				// Dull
 				dullEnderPearl, dullEnderStick, dullEnderAxe, dullEnderHoe, dullEnderPickaxe, dullEnderShovel,
 				dullEnderSword, dullEnderHelmet, dullEnderChestplate, dullEnderLeggings, dullEnderBoots,
-				dullEnderAgitator, dullAccumulator,
+				dullEnderAgitator, dullAccumulator, dullEndergyCollector,
 				// Ender
 				enderStick, enderAxe, enderHoe, enderPickaxe, enderShovel, enderSword, enderHelmet, enderChestplate,
-				enderLeggings, enderBoots, enderAgitator, enderAccumulator,
+				enderLeggings, enderBoots, enderAgitator, enderAccumulator, endergyCollector,
 				// Empowered
 				empoweredEnderPearl, empoweredEnderStick, empoweredEnderAxe, empoweredEnderHoe, empoweredEnderPickaxe,
 				empoweredEnderShovel, empoweredEnderSword, empoweredEnderHelmet, empoweredEnderChestplate,
-				empoweredEnderLeggings, empoweredEnderBoots, empoweredEnderAgitator, empoweredAccumulator,
+				empoweredEnderLeggings, empoweredEnderBoots, empoweredEnderAgitator, empoweredAccumulator, empoweredEndergyCollector,
 				// Extreme
 				extremeEnderPearl, extremeEnderStick, extremeEnderAxe, extremeEnderHoe, extremeEnderPickaxe,
 				extremeEnderShovel, extremeEnderSword, extremeEnderHelmet, extremeEnderChestplate, extremeEnderLeggings,
-				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator,
+				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator, extremeEndergyCollector,
 
 				// Multi Tools
 				dullEnderTool, enderTool, empoweredEnderTool, extremeEnderTool,

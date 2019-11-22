@@ -75,6 +75,10 @@ public class Reference {
 		EMPOWEREDITEMACCUMULATOR("item_empowered_item_accumulator"),
 		EXTREMEITEMACCUMULATOR("item_extreme_item_accumulator"),
 
+		// Endergy Collectors
+		DULLENDERGYCOLLECTOR("item_dull_endergy_collector"), ENDERGYCOLLECTOR("item_endergy_collector"),
+		EMPOWEREDENDERGYCOLLECTOR("item_empowered_endergy_collector"), EXTREMEENDERGYCOLLECTOR("item_extreme_endergy_collector"),
+
 		// Food
 		ENDERFRUIT("item_ender_fruit");
 
