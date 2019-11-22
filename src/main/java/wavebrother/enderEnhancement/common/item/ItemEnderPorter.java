@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.util.EnderTier;
-import wavebrother.enderEnhancement.common.util.EndergyHandler;
 import wavebrother.enderEnhancement.common.util.TeleportUtil;
 import wavebrother.enderEnhancement.common.util.VectorHelper;
 
@@ -55,7 +54,7 @@ public class ItemEnderPorter extends Item implements IEnderItem {
 					|| worldIn.getBlockState(ground.getPos()).getMaterial().isLiquid())
 				return new ActionResult<ItemStack>(ActionResultType.FAIL, itemstack);
 			BlockPos finalPos = ground.getPos().offset(ground.getFace());
-			if (EndergyHandler.takeEndergy(50, playerIn) && TeleportUtil.teleportTo(playerIn, finalPos.getX() + 0.5F,
+			if (/* EndergyHandler.takeEndergy(50, playerIn) && */TeleportUtil.teleportTo(playerIn, finalPos.getX() + 0.5F,
 					finalPos.getY(), finalPos.getZ() + 0.5F))
 				;
 			itemstack.setDamage(itemstack.getDamage() - 1);
