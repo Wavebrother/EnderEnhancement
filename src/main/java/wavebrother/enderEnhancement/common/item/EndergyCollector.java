@@ -72,6 +72,7 @@ public class EndergyCollector extends Item implements IEndergyItem {
 			ITooltipFlag flagIn) {
 		if (getEndergyDisplay(stack) != null)
 			tooltip.add(getEndergyDisplay(stack));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 
 	@Override
