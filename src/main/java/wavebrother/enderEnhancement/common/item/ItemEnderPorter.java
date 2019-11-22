@@ -54,10 +54,9 @@ public class ItemEnderPorter extends Item implements IEnderItem {
 					|| worldIn.getBlockState(ground.getPos()).getMaterial().isLiquid())
 				return new ActionResult<ItemStack>(ActionResultType.FAIL, itemstack);
 			BlockPos finalPos = ground.getPos().offset(ground.getFace());
-			if (/* EndergyHandler.takeEndergy(50, playerIn) && */TeleportUtil.teleportTo(playerIn, finalPos.getX() + 0.5F,
-					finalPos.getY(), finalPos.getZ() + 0.5F))
-				;
-			itemstack.setDamage(itemstack.getDamage() - 1);
+			if (/* EndergyHandler.takeEndergy(50, playerIn) && */TeleportUtil.teleportTo(playerIn,
+					finalPos.getX() + 0.5F, finalPos.getY(), finalPos.getZ() + 0.5F) && !playerIn.isCreative())
+				itemstack.setDamage(itemstack.getDamage() - 1);
 			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, itemstack);
 		}
 		return new ActionResult<ItemStack>(ActionResultType.PASS, itemstack);
