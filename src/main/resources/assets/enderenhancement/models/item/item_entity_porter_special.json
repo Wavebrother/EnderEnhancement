@@ -1,0 +1,32 @@
+{
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "enderenhancement:items/entity_porter/entity_porter_1"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"porting": 1
+			},
+			"model": "enderenhancement:item/item_entity_porter_1"
+		},
+		{
+			"predicate": {
+				"porting": 2
+			},
+			"model": "enderenhancement:item/item_entity_porter_2"
+		},
+		{
+			"predicate": {
+				"porting": 3
+			},
+			"model": "enderenhancement:item/item_entity_porter_3"
+		},
+		{
+			"predicate": {
+				"porting": 4
+			},
+			"model": "enderenhancement:item/item_entity_porter_4"
+		}
+	]
+}

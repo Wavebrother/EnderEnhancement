@@ -13,6 +13,7 @@ import wavebrother.enderEnhancement.common.item.EnderPearl;
 import wavebrother.enderEnhancement.common.item.EnderStick;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
 import wavebrother.enderEnhancement.common.item.ItemAccumulator;
+import wavebrother.enderEnhancement.common.item.ItemEntityPorter;
 import wavebrother.enderEnhancement.common.item.ItemEnderFruit;
 import wavebrother.enderEnhancement.common.item.ItemEnderPorter;
 import wavebrother.enderEnhancement.common.item.tool.EnderAxe;
@@ -126,6 +127,7 @@ public class ModItems {
 
 	// Food
 	public static Item enderFruit;
+	public static Item dullBlockPorter;
 
 	public static void init() {
 
@@ -256,6 +258,7 @@ public class ModItems {
 
 		// Food
 		enderFruit = new ItemEnderFruit();
+		dullBlockPorter = new ItemEntityPorter(EnderTier.DULL, "item_entity_porter");
 
 	}
 
@@ -292,7 +295,7 @@ public class ModItems {
 				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter,
 
 				// Food
-				enderFruit,
+				enderFruit, dullBlockPorter,
 
 				// Blocks
 				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,

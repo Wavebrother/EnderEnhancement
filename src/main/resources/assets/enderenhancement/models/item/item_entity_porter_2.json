@@ -1,0 +1,6 @@
+{
+    "parent": "enderenhancement:item/item_entity_porter",
+    "textures": {
+        "layer0": "enderenhancement:items/entity_porter/entity_porter_2"
+    }
+}
