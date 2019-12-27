@@ -9,6 +9,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.client.renderer.EnderPedestalTER;
 import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
@@ -36,6 +37,8 @@ public class ModTileEntities {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
-		ClientRegistry.bindTileEntitySpecialRenderer(EnderPedestalTileEntity.class, new EnderPedestalTER());
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(event -> {
+			ClientRegistry.bindTileEntityRenderer(ModTileEntities.enderPedestal, new EnderPedestalTER());
+		});
 	}
 }

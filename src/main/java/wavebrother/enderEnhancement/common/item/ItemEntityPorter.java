@@ -76,7 +76,7 @@ public class ItemEntityPorter extends Item implements IEnderItem {
 			BlockRayTraceResult lookingAt = lookingAt(playerIn, distance);
 			if (worldIn.getBlockState(lookingAt.getPos()).getBlock() == Blocks.AIR)
 				return ActionResultType.FAIL;
-			if (playerIn.isSneaking()) {
+			if (playerIn.isCrouching()) {
 				BlockPos targetPos = lookingAt.getPos().offset(lookingAt.getFace());
 				stack.getOrCreateTag().putIntArray(TargetPositionTag, new int[] { targetPos.getX(), targetPos.getY(),
 						targetPos.getZ(), worldIn.dimension.getType().getId() });

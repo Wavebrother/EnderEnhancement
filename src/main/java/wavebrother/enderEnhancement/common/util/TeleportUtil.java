@@ -12,7 +12,7 @@ import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.common.item.EnderArmor;
 
 public class TeleportUtil {
-	
+
 	protected static final Random rand = new Random();
 
 	/**
@@ -21,9 +21,10 @@ public class TeleportUtil {
 	public static boolean teleportRandomly(PlayerEntity entityIn, int cooldown) {
 		entityIn.getCooldownTracker().setCooldown(EnderArmor.COOLDOWNITEM, cooldown);
 		int range = Config.ENDER_ARMOR_TELEPORT_RANGE.get();
-		double d0 = entityIn.posX + (rand.nextDouble() - 0.5D) * range;
-		double d1 = entityIn.posY + (double) (rand.nextInt(range) - (range / 2));
-		double d2 = entityIn.posZ + (rand.nextDouble() - 0.5D) * range;
+		Vec3d entityPos = entityIn.getPositionVec();
+		double d0 = entityPos.x + (rand.nextDouble() - 0.5D) * range;
+		double d1 = entityPos.y + (double) (rand.nextInt(range) - (range / 2));
+		double d2 = entityPos.z + (rand.nextDouble() - 0.5D) * range;
 		return teleportTo(entityIn, d0, d1, d2);
 	}
 
@@ -31,14 +32,16 @@ public class TeleportUtil {
 	 * Teleport the player to another entity
 	 */
 	public static boolean teleportToEntity(PlayerEntity player, Entity target) {
-		Vec3d vec3d = new Vec3d(target.posX - player.posX, target.getBoundingBox().minY
-				+ (double) (target.getHeight() / 2.0F) - player.posY + (double) player.getEyeHeight(),
-				target.posZ - player.posZ);
+		Vec3d targetPos = target.getPositionVec();
+		Vec3d playerPos = player.getPositionVec();
+		Vec3d vec3d = new Vec3d(targetPos.x - playerPos.x, target.getBoundingBox().minY
+				+ (double) (target.getHeight() / 2.0F) - playerPos.y + (double) player.getEyeHeight(),
+				targetPos.z - playerPos.z);
 		vec3d = vec3d.normalize();
 		double d0 = 16.0D;
-		double d1 = target.posX + (rand.nextDouble() - 0.5D) * 8.0D - vec3d.x * d0;
-		double d2 = target.posY + (double) (rand.nextInt(16) - 8) - vec3d.y * d0;
-		double d3 = target.posZ + (rand.nextDouble() - 0.5D) * 8.0D - vec3d.z * d0;
+		double d1 = targetPos.x + (rand.nextDouble() - 0.5D) * 8.0D - vec3d.x * d0;
+		double d2 = targetPos.y + (double) (rand.nextInt(16) - 8) - vec3d.y * d0;
+		double d3 = targetPos.z + (rand.nextDouble() - 0.5D) * 8.0D - vec3d.z * d0;
 		return teleportTo(null, d1, d2, d3);
 	}
 
@@ -46,14 +49,14 @@ public class TeleportUtil {
 	 * Teleport the player
 	 */
 	public static boolean teleportTo(PlayerEntity entityIn, double x, double y, double z) {
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(x, y, z);
+		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable(x, y, z);
 
-		while (blockpos$mutableblockpos.getY() > 0
-				&& !entityIn.world.getBlockState(blockpos$mutableblockpos).getMaterial().blocksMovement()) {
-			blockpos$mutableblockpos.move(Direction.DOWN);
+		while (blockpos$mutable.getY() > 0
+				&& !entityIn.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {
+			blockpos$mutable.move(Direction.DOWN);
 		}
 
-		if (!entityIn.world.getBlockState(blockpos$mutableblockpos).getMaterial().blocksMovement()) {
+		if (!entityIn.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {
 			return false;
 		} else {
 			net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(

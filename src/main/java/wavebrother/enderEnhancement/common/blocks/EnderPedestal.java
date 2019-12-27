@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -62,7 +61,7 @@ public class EnderPedestal extends /* Container */Block {
 
 	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit) {
-		if ((state.get(HAS_AGITATOR) || state.get(HAS_ACCUMULATOR)) && player.isSneaking()) {
+		if ((state.get(HAS_AGITATOR) || state.get(HAS_ACCUMULATOR)) && player.isCrouching()) {
 			if (!worldIn.isRemote)
 				extract(worldIn, player, pos);
 			state = state.with(HAS_AGITATOR, Boolean.valueOf(false));
@@ -173,10 +172,6 @@ public class EnderPedestal extends /* Container */Block {
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(HAS_AGITATOR);
 		builder.add(HAS_ACCUMULATOR);
-	}
-
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
 	}
 
 	public BlockRenderType getRenderType(BlockState state) {

@@ -48,7 +48,7 @@ public class ItemAccumulator extends Item implements IEnderItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack item = playerIn.getHeldItem(handIn);
 		CompoundNBT NBT = item.getOrCreateTag();
-		if (playerIn.isSneaking()) {
+		if (playerIn.isCrouching()) {
 			NBT.putBoolean(accumulatorTag, !NBT.getBoolean(accumulatorTag));
 			if (NBT.getBoolean(accumulatorTag)) {
 				playerIn.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.3F, 1);

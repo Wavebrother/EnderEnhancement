@@ -54,7 +54,7 @@ public class ItemBlockPorter extends Item implements IEnderItem {
 			BlockRayTraceResult lookingAt = lookingAt(playerIn, distance);
 			if (worldIn.getBlockState(lookingAt.getPos()).getBlock() == Blocks.AIR)
 				return ActionResultType.FAIL;
-			if (playerIn.isSneaking()) {
+			if (playerIn.isCrouching()) {
 				BlockPos targetPos = lookingAt.getPos().offset(lookingAt.getFace());
 //				if (worldIn.getBlockState(targetPos).getBlock() == Blocks.AIR) {
 				stack.getOrCreateTag().putIntArray(TargetPositionTag, new int[] { targetPos.getX(), targetPos.getY(),
@@ -72,14 +72,12 @@ public class ItemBlockPorter extends Item implements IEnderItem {
 				BlockState newState = worldIn.getBlockState(lookingAt.getPos());
 				TileEntity newTE = worldIn.getTileEntity(lookingAt.getPos());
 				if (newTE != null) {
-					newTE.setPos(oldPos);
-					newTE.setWorld(oldWorld);
+					newTE.func_226984_a_(oldWorld, oldPos);
 				}
 				oldWorld.setBlockState(oldPos, newState);
 				// worldIn.setTileEntity(oldPos, newTE);
 				if (oldTE != null) {
-					oldTE.setPos(lookingAt.getPos());
-					oldTE.setWorld(worldIn);
+					oldTE.func_226984_a_(worldIn, lookingAt.getPos());
 				}
 				worldIn.setBlockState(lookingAt.getPos(), oldState);
 				// worldIn.setTileEntity(lookingAt.getPos(), oldTE);

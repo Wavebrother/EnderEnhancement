@@ -19,6 +19,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -52,7 +53,7 @@ public class EndermanAgitator extends Item implements IEnderItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack item = playerIn.getHeldItem(handIn);
 		CompoundNBT NBT = item.getOrCreateTag();
-		if (playerIn.isSneaking()) {
+		if (playerIn.isCrouching()) {
 			NBT.putBoolean(agitatorTag, !NBT.getBoolean(agitatorTag));
 			if (NBT.getBoolean(agitatorTag)) {
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_SCREAM,
@@ -108,11 +109,12 @@ public class EndermanAgitator extends Item implements IEnderItem {
 		if (entityIn instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityIn;
 			if (stack.hasTag() && stack.getTag().getBoolean(agitatorTag)) {
+				Vec3d entityPos = entityIn.getPositionVec();
 				List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
-						new AxisAlignedBB(entityIn.posX - getRange(getEnderTier()),
-								entityIn.posY - getRange(getEnderTier()), entityIn.posZ - getRange(getEnderTier()),
-								entityIn.posX + getRange(getEnderTier()), entityIn.posY + getRange(getEnderTier()),
-								entityIn.posZ + getRange(getEnderTier())),
+						new AxisAlignedBB(entityPos.x - getRange(getEnderTier()),
+								entityPos.y - getRange(getEnderTier()), entityPos.z - getRange(getEnderTier()),
+								entityPos.x + getRange(getEnderTier()), entityPos.y + getRange(getEnderTier()),
+								entityPos.z + getRange(getEnderTier())),
 						EntityPredicates.NOT_SPECTATING);
 //				player.removeTag(agitatorTag);
 				for (EndermanEntity enderman : endermen) {
@@ -135,14 +137,14 @@ public class EndermanAgitator extends Item implements IEnderItem {
 		if (event.getSource() instanceof EntityDamageSource
 				&& ((EntityDamageSource) event.getSource()).getTrueSource() instanceof EndermanEntity
 				&& event.getEntityLiving() instanceof PlayerEntity) {
-			Entity attacker = ((EntityDamageSource) event.getSource()).getTrueSource();
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			if (player.getCooldownTracker().hasCooldown(DummyAgitator.INSTANCE)) {
 				EnderTier tier = EnderTier.valueOf(player.getPersistentData().getString(agitatorTag));
-				List<EndermanEntity> endermen = attacker.world.getEntitiesWithinAABB(EndermanEntity.class,
-						new AxisAlignedBB(attacker.posX - getRange(tier), attacker.posY - getRange(tier),
-								attacker.posZ - getRange(tier), attacker.posX + getRange(tier),
-								attacker.posY + getRange(tier), attacker.posZ + getRange(tier)),
+				Vec3d playerPos = player.getPositionVec();
+				List<EndermanEntity> endermen = player.world.getEntitiesWithinAABB(EndermanEntity.class,
+						new AxisAlignedBB(playerPos.x - getRange(tier), playerPos.y - getRange(tier),
+								playerPos.z - getRange(tier), playerPos.x + getRange(tier),
+								playerPos.y + getRange(tier), playerPos.z + getRange(tier)),
 						EntityPredicates.NOT_SPECTATING);
 				for (EndermanEntity enderman : endermen) {
 					if (enderman.getAttackTarget() instanceof PlayerEntity) {

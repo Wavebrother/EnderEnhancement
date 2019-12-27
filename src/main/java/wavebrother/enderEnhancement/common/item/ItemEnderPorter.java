@@ -38,7 +38,7 @@ public class ItemEnderPorter extends Item implements IEnderItem {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		if (!worldIn.isRemote) {
 			BlockRayTraceResult lookingAt = VectorHelper.getLookingAt(playerIn, tier, RayTraceContext.FluidMode.ANY);
-			if (lookingAt.getType() == RayTraceResult.Type.MISS && playerIn.isSneaking()) {
+			if (lookingAt.getType() == RayTraceResult.Type.MISS && playerIn.isCrouching()) {
 				playerIn.setPositionAndUpdate(lookingAt.getHitVec().x, lookingAt.getHitVec().y,
 						lookingAt.getHitVec().z);
 			}
