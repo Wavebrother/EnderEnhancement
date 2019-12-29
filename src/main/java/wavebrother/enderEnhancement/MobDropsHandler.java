@@ -10,7 +10,6 @@ public class MobDropsHandler {
 //
 //	@SubscribeEvent
 //	public void onMobDrops(LivingDropsEvent event) {
-//		LogManager.getLogger().debug(event.getEntityLiving().getPersistentData().getString(EnderSword.hitTag));
 //		if (event.getEntity() instanceof EndermanEntity
 //				&& event.getEntityLiving().getPersistentData().contains(EnderSword.hitTag)) {
 //			EnderTier tier = EnderTier
