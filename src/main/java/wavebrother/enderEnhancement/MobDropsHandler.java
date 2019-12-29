@@ -2,8 +2,6 @@ package wavebrother.enderEnhancement;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.LogManager;
-
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.item.ItemStack;
@@ -21,7 +19,6 @@ public class MobDropsHandler {
 
 	@SubscribeEvent
 	public void onMobDrops(LivingDropsEvent event) {
-		LogManager.getLogger().debug(event.getEntityLiving().getPersistentData().getString(EnderSword.hitTag));
 		if (event.getEntity() instanceof EndermanEntity
 				&& event.getEntityLiving().getPersistentData().contains(EnderSword.hitTag)) {
 			EnderTier tier = EnderTier

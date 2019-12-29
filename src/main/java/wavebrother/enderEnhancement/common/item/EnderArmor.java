@@ -79,7 +79,6 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 				&& entityIn.isInWaterRainOrBubbleColumn()
 				&& checkArmor(stack, new ArrayList<ItemStack>(), (PlayerEntity) entityIn)) {
 			this.attackEntityFrom((PlayerEntity) entityIn, DamageSource.DROWN, 0.0F);
-			EnderEnhancement.getLogger().debug(itemSlot);
 		}
 	}
 

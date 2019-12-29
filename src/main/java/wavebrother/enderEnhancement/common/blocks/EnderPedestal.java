@@ -2,8 +2,6 @@ package wavebrother.enderEnhancement.common.blocks;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -165,8 +163,6 @@ public class EnderPedestal extends /* Container */Block {
 
 	public TileEntity createNewTileEntity(IBlockReader worldIn) {
 		EnderPedestalTileEntity pedestal = new EnderPedestalTileEntity();
-		LogManager.getLogger().debug(worldIn.getClass());
-		// pedestal.init((World) worldIn);
 		return pedestal;
 	}
 
