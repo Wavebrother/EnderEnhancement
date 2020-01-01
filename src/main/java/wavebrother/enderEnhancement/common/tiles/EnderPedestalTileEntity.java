@@ -133,6 +133,8 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 		} else if (getWorld().getBlockState(getPos()).has(EnderPedestal.HAS_ACCUMULATOR)
 				|| getWorld().getBlockState(getPos()).has(EnderPedestal.HAS_AGITATOR))
 			return false;
+		if (itemOwner == null)
+			return true;
 		return player == itemOwner;
 	}
 
