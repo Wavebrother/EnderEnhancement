@@ -38,7 +38,7 @@ public class ModTileEntities {
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(event -> {
-			ClientRegistry.bindTileEntityRenderer(ModTileEntities.enderPedestal, new EnderPedestalTER());
+			ClientRegistry.bindTileEntityRenderer(ModTileEntities.enderPedestal, EnderPedestalTER::new);
 		});
 	}
 }

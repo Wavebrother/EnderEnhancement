@@ -20,8 +20,8 @@ import wavebrother.enderEnhancement.common.tiles.EnderPedestalTileEntity;
 @OnlyIn(Dist.CLIENT)
 public class EnderPedestalTER extends TileEntityRenderer<EnderPedestalTileEntity> {
 
-	public EnderPedestalTER() {
-		super(TileEntityRendererDispatcher.instance);
+	public EnderPedestalTER(TileEntityRendererDispatcher disp) {
+		super(disp);
 	}
 
 	public void func_225616_a_(EnderPedestalTileEntity pedestal, float float1, MatrixStack matrix,
