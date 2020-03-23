@@ -34,7 +34,7 @@ import wavebrother.enderEnhancement.common.util.EnderTier;
 @EventBusSubscriber(modid = Reference.MOD_ID)
 public class EndermanAgitator extends Item implements IEnderItem {
 
-	public static final String agitatorTag = "agitator";
+	public static final String agitatorTag = "endermanAgitator";
 	public final EnderTier tier;
 
 	public EndermanAgitator(EnderTier tier, String name) {
