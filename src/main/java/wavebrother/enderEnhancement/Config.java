@@ -10,6 +10,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Reloading;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
 @Mod.EventBusSubscriber
@@ -98,7 +99,7 @@ public class Config {
 	}
 
 	@SubscribeEvent
-	public static void onReload(final ModConfig.ConfigReloading configEvent) {
+	public static void onReload(final Reloading configEvent) {
 	}
 
 }
