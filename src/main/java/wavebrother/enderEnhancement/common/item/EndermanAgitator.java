@@ -61,6 +61,7 @@ public class EndermanAgitator extends Item implements IEnderItem {
 			} else {
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_AMBIENT,
 						SoundCategory.PLAYERS, 0.25F, 1F);
+				pacify(playerIn);
 			}
 			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, item);
 		} else
@@ -110,21 +111,23 @@ public class EndermanAgitator extends Item implements IEnderItem {
 			PlayerEntity player = (PlayerEntity) entityIn;
 			if (!player.isCreative()) {
 				if (stack.hasTag() && stack.getTag().getBoolean(agitatorTag)) {
-					Vec3d entityPos = entityIn.getPositionVec();
-					List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
-							new AxisAlignedBB(entityPos.x - getRange(getEnderTier()),
-									entityPos.y - getRange(getEnderTier()), entityPos.z - getRange(getEnderTier()),
-									entityPos.x + getRange(getEnderTier()), entityPos.y + getRange(getEnderTier()),
-									entityPos.z + getRange(getEnderTier())),
-							EntityPredicates.NOT_SPECTATING);
+					if (worldIn.getGameTime() % 20 == 0) {
+						Vec3d entityPos = entityIn.getPositionVec();
+						List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
+								new AxisAlignedBB(entityPos.x - getRange(getEnderTier()),
+										entityPos.y - getRange(getEnderTier()), entityPos.z - getRange(getEnderTier()),
+										entityPos.x + getRange(getEnderTier()), entityPos.y + getRange(getEnderTier()),
+										entityPos.z + getRange(getEnderTier())),
+								EntityPredicates.NOT_SPECTATING);
 //				player.removeTag(agitatorTag);
-					for (EndermanEntity enderman : endermen) {
+						for (EndermanEntity enderman : endermen) {
 //					if (!enderman.getTags().contains(agitateTag)) {
 //						enderman.addTag(agitateTag);
-						if (!(enderman.getAttackTarget() instanceof PlayerEntity
-								&& enderman.getDistance(enderman.getAttackTarget()) < enderman.getDistance(player)))
-							enderman.setAttackTarget(player);
+							if (!(enderman.getAttackTarget() instanceof PlayerEntity
+									&& enderman.getDistance(enderman.getAttackTarget()) < enderman.getDistance(player)))
+								enderman.setAttackTarget(player);
 //					}
+						}
 					}
 				} else {
 					player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
@@ -141,23 +144,27 @@ public class EndermanAgitator extends Item implements IEnderItem {
 				&& event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			if (player.getCooldownTracker().hasCooldown(DummyAgitator.INSTANCE)) {
-				EnderTier tier = EnderTier.valueOf(player.getPersistentData().getString(agitatorTag));
-				Vec3d playerPos = player.getPositionVec();
-				List<EndermanEntity> endermen = player.world.getEntitiesWithinAABB(EndermanEntity.class,
-						new AxisAlignedBB(playerPos.x - getRange(tier), playerPos.y - getRange(tier),
-								playerPos.z - getRange(tier), playerPos.x + getRange(tier),
-								playerPos.y + getRange(tier), playerPos.z + getRange(tier)),
-						EntityPredicates.NOT_SPECTATING);
-				for (EndermanEntity enderman : endermen) {
-					if (enderman.getAttackTarget() instanceof PlayerEntity) {
-						if (enderman.getAttackingEntity() instanceof PlayerEntity) {
-							enderman.getCombatTracker().reset();
-						}
-						enderman.setRevengeTarget(null);
-						enderman.setAttackTarget(null);
-					}
-				}
+				pacify(player);
 				event.setCanceled(true);
+			}
+		}
+	}
+	
+	private static void pacify(PlayerEntity player) {
+		EnderTier tier = EnderTier.valueOf(player.getPersistentData().getString(agitatorTag));
+		Vec3d playerPos = player.getPositionVec();
+		List<EndermanEntity> endermen = player.world.getEntitiesWithinAABB(EndermanEntity.class,
+				new AxisAlignedBB(playerPos.x - getRange(tier), playerPos.y - getRange(tier),
+						playerPos.z - getRange(tier), playerPos.x + getRange(tier),
+						playerPos.y + getRange(tier), playerPos.z + getRange(tier)),
+				EntityPredicates.NOT_SPECTATING);
+		for (EndermanEntity enderman : endermen) {
+			if (enderman.getAttackTarget() instanceof PlayerEntity) {
+				if (enderman.getAttackingEntity() instanceof PlayerEntity) {
+					enderman.getCombatTracker().reset();
+					enderman.setRevengeTarget(null);
+					enderman.setAttackTarget(null);
+				}
 			}
 		}
 	}
@@ -167,6 +174,8 @@ public class EndermanAgitator extends Item implements IEnderItem {
 		if (event.getEntityLiving() instanceof EndermanEntity && event.getTarget() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getTarget();
 			if (player.getCooldownTracker().hasCooldown(DummyAgitator.INSTANCE)) {
+				((EndermanEntity) event.getEntityLiving()).getCombatTracker().reset();
+				((EndermanEntity) event.getEntityLiving()).setRevengeTarget(null);
 				((EndermanEntity) event.getEntityLiving()).setAttackTarget(null);
 			}
 		}
