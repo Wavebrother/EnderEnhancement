@@ -107,25 +107,27 @@ public class EndermanAgitator extends Item implements IEnderItem {
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (entityIn instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityIn;
-			if (stack.hasTag() && stack.getTag().getBoolean(agitatorTag)) {
-				List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
-						new AxisAlignedBB(entityIn.posX - getRange(getEnderTier()),
-								entityIn.posY - getRange(getEnderTier()), entityIn.posZ - getRange(getEnderTier()),
-								entityIn.posX + getRange(getEnderTier()), entityIn.posY + getRange(getEnderTier()),
-								entityIn.posZ + getRange(getEnderTier())),
-						EntityPredicates.NOT_SPECTATING);
+			if (!player.isCreative()) {
+				if (stack.hasTag() && stack.getTag().getBoolean(agitatorTag)) {
+					List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
+							new AxisAlignedBB(entityIn.posX - getRange(getEnderTier()),
+									entityIn.posY - getRange(getEnderTier()), entityIn.posZ - getRange(getEnderTier()),
+									entityIn.posX + getRange(getEnderTier()), entityIn.posY + getRange(getEnderTier()),
+									entityIn.posZ + getRange(getEnderTier())),
+							EntityPredicates.NOT_SPECTATING);
 //				player.removeTag(agitatorTag);
-				for (EndermanEntity enderman : endermen) {
+					for (EndermanEntity enderman : endermen) {
 //					if (!enderman.getTags().contains(agitateTag)) {
 //						enderman.addTag(agitateTag);
-					if (!(enderman.getAttackTarget() instanceof PlayerEntity
-							&& enderman.getDistance(enderman.getAttackTarget()) < enderman.getDistance(player)))
-						enderman.setAttackTarget(player);
+						if (!(enderman.getAttackTarget() instanceof PlayerEntity
+								&& enderman.getDistance(enderman.getAttackTarget()) < enderman.getDistance(player)))
+							enderman.setAttackTarget(player);
 //					}
+					}
+				} else {
+					player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
+					player.getPersistentData().putString(agitatorTag, getEnderTier().name());
 				}
-			} else {
-				player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
-				player.getPersistentData().putString(agitatorTag, getEnderTier().name());
 			}
 		}
 	}
