@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -102,7 +103,17 @@ public class ItemEntityPorter extends Item implements IEnderItem {
 		if (oldDim.getId() == intPos[3]) {
 			entity.moveToBlockPosAndAngles(oldPos, entity.rotationYaw, entity.rotationPitch);
 		} else {
-			stack.setDamage(stack.getDamage() - 1);
+			boolean flag = false;
+			for (int i = 0; i < playerIn.inventory.mainInventory.size() && !flag; i++) {
+				ItemStack item = playerIn.inventory.mainInventory.get(i);
+				if ((item.getItem() instanceof EnderPearl && ((EnderPearl) item.getItem()).getEnderTier() == tier)
+						|| (item.getItem() == Items.ENDER_PEARL && tier == EnderTier.ENDER)) {
+					item.shrink(1);
+					flag = true;
+				}
+			}
+			if (!flag)
+				stack.setDamage(stack.getDamage() + 1);
 			ServerWorld newWorld = entity.world.getServer().getWorld(DimensionType.getById(intPos[3]));
 			Entity newEntity = entity.getType().create(newWorld);
 			if (newEntity != null) {
