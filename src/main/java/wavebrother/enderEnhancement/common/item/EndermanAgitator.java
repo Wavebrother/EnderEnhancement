@@ -149,14 +149,14 @@ public class EndermanAgitator extends Item implements IEnderItem {
 			}
 		}
 	}
-	
+
 	private static void pacify(PlayerEntity player) {
 		EnderTier tier = EnderTier.valueOf(player.getPersistentData().getString(agitatorTag));
 		Vec3d playerPos = player.getPositionVec();
 		List<EndermanEntity> endermen = player.world.getEntitiesWithinAABB(EndermanEntity.class,
 				new AxisAlignedBB(playerPos.x - getRange(tier), playerPos.y - getRange(tier),
-						playerPos.z - getRange(tier), playerPos.x + getRange(tier),
-						playerPos.y + getRange(tier), playerPos.z + getRange(tier)),
+						playerPos.z - getRange(tier), playerPos.x + getRange(tier), playerPos.y + getRange(tier),
+						playerPos.z + getRange(tier)),
 				EntityPredicates.NOT_SPECTATING);
 		for (EndermanEntity enderman : endermen) {
 			if (enderman.getAttackTarget() instanceof PlayerEntity) {

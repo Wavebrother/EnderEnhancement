@@ -3,6 +3,7 @@ package wavebrother.enderEnhancement.common.item;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -55,8 +56,19 @@ public class ItemEnderPorter extends Item implements IEnderItem {
 				return new ActionResult<ItemStack>(ActionResultType.FAIL, itemstack);
 			BlockPos finalPos = ground.getPos().offset(ground.getFace());
 			if (/* EndergyHandler.takeEndergy(50, playerIn) && */TeleportUtil.teleportTo(playerIn,
-					finalPos.getX() + 0.5F, finalPos.getY(), finalPos.getZ() + 0.5F) && !playerIn.isCreative())
-				itemstack.setDamage(itemstack.getDamage() - 1);
+					finalPos.getX() + 0.5F, finalPos.getY(), finalPos.getZ() + 0.5F) && !playerIn.isCreative()) {
+				boolean flag = false;
+				for (int i = 0; i < playerIn.inventory.mainInventory.size() && !flag; i++) {
+					ItemStack item = playerIn.inventory.mainInventory.get(i);
+					if ((item.getItem() instanceof EnderPearl && ((EnderPearl) item.getItem()).getEnderTier() == tier)
+							|| (item.getItem() == Items.ENDER_PEARL && tier == EnderTier.ENDER)) {
+						item.shrink(1);
+						flag = true;
+					}
+				}
+				if (!flag)
+					itemstack.setDamage(itemstack.getDamage() + 1);
+			}
 			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, itemstack);
 		}
 		return new ActionResult<ItemStack>(ActionResultType.PASS, itemstack);
