@@ -1,20 +1,18 @@
 package wavebrother.enderEnhancement.common.item.tool;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-@EventBusSubscriber(bus = Bus.FORGE)
-public class EnderSword extends SwordItem implements IEnderItem {
+@EventBusSubscriber
+public class EnderSword extends ItemSword implements IEnderItem {
 
 	private static final EnderToolsUtil tool = EnderToolsUtil.SWORD;
 
@@ -25,9 +23,10 @@ public class EnderSword extends SwordItem implements IEnderItem {
 	}
 
 	public EnderSword(EnderTier material, String name) {
-		super(material.toolTier, tool.getDamage(material).intValue(), tool.getSpeed(material),
-				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
+		super(material.toolTier.material());
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}
@@ -40,8 +39,8 @@ public class EnderSword extends SwordItem implements IEnderItem {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		target.getPersistentData().putString(hitTag, tier.name());
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		target.getEntityData().setString(hitTag, tier.name());
 		target.addTag(hitTag);
 		target.addTag(getTagFromTier());
 		return super.hitEntity(stack, target, attacker);
@@ -49,7 +48,7 @@ public class EnderSword extends SwordItem implements IEnderItem {
 
 	@SubscribeEvent
 	public static void onEnderTeleport(EnderTeleportEvent event) {
-		if (event.getEntity().getPersistentData().contains(hitTag) || event.getEntity().getTags().contains(hitTag)) {
+		if (event.getEntity().getEntityData().hasKey(hitTag) || event.getEntity().getTags().contains(hitTag)) {
 			event.setCanceled(true);
 		}
 	}

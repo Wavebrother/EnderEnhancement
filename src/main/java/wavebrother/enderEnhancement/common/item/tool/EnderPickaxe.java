@@ -1,19 +1,19 @@
 package wavebrother.enderEnhancement.common.item.tool;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ItemPickaxe;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-public class EnderPickaxe extends PickaxeItem implements IEnderItem {
+public class EnderPickaxe extends ItemPickaxe implements IEnderItem {
 
 	private static final EnderToolsUtil tool = EnderToolsUtil.PICKAXE;
 
 	public EnderPickaxe(EnderTier material, String name) {
-		super(material.toolTier, tool.getDamage(material).intValue(), tool.getSpeed(material),
-				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
+		super(material.toolTier.material());
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}
@@ -24,6 +24,5 @@ public class EnderPickaxe extends PickaxeItem implements IEnderItem {
 	public EnderTier getEnderTier() {
 		return tier;
 	}
-
 
 }

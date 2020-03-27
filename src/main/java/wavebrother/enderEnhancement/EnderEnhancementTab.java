@@ -1,10 +1,10 @@
 package wavebrother.enderEnhancement;
 
-import net.minecraft.item.ItemGroup;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import wavebrother.enderEnhancement.common.init.ModItems;
 
-public class EnderEnhancementTab extends ItemGroup{
+public class EnderEnhancementTab extends CreativeTabs{
 
 	public EnderEnhancementTab() {
 		super(Reference.MOD_ID);
@@ -12,7 +12,7 @@ public class EnderEnhancementTab extends ItemGroup{
 	}
 
 	@Override
-	public ItemStack createIcon() {
+	public ItemStack getTabIconItem() {
 		return new ItemStack(ModItems.empoweredEnderPearl);
 	}
 

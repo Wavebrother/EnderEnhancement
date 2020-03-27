@@ -1,21 +1,22 @@
 package wavebrother.enderEnhancement.common.init;
 
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.item.EnderArmor;
+import wavebrother.enderEnhancement.common.item.EnderFruit;
 import wavebrother.enderEnhancement.common.item.EnderPearl;
+import wavebrother.enderEnhancement.common.item.EnderPorter;
 import wavebrother.enderEnhancement.common.item.EnderStick;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
+import wavebrother.enderEnhancement.common.item.EntityPorter;
+import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.item.ItemAccumulator;
-import wavebrother.enderEnhancement.common.item.ItemEntityPorter;
-import wavebrother.enderEnhancement.common.item.ItemEnderFruit;
-import wavebrother.enderEnhancement.common.item.ItemEnderPorter;
 import wavebrother.enderEnhancement.common.item.tool.EnderAxe;
 import wavebrother.enderEnhancement.common.item.tool.EnderHoe;
 import wavebrother.enderEnhancement.common.item.tool.EnderMultiTool;
@@ -24,100 +25,100 @@ import wavebrother.enderEnhancement.common.item.tool.EnderShovel;
 import wavebrother.enderEnhancement.common.item.tool.EnderSword;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
+@EventBusSubscriber
 
 public class ModItems {
 
 	// Pearls
-	public static Item dullEnderPearl;
+	public static EnderPearl dullEnderPearl;
 	@ObjectHolder("minecraft:ender_pearl")
 	public static Item enderPearl;
-	public static Item empoweredEnderPearl;
-	public static Item extremeEnderPearl;
+	public static EnderPearl empoweredEnderPearl;
+	public static EnderPearl extremeEnderPearl;
 
 	// Sticks
-	public static Item dullEnderStick;
-	public static Item enderStick;
-	public static Item empoweredEnderStick;
-	public static Item extremeEnderStick;
+	public static EnderStick dullEnderStick;
+	public static EnderStick enderStick;
+	public static EnderStick empoweredEnderStick;
+	public static EnderStick extremeEnderStick;
 
 	// Axes
-	public static Item dullEnderAxe;
-	public static Item enderAxe;
-	public static Item empoweredEnderAxe;
-	public static Item extremeEnderAxe;
+	public static EnderAxe dullEnderAxe;
+	public static EnderAxe enderAxe;
+	public static EnderAxe empoweredEnderAxe;
+	public static EnderAxe extremeEnderAxe;
 
 	// Hoes
-	public static Item dullEnderHoe;
-	public static Item enderHoe;
-	public static Item empoweredEnderHoe;
-	public static Item extremeEnderHoe;
+	public static EnderHoe dullEnderHoe;
+	public static EnderHoe enderHoe;
+	public static EnderHoe empoweredEnderHoe;
+	public static EnderHoe extremeEnderHoe;
 
 	// Pickaxes
-	public static Item dullEnderPickaxe;
-	public static Item enderPickaxe;
-	public static Item empoweredEnderPickaxe;
-	public static Item extremeEnderPickaxe;
+	public static EnderPickaxe dullEnderPickaxe;
+	public static EnderPickaxe enderPickaxe;
+	public static EnderPickaxe empoweredEnderPickaxe;
+	public static EnderPickaxe extremeEnderPickaxe;
 
 	// Shovels
-	public static Item dullEnderShovel;
-	public static Item enderShovel;
-	public static Item empoweredEnderShovel;
-	public static Item extremeEnderShovel;
+	public static EnderShovel dullEnderShovel;
+	public static EnderShovel enderShovel;
+	public static EnderShovel empoweredEnderShovel;
+	public static EnderShovel extremeEnderShovel;
 
 	// Swords
-	public static Item dullEnderSword;
-	public static Item enderSword;
-	public static Item empoweredEnderSword;
-	public static Item extremeEnderSword;
+	public static EnderSword dullEnderSword;
+	public static EnderSword enderSword;
+	public static EnderSword empoweredEnderSword;
+	public static EnderSword extremeEnderSword;
 
 	// Helmets
-	public static Item dullEnderHelmet;
-	public static Item enderHelmet;
-	public static Item empoweredEnderHelmet;
-	public static Item extremeEnderHelmet;
+	public static EnderArmor dullEnderHelmet;
+	public static EnderArmor enderHelmet;
+	public static EnderArmor empoweredEnderHelmet;
+	public static EnderArmor extremeEnderHelmet;
 
 	// Chestplates
-	public static Item dullEnderChestplate;
-	public static Item enderChestplate;
-	public static Item empoweredEnderChestplate;
-	public static Item extremeEnderChestplate;
+	public static EnderArmor dullEnderChestplate;
+	public static EnderArmor enderChestplate;
+	public static EnderArmor empoweredEnderChestplate;
+	public static EnderArmor extremeEnderChestplate;
 
 	// Leggings
-	public static Item dullEnderLeggings;
-	public static Item enderLeggings;
-	public static Item empoweredEnderLeggings;
-	public static Item extremeEnderLeggings;
+	public static EnderArmor dullEnderLeggings;
+	public static EnderArmor enderLeggings;
+	public static EnderArmor empoweredEnderLeggings;
+	public static EnderArmor extremeEnderLeggings;
 
 	// Boots
-	public static Item dullEnderBoots;
-	public static Item enderBoots;
-	public static Item empoweredEnderBoots;
-	public static Item extremeEnderBoots;
+	public static EnderArmor dullEnderBoots;
+	public static EnderArmor enderBoots;
+	public static EnderArmor empoweredEnderBoots;
+	public static EnderArmor extremeEnderBoots;
 
 	// Multi Tools
-	public static Item dullEnderTool;
-	public static Item enderTool;
-	public static Item empoweredEnderTool;
-	public static Item extremeEnderTool;
+	public static EnderMultiTool dullEnderTool;
+	public static EnderMultiTool enderTool;
+	public static EnderMultiTool empoweredEnderTool;
+	public static EnderMultiTool extremeEnderTool;
 
 	// Porters
-	public static Item dullEnderPorter;
-	public static Item enderPorter;
-	public static Item empoweredEnderPorter;
-	public static Item extremeEnderPorter;
+	public static EnderPorter dullEnderPorter;
+	public static EnderPorter enderPorter;
+	public static EnderPorter empoweredEnderPorter;
+	public static EnderPorter extremeEnderPorter;
 
 	// Agitators
-	public static Item dullEnderAgitator;
-	public static Item enderAgitator;
-	public static Item empoweredEnderAgitator;
-	public static Item extremeEnderAgitator;
+	public static EndermanAgitator dullEnderAgitator;
+	public static EndermanAgitator enderAgitator;
+	public static EndermanAgitator empoweredEnderAgitator;
+	public static EndermanAgitator extremeEnderAgitator;
 
 	// Accumulators
-	public static Item dullAccumulator;
-	public static Item enderAccumulator;
-	public static Item empoweredAccumulator;
-	public static Item extremeAccumulator;
+	public static ItemAccumulator dullAccumulator;
+	public static ItemAccumulator enderAccumulator;
+	public static ItemAccumulator empoweredAccumulator;
+	public static ItemAccumulator extremeAccumulator;
 
 //	// Endergy Collectors
 //	public static Item dullEndergyCollector;
@@ -126,8 +127,8 @@ public class ModItems {
 //	public static Item extremeEndergyCollector;
 
 	// Food
-	public static Item enderFruit;
-	public static Item dullBlockPorter;
+	public static EnderFruit enderFruit;
+	public static EntityPorter dullEntityPorter;
 
 	public static void init() {
 
@@ -179,43 +180,43 @@ public class ModItems {
 		extremeEnderSword = new EnderSword(EnderTier.EXTREME, Reference.Items.EXTREMEENDERSWORD.getRegistryName());
 
 		// Helmets
-		dullEnderHelmet = new EnderArmor(EnderTier.DULL, EquipmentSlotType.HEAD,
+		dullEnderHelmet = new EnderArmor(EnderTier.DULL, EntityEquipmentSlot.HEAD,
 				Reference.Items.DULLENDERHELMET.getRegistryName());
-		enderHelmet = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.HEAD,
+		enderHelmet = new EnderArmor(EnderTier.ENDER, EntityEquipmentSlot.HEAD,
 				Reference.Items.ENDERHELMET.getRegistryName());
-		empoweredEnderHelmet = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.HEAD,
+		empoweredEnderHelmet = new EnderArmor(EnderTier.EMPOWERED, EntityEquipmentSlot.HEAD,
 				Reference.Items.EMPOWEREDENDERHELMET.getRegistryName());
-		extremeEnderHelmet = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.HEAD,
+		extremeEnderHelmet = new EnderArmor(EnderTier.EXTREME, EntityEquipmentSlot.HEAD,
 				Reference.Items.EXTREMEENDERHELMET.getRegistryName());
 
 		// Chestplates
-		dullEnderChestplate = new EnderArmor(EnderTier.DULL, EquipmentSlotType.CHEST,
+		dullEnderChestplate = new EnderArmor(EnderTier.DULL, EntityEquipmentSlot.CHEST,
 				Reference.Items.DULLENDERCHESTPLATE.getRegistryName());
-		enderChestplate = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.CHEST,
+		enderChestplate = new EnderArmor(EnderTier.ENDER, EntityEquipmentSlot.CHEST,
 				Reference.Items.ENDERCHESTPLATE.getRegistryName());
-		empoweredEnderChestplate = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.CHEST,
+		empoweredEnderChestplate = new EnderArmor(EnderTier.EMPOWERED, EntityEquipmentSlot.CHEST,
 				Reference.Items.EMPOWEREDENDERCHESTPLATE.getRegistryName());
-		extremeEnderChestplate = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.CHEST,
+		extremeEnderChestplate = new EnderArmor(EnderTier.EXTREME, EntityEquipmentSlot.CHEST,
 				Reference.Items.EXTREMEENDERCHESTPLATE.getRegistryName());
 
 		// Leggings
-		dullEnderLeggings = new EnderArmor(EnderTier.DULL, EquipmentSlotType.LEGS,
+		dullEnderLeggings = new EnderArmor(EnderTier.DULL, EntityEquipmentSlot.LEGS,
 				Reference.Items.DULLENDERLEGGINGS.getRegistryName());
-		enderLeggings = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.LEGS,
+		enderLeggings = new EnderArmor(EnderTier.ENDER, EntityEquipmentSlot.LEGS,
 				Reference.Items.ENDERLEGGINGS.getRegistryName());
-		empoweredEnderLeggings = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.LEGS,
+		empoweredEnderLeggings = new EnderArmor(EnderTier.EMPOWERED, EntityEquipmentSlot.LEGS,
 				Reference.Items.EMPOWEREDENDERLEGGINGS.getRegistryName());
-		extremeEnderLeggings = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.LEGS,
+		extremeEnderLeggings = new EnderArmor(EnderTier.EXTREME, EntityEquipmentSlot.LEGS,
 				Reference.Items.EXTREMEENDERLEGGINGS.getRegistryName());
 
 		// Boots
-		dullEnderBoots = new EnderArmor(EnderTier.DULL, EquipmentSlotType.FEET,
+		dullEnderBoots = new EnderArmor(EnderTier.DULL, EntityEquipmentSlot.FEET,
 				Reference.Items.DULLENDERBOOTS.getRegistryName());
-		enderBoots = new EnderArmor(EnderTier.ENDER, EquipmentSlotType.FEET,
+		enderBoots = new EnderArmor(EnderTier.ENDER, EntityEquipmentSlot.FEET,
 				Reference.Items.ENDERBOOTS.getRegistryName());
-		empoweredEnderBoots = new EnderArmor(EnderTier.EMPOWERED, EquipmentSlotType.FEET,
+		empoweredEnderBoots = new EnderArmor(EnderTier.EMPOWERED, EntityEquipmentSlot.FEET,
 				Reference.Items.EMPOWEREDENDERBOOTS.getRegistryName());
-		extremeEnderBoots = new EnderArmor(EnderTier.EXTREME, EquipmentSlotType.FEET,
+		extremeEnderBoots = new EnderArmor(EnderTier.EXTREME, EntityEquipmentSlot.FEET,
 				Reference.Items.EXTREMEENDERBOOTS.getRegistryName());
 
 		// Multi Tools
@@ -226,12 +227,11 @@ public class ModItems {
 		extremeEnderTool = new EnderMultiTool(EnderTier.EXTREME, Reference.Items.EXTREMEENDERTOOL.getRegistryName());
 
 		// Porters
-		dullEnderPorter = new ItemEnderPorter(EnderTier.DULL, Reference.Items.DULLENDERPORTER.getRegistryName());
-		enderPorter = new ItemEnderPorter(EnderTier.ENDER, Reference.Items.ENDERPORTER.getRegistryName());
-		empoweredEnderPorter = new ItemEnderPorter(EnderTier.EMPOWERED,
+		dullEnderPorter = new EnderPorter(EnderTier.DULL, Reference.Items.DULLENDERPORTER.getRegistryName());
+		enderPorter = new EnderPorter(EnderTier.ENDER, Reference.Items.ENDERPORTER.getRegistryName());
+		empoweredEnderPorter = new EnderPorter(EnderTier.EMPOWERED,
 				Reference.Items.EMPOWEREDENDERPORTER.getRegistryName());
-		extremeEnderPorter = new ItemEnderPorter(EnderTier.EXTREME,
-				Reference.Items.EXTREMEENDERPORTER.getRegistryName());
+		extremeEnderPorter = new EnderPorter(EnderTier.EXTREME, Reference.Items.EXTREMEENDERPORTER.getRegistryName());
 
 		// Accumulators
 		dullAccumulator = new ItemAccumulator(EnderTier.DULL, Reference.Items.DULLITEMACCUMULATOR.getRegistryName());
@@ -257,9 +257,96 @@ public class ModItems {
 //		extremeEndergyCollector = new EndergyCollector(EnderTier.EXTREME, Reference.Items.EXTREMEENDERGYCOLLECTOR.getRegistryName());
 
 		// Food
-		enderFruit = new ItemEnderFruit();
-		dullBlockPorter = new ItemEntityPorter(EnderTier.DULL, "item_entity_porter");
+		enderFruit = new EnderFruit();
+		dullEntityPorter = new EntityPorter(EnderTier.DULL, "item_entity_porter");
 
+	}
+
+	@SubscribeEvent
+	public static void onModelRegistry(final ModelRegistryEvent event) {
+		IEnderItem.registerModel(dullEnderPearl);
+		IEnderItem.registerModel(empoweredEnderPearl);
+		IEnderItem.registerModel(extremeEnderPearl);
+
+		IEnderItem.registerModel(dullEnderStick);
+		IEnderItem.registerModel(enderStick);
+		IEnderItem.registerModel(empoweredEnderStick);
+		IEnderItem.registerModel(extremeEnderStick);
+
+		IEnderItem.registerModel(dullEnderAxe);
+		IEnderItem.registerModel(enderAxe);
+		IEnderItem.registerModel(empoweredEnderAxe);
+		IEnderItem.registerModel(extremeEnderAxe);
+
+		IEnderItem.registerModel(dullEnderHoe);
+		IEnderItem.registerModel(enderHoe);
+		IEnderItem.registerModel(empoweredEnderHoe);
+		IEnderItem.registerModel(extremeEnderHoe);
+
+		IEnderItem.registerModel(dullEnderPickaxe);
+		IEnderItem.registerModel(enderPickaxe);
+		IEnderItem.registerModel(empoweredEnderPickaxe);
+		IEnderItem.registerModel(extremeEnderPickaxe);
+
+		IEnderItem.registerModel(dullEnderShovel);
+		IEnderItem.registerModel(enderShovel);
+		IEnderItem.registerModel(empoweredEnderShovel);
+		IEnderItem.registerModel(extremeEnderShovel);
+
+		IEnderItem.registerModel(dullEnderSword);
+		IEnderItem.registerModel(enderSword);
+		IEnderItem.registerModel(empoweredEnderSword);
+		IEnderItem.registerModel(extremeEnderSword);
+
+		IEnderItem.registerModel(dullEnderHelmet);
+		IEnderItem.registerModel(enderHelmet);
+		IEnderItem.registerModel(empoweredEnderHelmet);
+		IEnderItem.registerModel(extremeEnderHelmet);
+
+		IEnderItem.registerModel(dullEnderChestplate);
+		IEnderItem.registerModel(enderChestplate);
+		IEnderItem.registerModel(empoweredEnderChestplate);
+		IEnderItem.registerModel(extremeEnderChestplate);
+
+		IEnderItem.registerModel(dullEnderLeggings);
+		IEnderItem.registerModel(enderLeggings);
+		IEnderItem.registerModel(empoweredEnderLeggings);
+		IEnderItem.registerModel(extremeEnderLeggings);
+
+		IEnderItem.registerModel(dullEnderBoots);
+		IEnderItem.registerModel(enderBoots);
+		IEnderItem.registerModel(empoweredEnderBoots);
+		IEnderItem.registerModel(extremeEnderBoots);
+
+		IEnderItem.registerModel(dullEnderTool);
+		IEnderItem.registerModel(enderTool);
+		IEnderItem.registerModel(empoweredEnderTool);
+		IEnderItem.registerModel(extremeEnderTool);
+
+		IEnderItem.registerModel(dullEnderPorter);
+		IEnderItem.registerModel(enderPorter);
+		IEnderItem.registerModel(empoweredEnderPorter);
+		IEnderItem.registerModel(extremeEnderPorter);
+
+		IEnderItem.registerModel(dullAccumulator);
+		IEnderItem.registerModel(enderAccumulator);
+		IEnderItem.registerModel(empoweredAccumulator);
+		IEnderItem.registerModel(extremeAccumulator);
+
+		IEnderItem.registerModel(dullEnderAgitator);
+		IEnderItem.registerModel(enderAgitator);
+		IEnderItem.registerModel(empoweredEnderAgitator);
+		IEnderItem.registerModel(extremeEnderAgitator);
+
+		IEnderItem.registerModel(enderFruit);
+		IEnderItem.registerModel(dullEntityPorter);
+
+		IEnderItem.registerModel(ModBlocks.dullEnderBlock.blockItem);
+		IEnderItem.registerModel(ModBlocks.enderBlock.blockItem);
+		IEnderItem.registerModel(ModBlocks.empoweredEnderBlock.blockItem);
+		IEnderItem.registerModel(ModBlocks.extremeEnderBlock.blockItem);
+
+		IEnderItem.registerModel(ModBlocks.enderPedestal.blockItem);
 	}
 
 	@SubscribeEvent
@@ -295,7 +382,7 @@ public class ModItems {
 				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter,
 
 				// Food
-				enderFruit, dullBlockPorter,
+				enderFruit, dullEntityPorter,
 
 				// Blocks
 				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,

@@ -1,19 +1,19 @@
 package wavebrother.enderEnhancement.common.item.tool;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ShovelItem;
+import net.minecraft.item.ItemSpade;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-public class EnderShovel extends ShovelItem implements IEnderItem {
+public class EnderShovel extends ItemSpade implements IEnderItem {
 
 	private static final EnderToolsUtil tool = EnderToolsUtil.SHOVEL;
 
 	public EnderShovel(EnderTier material, String name) {
-		super(material.toolTier, tool.getDamage(material), tool.getSpeed(material),
-				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
+		super(material.toolTier.material());
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}
@@ -24,6 +24,5 @@ public class EnderShovel extends ShovelItem implements IEnderItem {
 	public EnderTier getEnderTier() {
 		return tier;
 	}
-
 
 }

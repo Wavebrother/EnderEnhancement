@@ -3,25 +3,18 @@ package wavebrother.enderEnhancement.common.item.tool;
 import java.util.HashSet;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
-import net.minecraft.world.World;
+import net.minecraft.item.ItemTool;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import wavebrother.enderEnhancement.EnderEnhancement;
-import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
-public class EnderMultiTool extends ToolItem implements IEnderItem {
+@EventBusSubscriber
+public class EnderMultiTool extends ItemTool implements IEnderItem {
 
 	private static final EnderToolsUtil tool = EnderToolsUtil.TOOL;
 
@@ -30,12 +23,10 @@ public class EnderMultiTool extends ToolItem implements IEnderItem {
 	}
 
 	public EnderMultiTool(EnderTier material, String name) {
-		super(tool.getDamage(material), tool.getSpeed(material), material.toolTier, new HashSet<Block>(),
-				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB)
-						.addToolType(ToolType.AXE, material.toolTier.getHarvestLevel())
-						.addToolType(ToolType.PICKAXE, material.toolTier.getHarvestLevel())
-						.addToolType(ToolType.SHOVEL, material.toolTier.getHarvestLevel()));
+		super(tool.getDamage(material), tool.getSpeed(material), material.toolTier.material(), new HashSet<Block>());
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}
@@ -47,31 +38,31 @@ public class EnderMultiTool extends ToolItem implements IEnderItem {
 		return tier;
 	}
 
-	@SubscribeEvent
-	public static void onHarvestBlock(HarvestDropsEvent event) {
-		if (!event.getWorld().isRemote() && event.isCancelable()) {
-			for (ItemStack drop : event.getDrops())
-				if (!event.getHarvester().addItemStackToInventory(drop)) {
-					Block.spawnAsEntity((World) event.getWorld(), event.getPos(), drop);
-				}
-			event.setCanceled(true);
-		}
-	}
+//	@SubscribeEvent
+//	public static void onHarvestBlock(HarvestDropsEvent event) {
+//		if (!event.getWorld().isRemote() && event.isCancelable()) {
+//			for (ItemStack drop : event.getDrops())
+//				if (!event.getHarvester().addItemStackToInventory(drop)) {
+//					Block.spawnAsEntity((World) event.getWorld(), event.getPos(), drop);
+//				}
+//			event.setCanceled(true);
+//		}
+//	}
 
 	@Override
-	public float getDestroySpeed(ItemStack stack, BlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		return efficiency;
 	}
 
-	public boolean canHarvestBlock(BlockState blockIn) {
+	public boolean canHarvestBlock(IBlockState blockIn) {
 		@SuppressWarnings("unused")
 		Block block = blockIn.getBlock();
-		int i = this.getTier().getHarvestLevel();
-		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE) {
-			return i >= blockIn.getHarvestLevel();
+		int i = this.getEnderTier().toolTier.getHarvestLevel();
+		if (block.getHarvestTool(blockIn).equals("pickaxe")) {
+			return i >= block.getHarvestLevel(blockIn);
 		}
 		Material material = blockIn.getMaterial();
 		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL
-				|| material == Material.DRAGON_EGG || material == Material.SHULKER;
+				|| material == Material.DRAGON_EGG;
 	}
 }

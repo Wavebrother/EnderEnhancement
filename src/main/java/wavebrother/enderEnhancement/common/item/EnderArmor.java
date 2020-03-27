@@ -5,29 +5,28 @@ import java.util.Arrays;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IndirectEntityDamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import wavebrother.enderEnhancement.Config;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wavebrother.enderEnhancement.Configuration;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.util.EnderTier;
-import wavebrother.enderEnhancement.common.util.EnderTier.EnderArmorMaterial;
 import wavebrother.enderEnhancement.common.util.TeleportUtil;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
-public class EnderArmor extends ArmorItem implements IEnderItem {
+public class EnderArmor extends ItemArmor implements IEnderItem {
 
-	public static final Item COOLDOWNITEM = new Item(new Item.Properties());
+	public static final Item COOLDOWNITEM = new Item();
 
 	private static final int cooldownBase = 1200;
 	protected final Random rand = new Random();
@@ -39,9 +38,11 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 		MinecraftForge.EVENT_BUS.register(EnderArmor.class);
 	}
 
-	public EnderArmor(EnderTier material, EquipmentSlotType slot, String name) {
-		super(material.armorMaterial, slot, new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
+	public EnderArmor(EnderTier material, EntityEquipmentSlot slot, String name) {
+		super(material.armorMaterial.material(), material.toolTier.getHarvestLevel(), slot);
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}
@@ -55,11 +56,11 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 
 	@SubscribeEvent
 	public static void entityAttacked(LivingAttackEvent event) {
-		if (event.getEntityLiving() instanceof PlayerEntity && event.getEntityLiving().isServerWorld()
-				&& ((event.getSource() instanceof IndirectEntityDamageSource
+		if (event.getEntityLiving() instanceof EntityPlayer && event.getEntityLiving().isServerWorld()
+				&& ((event.getSource() instanceof EntityDamageSourceIndirect
 						&& !Arrays.asList(doNotTeleportSource).contains(event.getSource()))
 						|| event.getSource().isExplosion())) {
-			PlayerEntity attacked = (PlayerEntity) event.getEntityLiving();
+			EntityPlayer attacked = (EntityPlayer) event.getEntityLiving();
 			ArrayList<ItemStack> enderArmor = new ArrayList<ItemStack>();
 			if (checkArmor(null, enderArmor, attacked)) {
 				for (int i = 0; i < 64; ++i) {
@@ -74,20 +75,19 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn instanceof PlayerEntity && this.material instanceof EnderArmorMaterial
-				&& entityIn.isInWaterRainOrBubbleColumn()
-				&& checkArmor(stack, new ArrayList<ItemStack>(), (PlayerEntity) entityIn)) {
-			this.attackEntityFrom((PlayerEntity) entityIn, DamageSource.DROWN, 0.0F);
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (entityIn instanceof EntityPlayer && entityIn.isWet()
+				&& checkArmor(stack, new ArrayList<ItemStack>(), (EntityPlayer) entityIn)) {
+			this.attackEntityFrom((EntityPlayer) entityIn, DamageSource.DROWN, 0.0F);
 		}
 	}
 
 	private int maxCooldown() {
-		return cooldownBase / ((EnderArmorMaterial) material).getTier().multiplier();
+		return cooldownBase / getEnderTier().multiplier();
 	}
 
-	private static boolean checkArmor(ItemStack item, ArrayList<ItemStack> enderArmor, PlayerEntity entity) {
-		EnderArmorMaterial material = EnderTier.DULL.armorMaterial;
+	private static boolean checkArmor(ItemStack item, ArrayList<ItemStack> enderArmor, EntityPlayer entity) {
+		EnderTier material = EnderTier.DULL;
 		for (ItemStack armor : entity.getArmorInventoryList()) {
 			if (armor.getItem() instanceof EnderArmor)
 				enderArmor.add(armor);
@@ -96,21 +96,41 @@ public class EnderArmor extends ArmorItem implements IEnderItem {
 			return false;
 		else if (entity.getCooldownTracker().hasCooldown((EnderArmor) enderArmor.get(0).getItem()))
 			return false;
-		if (((EnderArmor) enderArmor.get(0).getItem()).material instanceof EnderArmorMaterial)
-			material = (EnderArmorMaterial) ((EnderArmor) enderArmor.get(0).getItem()).material;
+		if (enderArmor.get(0).getItem() instanceof EnderArmor)
+			material = ((EnderArmor) enderArmor.get(0).getItem()).getEnderTier();
+		int water = 0;
+		int attack = 4;
+		switch (material) {
+		case DULL:
+			water = Configuration.EnderArmor.Dull_Tier_Water;
+			attack = Configuration.EnderArmor.Dull_Tier_Attack;
+			break;
+		case EMPOWERED:
+			water = Configuration.EnderArmor.Empowered_Tier_Water;
+			attack = Configuration.EnderArmor.Empowered_Tier_Attack;
+			break;
+		case ENDER:
+			water = Configuration.EnderArmor.Ender_Tier_Water;
+			attack = Configuration.EnderArmor.Ender_Tier_Attack;
+			break;
+		case EXTREME:
+			water = Configuration.EnderArmor.Extreme_Tier_Water;
+			attack = Configuration.EnderArmor.Extreme_Tier_Attack;
+			break;
+		}
 		if (item != null) {
 			if (enderArmor.get(0) != item)
 				return false;
-			return enderArmor.size() >= Config.ENDER_ARMOR_WATER_MINIMUM.get(material.getTier()).get();
+			return enderArmor.size() >= water;
 		} else {
-			return enderArmor.size() >= Config.ENDER_ARMOR_ATTACK_MINIMUM.get(material.getTier()).get();
+			return enderArmor.size() >= attack;
 		}
 	}
 
-	public boolean attackEntityFrom(PlayerEntity entityIn, DamageSource source, float amount) {
-		if (entityIn.isInvulnerableTo(source)) {
+	public boolean attackEntityFrom(EntityPlayer entityIn, DamageSource source, float amount) {
+		if (entityIn.isEntityInvulnerable(source)) {
 			return false;
-		} else if (!(source instanceof IndirectEntityDamageSource) && source != DamageSource.FIREWORKS) {
+		} else if (!(source instanceof EntityDamageSourceIndirect) && source != DamageSource.FIREWORKS) {
 			boolean flag = entityIn.attackEntityFrom(source, amount);
 			if (source.isUnblockable() && this.rand.nextInt(10) != 0) {
 				TeleportUtil.teleportRandomly(entityIn, maxCooldown());

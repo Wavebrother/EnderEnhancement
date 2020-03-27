@@ -1,8 +1,8 @@
 {
 	"variants": {
-		"": [
+		"normal": [
 			{
-				"model": "enderenhancement:block/ender_block"
+				"model": "enderenhancement:ender_block"
 			}
 		]
 	}

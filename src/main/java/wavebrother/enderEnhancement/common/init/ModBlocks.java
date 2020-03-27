@@ -2,15 +2,15 @@ package wavebrother.enderEnhancement.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.blocks.EnderBlock;
 import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = Reference.MOD_ID)
+@EventBusSubscriber
 public class ModBlocks {
 	
 	public static EnderBlock dullEnderBlock;

@@ -1,8 +1,20 @@
 {
 	"variants": {
-		"": [
+		"has_accumulator=false,has_agitator=false": [
 			{
-				"model": "enderenhancement:block/ender_pedestal"
+				"model": "enderenhancement:ender_pedestal"
+			}
+		],"has_accumulator=false,has_agitator=true": [
+			{
+				"model": "enderenhancement:ender_pedestal"
+			}
+		],"has_accumulator=true,has_agitator=false": [
+			{
+				"model": "enderenhancement:ender_pedestal"
+			}
+		],"has_accumulator=true,has_agitator=true": [
+			{
+				"model": "enderenhancement:ender_pedestal"
 			}
 		]
 	}

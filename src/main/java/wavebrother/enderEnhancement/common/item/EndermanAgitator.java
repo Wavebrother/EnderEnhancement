@@ -2,30 +2,32 @@ package wavebrother.enderEnhancement.common.item;
 
 import java.util.List;
 
-import net.minecraft.block.BlockState;
+import org.apache.logging.log4j.LogManager;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.Hand;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import wavebrother.enderEnhancement.Config;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wavebrother.enderEnhancement.Configuration;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
@@ -38,9 +40,13 @@ public class EndermanAgitator extends Item implements IEnderItem {
 	public static final String agitatorTag = "endermanAgitator";
 	public final EnderTier tier;
 
+	public static final Item DUMMY = new Item();
+
 	public EndermanAgitator(EnderTier tier, String name) {
-		super(new Item.Properties().maxStackSize(1).group(EnderEnhancement.CREATIVE_TAB));
+		setMaxStackSize(1);
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = tier;
 	}
 
@@ -50,47 +56,49 @@ public class EndermanAgitator extends Item implements IEnderItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack item = playerIn.getHeldItem(handIn);
-		CompoundNBT NBT = item.getOrCreateTag();
-		if (playerIn.isSneaking()) {
-			NBT.putBoolean(agitatorTag, !NBT.getBoolean(agitatorTag));
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
+		NBTTagCompound NBT;
+		if (!itemstack.hasTagCompound())
+			itemstack.setTagCompound(new NBTTagCompound());
+		NBT = itemstack.getTagCompound();
+		if (player.isSneaking()) {
+			NBT.setBoolean(agitatorTag, !NBT.getBoolean(agitatorTag));
 			if (NBT.getBoolean(agitatorTag)) {
-				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_SCREAM,
-						SoundCategory.PLAYERS, 0.15F, 1.2F);
+				world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_SCREAM, SoundCategory.PLAYERS,
+						0.15F, 1.2F);
 			} else {
-				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ENDERMAN_AMBIENT,
+				world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_AMBIENT,
 						SoundCategory.PLAYERS, 0.25F, 1F);
 			}
-			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, item);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 		} else
-			return new ActionResult<ItemStack>(ActionResultType.PASS, item);
+			return super.onItemRightClick(world, player, hand);
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World world = context.getWorld();
-		BlockPos blockpos = context.getPos();
-		BlockState blockstate = world.getBlockState(blockpos);
-		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.get(EnderPedestal.HAS_AGITATOR)
-				&& !blockstate.get(EnderPedestal.HAS_ACCUMULATOR)) {
-			ItemStack itemstack = context.getItem();
-			EnderPedestal.insertItem(world, context.getPlayer(), blockpos, blockstate, itemstack);
-			world.playEvent((PlayerEntity) null, 1010, blockpos, Item.getIdFromItem(this));
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World world, BlockPos blockpos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		IBlockState blockstate = world.getBlockState(blockpos);
+		ItemStack itemstack = playerIn.getHeldItem(hand);
+		if (blockstate.getBlock() == ModBlocks.enderPedestal && !blockstate.getValue(EnderPedestal.HAS_AGITATOR)
+				&& !blockstate.getValue(EnderPedestal.HAS_ACCUMULATOR)) {
+			EnderPedestal.insertItem(world, playerIn, blockpos, blockstate, itemstack);
+			world.playEvent((EntityPlayer) null, 1010, blockpos, Item.getIdFromItem(this));
 			if (!world.isRemote) {
 				itemstack.shrink(1);
 			}
 
-			return ActionResultType.SUCCESS;
+			return EnumActionResult.SUCCESS;
 		} else {
-			return ActionResultType.PASS;
+			return EnumActionResult.PASS;
 		}
 	}
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
-		if (stack.hasTag())
-			return stack.getTag().getBoolean(agitatorTag);
+		if (stack.hasTagCompound())
+			return stack.getTagCompound().getBoolean(agitatorTag);
 		return false;
 	}
 
@@ -101,37 +109,37 @@ public class EndermanAgitator extends Item implements IEnderItem {
 //	}
 
 	public static int getRange(EnderTier tier) {
-		return Config.AGITATOR_RANGE.get() * Config.ENDER_TIER_MULTIPLIER.get(tier).get();
+		return Configuration.Agitator_Range * tier.multiplier();
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) entityIn;
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (entityIn instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entityIn;
 			if (!player.isCreative()) {
-				if (stack.hasTag() && stack.getTag().getBoolean(agitatorTag)) {
-					if (worldIn.getGameTime() % 20 == 0) {
-						List<EndermanEntity> endermen = worldIn.getEntitiesWithinAABB(EndermanEntity.class,
+				if (stack.hasTagCompound() && stack.getTagCompound().getBoolean(agitatorTag)) {
+					if (worldIn.getWorldTime() % 20 == 0) {
+						List<EntityEnderman> endermen = worldIn.getEntitiesWithinAABB(EntityEnderman.class,
 								new AxisAlignedBB(entityIn.posX - getRange(getEnderTier()),
 										entityIn.posY - getRange(getEnderTier()),
 										entityIn.posZ - getRange(getEnderTier()),
 										entityIn.posX + getRange(getEnderTier()),
 										entityIn.posY + getRange(getEnderTier()),
 										entityIn.posZ + getRange(getEnderTier())),
-								EntityPredicates.NOT_SPECTATING);
+								EntitySelectors.NOT_SPECTATING);
 //				player.removeTag(agitatorTag);
-						for (EndermanEntity enderman : endermen) {
+						for (EntityEnderman enderman : endermen) {
 //					if (!enderman.getTags().contains(agitateTag)) {
 //						enderman.addTag(agitateTag);
-							if (!(enderman.getAttackTarget() instanceof PlayerEntity
+							if (!(enderman.getAttackTarget() instanceof EntityPlayer
 									&& enderman.getDistance(enderman.getAttackTarget()) < enderman.getDistance(player)))
 								enderman.setAttackTarget(player);
 //					}
 						}
 					}
 				} else {
-					player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
-					player.getPersistentData().putString(agitatorTag, getEnderTier().name());
+					player.getCooldownTracker().setCooldown(DUMMY, 2);
+					player.getEntityData().setString(agitatorTag, getEnderTier().name());
 				}
 			}
 		}
@@ -140,53 +148,44 @@ public class EndermanAgitator extends Item implements IEnderItem {
 	@SubscribeEvent
 	public static void onEnderHit(LivingAttackEvent event) {
 		if (event.getSource() instanceof EntityDamageSource
-				&& ((EntityDamageSource) event.getSource()).getTrueSource() instanceof EndermanEntity
-				&& event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			if (player.getCooldownTracker().hasCooldown(DummyAgitator.INSTANCE)) {
+				&& ((EntityDamageSource) event.getSource()).getTrueSource() instanceof EntityEnderman
+				&& event.getEntityLiving() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+			if (player.getCooldownTracker().hasCooldown(DUMMY)) {
 				pacify(player);
 				event.setCanceled(true);
 			}
 		}
 	}
-	
-	private static void pacify(PlayerEntity player) {
-		EnderTier tier = EnderTier.valueOf(player.getPersistentData().getString(agitatorTag));
-		Vec3d playerPos = player.getPositionVec();
-		List<EndermanEntity> endermen = player.world.getEntitiesWithinAABB(EndermanEntity.class,
+
+	private static void pacify(EntityPlayer player) {
+		EnderTier tier = EnderTier.valueOf(player.getEntityData().getString(agitatorTag));
+		LogManager.getLogger().info(tier);
+		Vec3d playerPos = player.getPositionVector();
+		List<EntityEnderman> endermen = player.world.getEntitiesWithinAABB(EntityEnderman.class,
 				new AxisAlignedBB(playerPos.x - getRange(tier), playerPos.y - getRange(tier),
-						playerPos.z - getRange(tier), playerPos.x + getRange(tier),
-						playerPos.y + getRange(tier), playerPos.z + getRange(tier)),
-				EntityPredicates.NOT_SPECTATING);
-		for (EndermanEntity enderman : endermen) {
-			if (enderman.getAttackTarget() instanceof PlayerEntity) {
-				if (enderman.getAttackingEntity() instanceof PlayerEntity) {
-					enderman.getCombatTracker().reset();
-					enderman.setRevengeTarget(null);
-					enderman.setAttackTarget(null);
-				}
+						playerPos.z - getRange(tier), playerPos.x + getRange(tier), playerPos.y + getRange(tier),
+						playerPos.z + getRange(tier)),
+				EntitySelectors.NOT_SPECTATING);
+		LogManager.getLogger().info(endermen.size());
+		for (EntityEnderman enderman : endermen) {
+			if (enderman.getAttackTarget() instanceof EntityPlayer) {
+				enderman.getCombatTracker().reset();
+				enderman.setRevengeTarget(null);
+				enderman.setAttackTarget(null);
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public static void onEnderSetAttack(LivingSetAttackTargetEvent event) {
-		if (event.getEntityLiving() instanceof EndermanEntity && event.getTarget() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getTarget();
-			if (player.getCooldownTracker().hasCooldown(DummyAgitator.INSTANCE)) {
-				((EndermanEntity) event.getEntityLiving()).getCombatTracker().reset();
-				((EndermanEntity) event.getEntityLiving()).setRevengeTarget(null);
-				((EndermanEntity) event.getEntityLiving()).setAttackTarget(null);
+		if (event.getEntityLiving() instanceof EntityEnderman && event.getTarget() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getTarget();
+			if (player.getCooldownTracker().hasCooldown(DUMMY)) {
+				((EntityEnderman) event.getEntityLiving()).getCombatTracker().reset();
+				((EntityEnderman) event.getEntityLiving()).setRevengeTarget(null);
+				((EntityEnderman) event.getEntityLiving()).setAttackTarget(null);
 			}
 		}
 	}
-
-	public static class DummyAgitator extends Item {
-		public static final DummyAgitator INSTANCE = new DummyAgitator();
-
-		private DummyAgitator() {
-			super(new Item.Properties());
-		}
-	}
-
 }

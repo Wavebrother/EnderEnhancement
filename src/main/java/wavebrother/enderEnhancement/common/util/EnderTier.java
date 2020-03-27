@@ -1,13 +1,14 @@
 package wavebrother.enderEnhancement.common.util;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.IItemTier;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import wavebrother.enderEnhancement.Config;
+import net.minecraftforge.common.util.EnumHelper;
+import wavebrother.enderEnhancement.Configuration;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.init.ModItems;
 
@@ -26,22 +27,47 @@ public enum EnderTier {
 		return super.toString().substring(0, 1) + super.toString().substring(1).toLowerCase();
 	}
 
-	public int defaultMultiplier() {
+	public int defaultAttackTpMin() {
 		switch (this) {
 		case DULL:
-			return 1;
-		case ENDER:
-			return 2;
-		case EMPOWERED:
-			return 3;
-		case EXTREME:
 			return 4;
+		case ENDER:
+			return 3;
+		case EMPOWERED:
+			return 2;
+		case EXTREME:
+			return 1;
+		}
+		return 1;
+	}
+
+	public int defaultWaterTpMin() {
+		switch (this) {
+		case DULL:
+			return 2;
+		case ENDER:
+			return 3;
+		case EMPOWERED:
+			return 4;
+		case EXTREME:
+			return 5;
 		}
 		return 1;
 	}
 
 	public int multiplier() {
-		return Config.ENDER_TIER_MULTIPLIER.get(this).get();
+		switch (this) {
+		case DULL:
+			return Configuration.Dull_Tier;
+		case ENDER:
+			return Configuration.Ender_Tier;
+		case EMPOWERED:
+			return Configuration.Empowered_Tier;
+		case EXTREME:
+			return Configuration.Extreme_Tier;
+		default:
+			return 1;
+		}
 	}
 
 	public Item getEnderPearl() {
@@ -59,7 +85,15 @@ public enum EnderTier {
 		}
 	}
 
-	public class EnderToolTier implements IItemTier {
+	public class EnderToolTier {
+
+		public ToolMaterial material() {
+			return EnumHelper
+					.addToolMaterial(EnderTier.this.toString(), getHarvestLevel(), getMaxUses(), getEfficiency(),
+							getAttackDamage(), getEnchantability())
+					.setRepairItem(new ItemStack(getRepairMaterial(), 1,
+							net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE));
+		}
 
 		protected EnderToolTier() {
 
@@ -137,22 +171,22 @@ public enum EnderTier {
 			return 0;
 		}
 
-		public Ingredient getRepairMaterial() {
+		public Item getRepairMaterial() {
 			switch (EnderTier.this) {
 			case DULL:
-				return Ingredient.fromItems(ModItems.dullEnderPearl);
+				return ModItems.dullEnderPearl;
 			case ENDER:
-				return Ingredient.fromItems(ModItems.enderPearl);
+				return ModItems.enderPearl;
 			case EMPOWERED:
-				return Ingredient.fromItems(ModItems.empoweredEnderPearl);
+				return ModItems.empoweredEnderPearl;
 			case EXTREME:
-				return Ingredient.fromItems(ModItems.extremeEnderPearl);
+				return ModItems.extremeEnderPearl;
 			}
-			return Ingredient.fromItems();
+			return null;
 		}
 	}
 
-	public class EnderArmorMaterial implements IArmorMaterial {
+	public class EnderArmorMaterial {
 //		DULL(, , 8, , 0.0F, () -> {
 //			return Ingredient.fromItems(Items.LEATHER);
 //		}), ENDER(, , , 16, , 0.0F, () -> {
@@ -165,59 +199,50 @@ public enum EnderTier {
 //			return Ingredient.fromItems(Items.DIAMOND);
 //		});
 
+		public ArmorMaterial material() {
+			return EnumHelper
+					.addArmorMaterial(getTier().toString(), getName(), getDurability(), MAX_DAMAGE_ARRAY,
+							getEnchantability(), getSoundEvent(), getToughness())
+					.setRepairItem(new ItemStack(getRepairMaterial(), 1,
+							net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE));
+		}
+
 		protected EnderArmorMaterial() {
-			DEFAULT_WATER_TP_MIN = DEFAULT_WATER_TP_MINS[getTier().ordinal()];
-			DEFAULT_ATTACK_TP_MIN = DEFAULT_ATTACK_TP_MINS[getTier().ordinal()];
 
 		}
 
 		private final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 };
 
-		private final int[] DEFAULT_WATER_TP_MINS = { 2, 3, 4, 5 };
-		private final int[] DEFAULT_ATTACK_TP_MINS = { 4, 3, 2, 1 };
-		public final int DEFAULT_WATER_TP_MIN;
-		public final int DEFAULT_ATTACK_TP_MIN;
-
 		public EnderTier getTier() {
 			return EnderTier.this;
 		}
 
-		public int getDurability(EquipmentSlotType slotIn) {
-			int maxDamageFactor = 0;
+		public int getDurability() {
 			switch (EnderTier.this) {
 			case DULL:
-				maxDamageFactor = 7;
-				break;
+				return 7;
 			case ENDER:
-				maxDamageFactor = 15;
-				break;
+				return 15;
 			case EMPOWERED:
-				maxDamageFactor = 25;
-				break;
+				return 25;
 			case EXTREME:
-				maxDamageFactor = 40;
-				break;
+				return 40;
 			}
-			return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * maxDamageFactor;
+			return 1;
 		}
 
-		public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-			int[] damageReductionAmountArray = new int[] { 13, 15, 16, 11 };
+		public int[] getDamageReductionAmount(EntityEquipmentSlot slotIn) {
 			switch (EnderTier.this) {
 			case DULL:
-				damageReductionAmountArray = new int[] { 2, 5, 3, 1 };
-				break;
+				return new int[] { 2, 5, 3, 1 };
 			case ENDER:
-				damageReductionAmountArray = new int[] { 2, 6, 4, 2 };
-				break;
+				return new int[] { 2, 6, 4, 2 };
 			case EMPOWERED:
-				damageReductionAmountArray = new int[] { 3, 7, 5, 2 };
-				break;
+				return new int[] { 3, 7, 5, 2 };
 			case EXTREME:
-				damageReductionAmountArray = new int[] { 3, 8, 6, 3 };
-				break;
+				return new int[] { 3, 8, 6, 3 };
 			}
-			return damageReductionAmountArray[slotIn.getIndex()];
+			return new int[] { 1, 1, 1, 1 };
 		}
 
 		public int getEnchantability() {
@@ -248,18 +273,18 @@ public enum EnderTier {
 			return SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
 		}
 
-		public Ingredient getRepairMaterial() {
+		public Item getRepairMaterial() {
 			switch (EnderTier.this) {
 			case DULL:
-				return Ingredient.fromItems(ModItems.dullEnderPearl);
+				return ModItems.dullEnderPearl;
 			case ENDER:
-				return Ingredient.fromItems(ModItems.enderPearl);
+				return ModItems.enderPearl;
 			case EMPOWERED:
-				return Ingredient.fromItems(ModItems.empoweredEnderPearl);
+				return ModItems.empoweredEnderPearl;
 			case EXTREME:
-				return Ingredient.fromItems(ModItems.extremeEnderPearl);
+				return ModItems.extremeEnderPearl;
 			}
-			return Ingredient.fromItems();
+			return null;
 		}
 
 		public String getName() {

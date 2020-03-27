@@ -7,8 +7,9 @@ import wavebrother.enderEnhancement.common.util.EnderTier;
 public class EnderStick extends Item implements IEnderItem {
 
 	public EnderStick(EnderTier tier, String name) {
-		super(new Properties().group(EnderEnhancement.CREATIVE_TAB));
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = tier;
 		// TODO Auto-generated constructor stub
 	}

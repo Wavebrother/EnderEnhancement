@@ -1,19 +1,19 @@
 package wavebrother.enderEnhancement.common.item.tool;
 
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.item.IEnderItem;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-public class EnderAxe extends AxeItem implements IEnderItem {
+public class EnderAxe extends ItemAxe implements IEnderItem {
 
 	private static final EnderToolsUtil tool = EnderToolsUtil.AXE;
 
 	public EnderAxe(EnderTier material, String name) {
-		super(material.toolTier, tool.getDamage(material), tool.getSpeed(material),
-				new Item.Properties().group(EnderEnhancement.CREATIVE_TAB));
+		super(material.toolTier.material(), tool.getDamage(material), tool.getSpeed(material));
+		setCreativeTab(EnderEnhancement.CREATIVE_TAB);
 		setRegistryName(name);
+		setUnlocalizedName(name);
 		this.tier = material;
 		// TODO Auto-generated constructor stub
 	}

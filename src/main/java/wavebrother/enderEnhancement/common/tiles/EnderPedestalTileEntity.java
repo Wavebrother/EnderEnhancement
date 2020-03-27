@@ -2,81 +2,74 @@ package wavebrother.enderEnhancement.common.tiles;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.crash.ReportedException;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.blocks.EnderPedestal;
-import wavebrother.enderEnhancement.common.init.ModTileEntities;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
-import wavebrother.enderEnhancement.common.item.EndermanAgitator.DummyAgitator;
 import wavebrother.enderEnhancement.common.item.ItemAccumulator;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
-@EventBusSubscriber(bus = Bus.FORGE)
-public class EnderPedestalTileEntity extends TileEntity implements ITickableTileEntity, IInventory {
-	private NonNullList<ItemStack> inventory;
+@EventBusSubscriber()
+public class EnderPedestalTileEntity extends TileEntity implements ITickable, IInventory {
+	private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
 	private ItemStack pedestalItem = ItemStack.EMPTY;
-	private PlayerEntity itemOwner;
+	private EntityPlayer itemOwner;
 
-	protected EnderPedestalTileEntity(TileEntityType<?> typeIn) {
-		super(typeIn);
-
-		this.inventory = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+	public EnderPedestalTileEntity() {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public EnderPedestalTileEntity() {
-		this(ModTileEntities.enderPedestal);
-	}
-
 	@Override
-	public void tick() {
+	public void update() {
 		if (getWorld().isRemote)
 			return;
 		if (getPedestalItem().getItem() instanceof ItemAccumulator) {
 			((ItemAccumulator) getPedestalItem().getItem()).collectItems(getPedestalItem(), getWorld(), null, this);
 		} else if (getPedestalItem().getItem() instanceof EndermanAgitator) {
-			if (!(getPedestalItem().hasTag() && getPedestalItem().getTag().getBoolean(EndermanAgitator.agitatorTag))) {
+			if (!(getPedestalItem().hasTagCompound()
+					&& getPedestalItem().getTagCompound().getBoolean(EndermanAgitator.agitatorTag))) {
 				EnderTier tier = ((EndermanAgitator) getPedestalItem().getItem()).getEnderTier();
-				List<PlayerEntity> players = getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(
+				List<EntityPlayer> players = getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(
 						pos.getX() - EndermanAgitator.getRange(tier), pos.getY() - EndermanAgitator.getRange(tier),
 						pos.getZ() - EndermanAgitator.getRange(tier), pos.getX() + EndermanAgitator.getRange(tier),
 						pos.getY() + EndermanAgitator.getRange(tier), pos.getZ() + EndermanAgitator.getRange(tier)),
-						EntityPredicates.NOT_SPECTATING);
-				for (PlayerEntity player : players) {
-					player.getCooldownTracker().setCooldown(DummyAgitator.INSTANCE, 2);
-					player.getPersistentData().putString(EndermanAgitator.agitatorTag, tier.name());
+						EntitySelectors.NOT_SPECTATING);
+				for (EntityPlayer player : players) {
+					player.getCooldownTracker().setCooldown(EndermanAgitator.DUMMY, 2);
+					player.getEntityData().setString(EndermanAgitator.agitatorTag, tier.name());
 				}
 			} else if (itemOwner != null) {
 				EnderTier tier = ((EndermanAgitator) getPedestalItem().getItem()).getEnderTier();
-				List<EndermanEntity> endermen = getWorld().getEntitiesWithinAABB(EndermanEntity.class,
+				List<EntityEnderman> endermen = getWorld().getEntitiesWithinAABB(EntityEnderman.class,
 						new AxisAlignedBB(pos.getX() - EndermanAgitator.getRange(tier),
 								pos.getY() - EndermanAgitator.getRange(tier),
 								pos.getZ() - EndermanAgitator.getRange(tier),
 								pos.getX() + EndermanAgitator.getRange(tier),
 								pos.getY() + EndermanAgitator.getRange(tier),
 								pos.getZ() + EndermanAgitator.getRange(tier)),
-						EntityPredicates.NOT_SPECTATING);
-				for (EndermanEntity enderman : endermen) {
+						EntitySelectors.NOT_SPECTATING);
+				for (EntityEnderman enderman : endermen) {
 					// enderman.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getX(),
 					// enderman.getAIMoveSpeed());
 					enderman.setAttackTarget(itemOwner);
@@ -86,11 +79,11 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 
 	}
 
-	private PlayerEntity getItemOwner() {
+	private EntityPlayer getItemOwner() {
 		return this.itemOwner;
 	}
 
-	public void setItemOwner(PlayerEntity itemOwnerIn) {
+	public void setItemOwner(EntityPlayer itemOwnerIn) {
 		this.itemOwner = itemOwnerIn;
 		this.markDirty();
 	}
@@ -128,10 +121,10 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 	}
 
 	@Override
-	public boolean isUsableByPlayer(PlayerEntity player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		if (!hasWorld()) {
-		} else if (getWorld().getBlockState(getPos()).has(EnderPedestal.HAS_ACCUMULATOR)
-				|| getWorld().getBlockState(getPos()).has(EnderPedestal.HAS_AGITATOR))
+		} else if (getWorld().getBlockState(getPos()).getPropertyKeys().contains(EnderPedestal.HAS_ACCUMULATOR)
+				|| getWorld().getBlockState(getPos()).getPropertyKeys().contains(EnderPedestal.HAS_AGITATOR))
 			return false;
 		if (itemOwner == null)
 			return true;
@@ -179,20 +172,20 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 		return stack1.getItem() == stack2.getItem() && ItemStack.areItemStackTagsEqual(stack1, stack2);
 	}
 
-	private int addResource(int p_191973_1_, ItemStack p_191973_2_) {
+	private int addResource(int amount, ItemStack stackIn) {
 		@SuppressWarnings("unused")
-		Item item = p_191973_2_.getItem();
-		int i = p_191973_2_.getCount();
-		ItemStack itemstack = this.getStackInSlot(p_191973_1_);
+		Item item = stackIn.getItem();
+		int i = stackIn.getCount();
+		ItemStack itemstack = this.getStackInSlot(amount);
 		if (itemstack.isEmpty()) {
-			itemstack = p_191973_2_.copy(); // Forge: Replace Item clone above to preserve item capabilities when
-											// picking the item up.
+			itemstack = stackIn.copy(); // Forge: Replace Item clone above to preserve item capabilities when
+										// picking the item up.
 			itemstack.setCount(0);
-			if (p_191973_2_.hasTag()) {
-				itemstack.setTag(p_191973_2_.getTag().copy());
+			if (stackIn.hasTagCompound()) {
+				itemstack.setTagCompound(stackIn.getTagCompound().copy());
 			}
 
-			this.setInventorySlotContents(p_191973_1_, itemstack);
+			this.setInventorySlotContents(amount, itemstack);
 		}
 
 		int j = i;
@@ -220,10 +213,11 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 
 	private boolean add(int slot, ItemStack stack) {
 		if (stack.isEmpty()) {
+			LogManager.getLogger().info(stack);
 			return false;
 		} else {
 			try {
-				if (stack.isDamaged()) {
+				if (stack.isItemDamaged()) {
 					if (slot == -1) {
 						slot = this.getFirstEmptyStack();
 					}
@@ -257,26 +251,26 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being added");
 				crashreportcategory.addDetail("Registry Name", () -> String.valueOf(stack.getItem().getRegistryName()));
 				crashreportcategory.addDetail("Item Class", () -> stack.getItem().getClass().getName());
-				crashreportcategory.addDetail("Item ID", Item.getIdFromItem(stack.getItem()));
-				crashreportcategory.addDetail("Item data", stack.getDamage());
+				crashreportcategory.addDetail("Item ID", () -> Item.getIdFromItem(stack.getItem()) + "");
+				crashreportcategory.addDetail("Item data", () -> stack.getItemDamage() + "");
 				crashreportcategory.addDetail("Item name", () -> {
-					return stack.getDisplayName().getString();
+					return stack.getDisplayName().toString();
 				});
 				throw new ReportedException(crashreport);
 			}
 		}
 	}
 
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		CompoundNBT pedestalItemnbt = new CompoundNBT();
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+		NBTTagCompound pedestalItemnbt = new NBTTagCompound();
 		if (!pedestalItem.isEmpty()) {
-			pedestalItem.write(pedestalItemnbt);
+			pedestalItem.writeToNBT(pedestalItemnbt);
 		}
 		if (itemOwner != null)
-			compound.putUniqueId("ItemOwner", getItemOwner().getUniqueID());
+			compound.setUniqueId("ItemOwner", getItemOwner().getUniqueID());
 
-		compound.put("PedestalItem", pedestalItemnbt);
+		compound.setTag("PedestalItem", pedestalItemnbt);
 		ItemStackHelper.saveAllItems(compound, this.inventory);
 		return compound;
 	}
@@ -284,16 +278,16 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void read(CompoundNBT compound) {
-		super.read(compound);
-		if (compound.contains("PedestalItem")) {
-			CompoundNBT pedestalItemNBT = compound.getCompound("PedestalItem");
-			setPedestalItem(ItemStack.read(pedestalItemNBT), false);
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		if (compound.hasKey("PedestalItem")) {
+			NBTTagCompound pedestalItemNBT = compound.getCompoundTag("PedestalItem");
+			setPedestalItem(new ItemStack(pedestalItemNBT), false);
 		} else if (hasWorld() && getWorld().isRemote) {
 			MinecraftForge.EVENT_BUS.post(new EnderPedestalUpdateEvent(ItemStack.EMPTY, pos, true));
 		}
-		if (compound.contains("ItemOwner")) {
-			setItemOwner(world.getPlayerByUuid(compound.getUniqueId("ItemOwner")));
+		if (compound.hasKey("ItemOwner")) {
+			setItemOwner(world.getPlayerEntityByUUID(compound.getUniqueId("ItemOwner")));
 		}
 
 		this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
@@ -380,5 +374,42 @@ public class EnderPedestalTileEntity extends TileEntity implements ITickableTile
 			this.pedestalItem = item;
 			this.ping = ping;
 		}
+	}
+
+	@Override
+	public String getName() {
+		return Reference.TileEntities.ENDERPEDESTAL.getRegistryName();
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
 	}
 }
