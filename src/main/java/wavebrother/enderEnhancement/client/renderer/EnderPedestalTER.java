@@ -24,21 +24,21 @@ public class EnderPedestalTER extends TileEntityRenderer<EnderPedestalTileEntity
 		super(disp);
 	}
 
-	public void func_225616_a_(EnderPedestalTileEntity pedestal, float float1, MatrixStack matrix,
+	public void render(EnderPedestalTileEntity pedestal, float float1, MatrixStack matrix,
 			IRenderTypeBuffer buffer, int int1, int int2) {
 		ItemStack itemstack = pedestal.getPedestalItem();
 		if (!itemstack.isEmpty()) {
-			matrix.func_227860_a_();
-			matrix.func_227861_a_(0.5D, 1.0D, 0.5D);
+			matrix.push();
+			matrix.translate(0.5D, 1.0D, 0.5D);
 			if (doesRotation(itemstack)) {
-				matrix.func_227863_a_(
-						Vector3f.field_229179_b_.func_229187_a_((float) (pedestal.getWorld().getGameTime() % 360)));
-				matrix.func_227863_a_(
-						Vector3f.field_229181_d_.func_229187_a_((float) (pedestal.getWorld().getGameTime() % 360)));
+				matrix.rotate(
+						Vector3f.XP.rotationDegrees((float) (pedestal.getWorld().getGameTime() % 360)));
+				matrix.rotate(
+						Vector3f.XP.rotationDegrees((float) (pedestal.getWorld().getGameTime() % 360)));
 			}
-			Minecraft.getInstance().getItemRenderer().func_229110_a_(itemstack,
-					ItemCameraTransforms.TransformType.FIXED, int1, OverlayTexture.field_229196_a_, matrix, buffer);
-			matrix.func_227865_b_();
+			Minecraft.getInstance().getItemRenderer().renderItem(itemstack,
+					ItemCameraTransforms.TransformType.FIXED, int1, OverlayTexture.NO_OVERLAY, matrix, buffer);
+			matrix.pop();
 		}
 
 	}

@@ -51,7 +51,7 @@ public class EndergyCapability {
 		CapabilityManager.INSTANCE.register(EndergyCapability.class, new IStorage<EndergyCapability>() {
 			@Override
 			public INBT writeNBT(Capability<EndergyCapability> capability, EndergyCapability instance, Direction side) {
-				return IntNBT.func_229692_a_(instance.getEnergyStored());
+				return IntNBT.valueOf(instance.getEnergyStored());
 			}
 
 			@Override
