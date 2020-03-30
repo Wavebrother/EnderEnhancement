@@ -72,12 +72,12 @@ public class ItemBlockPorter extends Item implements IEnderItem {
 				BlockState newState = worldIn.getBlockState(lookingAt.getPos());
 				TileEntity newTE = worldIn.getTileEntity(lookingAt.getPos());
 				if (newTE != null) {
-					newTE.func_226984_a_(oldWorld, oldPos);
+					newTE.setWorldAndPos(oldWorld, oldPos);
 				}
 				oldWorld.setBlockState(oldPos, newState);
 				// worldIn.setTileEntity(oldPos, newTE);
 				if (oldTE != null) {
-					oldTE.func_226984_a_(worldIn, lookingAt.getPos());
+					oldTE.setWorldAndPos(worldIn, lookingAt.getPos());
 				}
 				worldIn.setBlockState(lookingAt.getPos(), oldState);
 				// worldIn.setTileEntity(lookingAt.getPos(), oldTE);

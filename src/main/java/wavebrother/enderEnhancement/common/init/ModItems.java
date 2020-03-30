@@ -300,7 +300,8 @@ public class ModItems {
 				// Blocks
 				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
 				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem,
-				ModBlocks.enderPedestal.blockItem);
+				ModBlocks.enderPedestal.blockItem, ModBlocks.dullEnderOre.blockItem, ModBlocks.enderOre.blockItem,
+				ModBlocks.empoweredEnderOre.blockItem, ModBlocks.extremeEnderOre.blockItem);
 		// event.getRegistry().registerAll(dullEnderPearl, empoweredEnderPearl,
 		// extremeEnderPearl,
 //

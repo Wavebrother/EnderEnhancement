@@ -120,7 +120,7 @@ public class ItemEntityPorter extends Item implements IEnderItem {
 				newEntity.copyDataFromOld(entity);
 				newEntity.moveToBlockPosAndAngles(oldPos, newEntity.rotationYaw, newEntity.rotationPitch);
 				newEntity.setMotion(entity.getMotion());
-				newWorld.func_217460_e(newEntity);
+				newWorld.addFromAnotherDimension(newEntity);
 			}
 			entity.remove(false);
 		}
