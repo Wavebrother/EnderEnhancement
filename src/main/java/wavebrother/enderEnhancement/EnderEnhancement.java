@@ -5,9 +5,13 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -18,6 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import wavebrother.enderEnhancement.common.init.ModBlocks;
 
 @Mod(value = Reference.MOD_ID)
 public class EnderEnhancement {
@@ -44,11 +49,23 @@ public class EnderEnhancement {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(MobDropsHandler.class);
-		
+
 //		CapabilityManager.INSTANCE.register(CapabilityEndergy.class, new CapabilityEndergy.EndergyStorage(0), factory);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setup(final FMLCommonSetupEvent event) {
+		DeferredWorkQueue.runLater(this::addFeatures);
+	}
+
+	private void addFeatures() {
+		FillerBlockType endstone = FillerBlockType.create("EnderEnhancement.EndStone", "enderenhancement.endstone",
+				new BlockMatcher(Blocks.END_STONE));
+		ModBlocks.dullEnderOre.setupOregen(endstone);
+		ModBlocks.enderOre.setupOregen(endstone);
+		ModBlocks.empoweredEnderOre.setupOregen(endstone);
+		ModBlocks.extremeEnderOre.setupOregen(endstone);
+
 	}
 
 	/**

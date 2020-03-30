@@ -96,6 +96,8 @@ public class Reference {
 	public static enum Blocks {
 		DULLENDERBLOCK("block_dull_ender_block"), ENDERBLOCK("block_ender_block"),
 		EMPOWEREDENDERBLOCK("block_empowered_ender_block"), EXTREMEENDERBLOCK("block_extreme_ender_block"),
+		DULLENDERORE("block_dull_ender_ore"), ENDERORE("block_ender_ore"),
+		EMPOWEREDENDERORE("block_empowered_ender_ore"), EXTREMEENDERORE("block_extreme_ender_ore"),
 		ENDERPEDESTAL("block_ender_pedestal");
 
 		private String registryName;
