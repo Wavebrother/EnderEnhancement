@@ -5,6 +5,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.blocks.EnderBlock;
 import wavebrother.enderEnhancement.common.blocks.EnderOre;
@@ -42,12 +43,17 @@ public class ModBlocks {
 	}
 
 	@SubscribeEvent
-	public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+	public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
 		init();
 //		EnderEnhancement.LOGGER.info("REGISTER THE BLOCKS\n\n\n\n\n\n\n\nREGISTER THE BLOCKS");
 //		System.out.println("REGISTER THE BLOCKS\n\n\n\n\n\n\n\nREGISTER THE BLOCKS");
-		blockRegistryEvent.getRegistry().registerAll(dullEnderBlock, enderBlock, empoweredEnderBlock, extremeEnderBlock,
-				enderPedestal, dullEnderOre, enderOre, empoweredEnderOre, extremeEnderOre);
+		event.getRegistry().registerAll(dullEnderBlock, enderBlock, empoweredEnderBlock, extremeEnderBlock);
+
+		if (Config.PEDESTAL_ENABLED.get())
+			event.getRegistry().registerAll(enderPedestal);
+
+		if (Config.ORES_ENABLED.get())
+			event.getRegistry().registerAll(dullEnderOre, enderOre, empoweredEnderOre, extremeEnderOre);
 	}
 
 //	public static void registerRenders(){

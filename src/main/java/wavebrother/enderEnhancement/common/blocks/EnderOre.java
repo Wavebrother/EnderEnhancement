@@ -16,6 +16,7 @@ import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
+import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.EnderEnhancement;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
@@ -33,27 +34,26 @@ public class EnderOre extends OreBlock {
 	}
 
 	public void setupOregen(FillerBlockType filler) {
-		int frequency = 0;
-		switch (tier) {
-		case DULL:
-			frequency = 4;
-			break;
-		case ENDER:
-			frequency = 5;
-			break;
-		case EMPOWERED:
-			frequency = 3;
-			break;
-		case EXTREME:
-			frequency = 2;
-			break;
-		default:
-			break;
-		}
+		int frequency = Config.ENDER_ORE_MAXIMUM.get(this.tier).get();
 		Biomes.THE_END.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION,
 				Feature.ORE.withConfiguration(new OreFeatureConfig(filler, this.getDefaultState(), frequency))
 						.withPlacement(
 								Placement.COUNT_RANGE.configure(new CountRangeConfig(frequency * 2, 10, 20, 128))));
+	}
+	
+	public static int getDefaultFrequency(EnderTier tier) {
+		switch (tier) {
+		case DULL:
+			return 4;
+		case ENDER:
+			return 5;
+		case EMPOWERED:
+			return 3;
+		case EXTREME:
+			return 2;
+		default:
+			return 0;
+		}
 	}
 
 	@Override

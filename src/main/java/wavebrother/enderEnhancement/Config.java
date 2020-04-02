@@ -11,21 +11,25 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.config.ModConfig.Reloading;
+import wavebrother.enderEnhancement.common.blocks.EnderOre;
 import wavebrother.enderEnhancement.common.util.EnderTier;
 
 @Mod.EventBusSubscriber
 public class Config {
 
 	public static final String CATEGORY_GENERAL = "general";
+	public static final String CATEGORY_ENDER_ORES = "ender_ores";
+	public static final String CATEGORY_ENDER_TOOLS = "ender_tools";
 	public static final String CATEGORY_ENDER_ARMOR = "ender_armor";
+	public static final String CATEGORY_ENDER_BLOCKS = "ender_blocks";
 	public static final String CATEGORY_ENDER_ARMOR_WATER = "water";
 	public static final String CATEGORY_ENDER_ARMOR_ATTACK = "attack";
 
 	private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
-	private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
+//	private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
 
 	public static ForgeConfigSpec COMMON_CONFIG;
-	public static ForgeConfigSpec CLIENT_CONFIG;
+//	public static ForgeConfigSpec CLIENT_CONFIG;
 
 	public static ForgeConfigSpec.BooleanValue HARDMODE;
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_TIER_MULTIPLIER = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
@@ -41,6 +45,17 @@ public class Config {
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_ARMOR_WATER_MINIMUM = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
 	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_ARMOR_ATTACK_MINIMUM = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
 
+	public static ForgeConfigSpec.BooleanValue PICKAXE;
+	public static ForgeConfigSpec.BooleanValue SHOVEL;
+	public static ForgeConfigSpec.BooleanValue AXE;
+	public static ForgeConfigSpec.BooleanValue HOE;
+	public static ForgeConfigSpec.BooleanValue SWORD;
+	public static ForgeConfigSpec.BooleanValue MULTITOOL;
+
+	public static ForgeConfigSpec.BooleanValue PEDESTAL_ENABLED;
+	public static ForgeConfigSpec.BooleanValue ORES_ENABLED;
+	public static HashMap<EnderTier, ForgeConfigSpec.IntValue> ENDER_ORE_MAXIMUM = new HashMap<EnderTier, ForgeConfigSpec.IntValue>();
+
 	static {
 
 		COMMON_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
@@ -55,8 +70,30 @@ public class Config {
 				.defineInRange("accumulator_range", 4, 1, 128);
 		PORTER_RANGE = COMMON_BUILDER.comment("Ender Porter range base (Modified by tier multiplier)")
 				.defineInRange("porter_range", 25, 10, 128);
-		ENDERGY_MAX = COMMON_BUILDER.comment("Maximum Endergy Storage")
-				.defineInRange("endergy_storage", 1000, 1, Integer.MAX_VALUE);
+//		ENDERGY_MAX = COMMON_BUILDER.comment("Maximum Endergy Storage")
+//				.defineInRange("endergy_storage", 1000, 1, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Tools").push(CATEGORY_ENDER_TOOLS);
+		PICKAXE = COMMON_BUILDER.comment("Enable Ender Pickaxes (Will also disable Multitool)").define("pickaxe", true);
+		SHOVEL = COMMON_BUILDER.comment("Enable Ender Shovels (Will also disable Multitool)").define("shovel", true);
+		AXE = COMMON_BUILDER.comment("Enable Ender Axes (Will also disable Multitool)").define("axe", true);
+		HOE = COMMON_BUILDER.comment("Enable Ender Hoes").define("hoe", true);
+		SWORD = COMMON_BUILDER.comment("Enable Ender Swords").define("sword", true);
+		MULTITOOL = COMMON_BUILDER.comment("Enable Ender Multitools").define("multitool", true);
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Blocks").push(CATEGORY_ENDER_BLOCKS);
+		PEDESTAL_ENABLED = COMMON_BUILDER.comment("Enable Ender Pedestal").define("pedestal", true);
+		ORES_ENABLED = COMMON_BUILDER.comment("Enable Ender Ores").define("ores", true);
+		COMMON_BUILDER.comment("Ores").push(CATEGORY_ENDER_ORES);
+		for (EnderTier tier : EnderTier.values()) {
+			ENDER_ORE_MAXIMUM.put(tier, COMMON_BUILDER
+					.comment("Maximum " + tier
+							+ " Ore vein (Also effects ore frequency)")
+					.defineInRange(tier.toString().toLowerCase(), EnderOre.getDefaultFrequency(tier), 1, 20));
+		}
+		COMMON_BUILDER.pop();
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Ender Armor Settings").push(CATEGORY_ENDER_ARMOR);
@@ -70,6 +107,7 @@ public class Config {
 					.defineInRange(tier.toString().toLowerCase(), tier.armorMaterial.DEFAULT_WATER_TP_MIN, 1, 5));
 		}
 		COMMON_BUILDER.pop();
+
 		COMMON_BUILDER.comment("Attack Settings").push(CATEGORY_ENDER_ARMOR_ATTACK);
 		for (EnderTier tier : EnderTier.values()) {
 			ENDER_ARMOR_ATTACK_MINIMUM.put(tier, COMMON_BUILDER
@@ -81,7 +119,7 @@ public class Config {
 		COMMON_BUILDER.pop();
 
 		COMMON_CONFIG = COMMON_BUILDER.build();
-		CLIENT_CONFIG = CLIENT_BUILDER.build();
+//		CLIENT_CONFIG = CLIENT_BUILDER.build();
 	}
 
 	public static void loadConfig(ForgeConfigSpec spec, Path path) {
