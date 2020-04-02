@@ -7,15 +7,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.ObjectHolder;
+import wavebrother.enderEnhancement.Config;
 import wavebrother.enderEnhancement.Reference;
 import wavebrother.enderEnhancement.common.item.EnderArmor;
 import wavebrother.enderEnhancement.common.item.EnderPearl;
 import wavebrother.enderEnhancement.common.item.EnderStick;
 import wavebrother.enderEnhancement.common.item.EndermanAgitator;
 import wavebrother.enderEnhancement.common.item.ItemAccumulator;
-import wavebrother.enderEnhancement.common.item.ItemEntityPorter;
 import wavebrother.enderEnhancement.common.item.ItemEnderFruit;
 import wavebrother.enderEnhancement.common.item.ItemEnderPorter;
+import wavebrother.enderEnhancement.common.item.ItemEntityPorter;
 import wavebrother.enderEnhancement.common.item.tool.EnderAxe;
 import wavebrother.enderEnhancement.common.item.tool.EnderHoe;
 import wavebrother.enderEnhancement.common.item.tool.EnderMultiTool;
@@ -267,90 +268,102 @@ public class ModItems {
 
 		init();
 		// Pearls
-		event.getRegistry().registerAll(
-				// Dull
-				dullEnderPearl, dullEnderStick, dullEnderAxe, dullEnderHoe, dullEnderPickaxe, dullEnderShovel,
-				dullEnderSword, dullEnderHelmet, dullEnderChestplate, dullEnderLeggings, dullEnderBoots,
-				dullEnderAgitator, dullAccumulator,
-//				dullEndergyCollector,
-				// Ender
-				enderStick, enderAxe, enderHoe, enderPickaxe, enderShovel, enderSword, enderHelmet, enderChestplate,
-				enderLeggings, enderBoots, enderAgitator, enderAccumulator,
-//				endergyCollector,
-				// Empowered
-				empoweredEnderPearl, empoweredEnderStick, empoweredEnderAxe, empoweredEnderHoe, empoweredEnderPickaxe,
-				empoweredEnderShovel, empoweredEnderSword, empoweredEnderHelmet, empoweredEnderChestplate,
-				empoweredEnderLeggings, empoweredEnderBoots, empoweredEnderAgitator, empoweredAccumulator,
-//				empoweredEndergyCollector,
-				// Extreme
-				extremeEnderPearl, extremeEnderStick, extremeEnderAxe, extremeEnderHoe, extremeEnderPickaxe,
-				extremeEnderShovel, extremeEnderSword, extremeEnderHelmet, extremeEnderChestplate, extremeEnderLeggings,
-				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator,
-//				extremeEndergyCollector,
-
-				// Multi Tools
-				dullEnderTool, enderTool, empoweredEnderTool, extremeEnderTool,
-
-				// Pearlers
-				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter,
-
-				// Food
-				enderFruit, dullBlockPorter,
-
-				// Blocks
-				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
-				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem,
-				ModBlocks.enderPedestal.blockItem, ModBlocks.dullEnderOre.blockItem, ModBlocks.enderOre.blockItem,
-				ModBlocks.empoweredEnderOre.blockItem, ModBlocks.extremeEnderOre.blockItem);
-		// event.getRegistry().registerAll(dullEnderPearl, empoweredEnderPearl,
-		// extremeEnderPearl,
+//		event.getRegistry().registerAll(
+//				// Dull
+//				dullEnderPearl, dullEnderStick, dullEnderAxe, dullEnderHoe, dullEnderPickaxe, dullEnderShovel,
+//				dullEnderSword, dullEnderHelmet, dullEnderChestplate, dullEnderLeggings, dullEnderBoots,
+//				dullEnderAgitator, dullAccumulator,
+////				dullEndergyCollector,
+//				// Ender
+//				enderStick, enderAxe, enderHoe, enderPickaxe, enderShovel, enderSword, enderHelmet, enderChestplate,
+//				enderLeggings, enderBoots, enderAgitator, enderAccumulator,
+////				endergyCollector,
+//				// Empowered
+//				empoweredEnderPearl, empoweredEnderStick, empoweredEnderAxe, empoweredEnderHoe, empoweredEnderPickaxe,
+//				empoweredEnderShovel, empoweredEnderSword, empoweredEnderHelmet, empoweredEnderChestplate,
+//				empoweredEnderLeggings, empoweredEnderBoots, empoweredEnderAgitator, empoweredAccumulator,
+////				empoweredEndergyCollector,
+//				// Extreme
+//				extremeEnderPearl, extremeEnderStick, extremeEnderAxe, extremeEnderHoe, extremeEnderPickaxe,
+//				extremeEnderShovel, extremeEnderSword, extremeEnderHelmet, extremeEnderChestplate, extremeEnderLeggings,
+//				extremeEnderBoots, extremeEnderAgitator, extremeAccumulator,
+////				extremeEndergyCollector,
 //
-//				// Sticks
-//				dullEnderStick, enderStick, empoweredEnderStick, extremeEnderStick,
+//				// Multi Tools
+//				dullEnderTool, enderTool, empoweredEnderTool, extremeEnderTool,
 //
-//				// Axes
-//				dullEnderAxe, enderAxe, empoweredEnderAxe, extremeEnderAxe,
-//
-//				// Hoes
-//				dullEnderHoe, enderHoe, empoweredEnderHoe, extremeEnderHoe,
-//
-//				// Pickaxes
-//				dullEnderPickaxe, enderPickaxe, empoweredEnderPickaxe, extremeEnderPickaxe,
-//
-//				// Shovels
-//				dullEnderShovel, enderShovel, empoweredEnderShovel, extremeEnderShovel,
-//
-//				// Swords
-//				dullEnderSword, enderSword, empoweredEnderSword, extremeEnderSword,
-//
-//				// Helmets
-//				dullEnderHelmet, enderHelmet, empoweredEnderHelmet, extremeEnderHelmet,
-//
-//				// Chestplates
-//				dullEnderChestplate, enderChestplate, empoweredEnderChestplate, extremeEnderChestplate,
-//
-//				// Leggings
-//				dullEnderLeggings, enderLeggings, empoweredEnderLeggings, extremeEnderLeggings,
-//
-//				// Boots
-//				dullEnderBoots, enderBoots, empoweredEnderBoots, extremeEnderBoots,
-//
-//				// Misc Tools
-//				extremeEnderTool, extremeEnderPorter,
-//
-//				// Agitators
-//				dullEnderAgitator, enderAgitator, empoweredEnderAgitator, extremeEnderAgitator,
-//
-//				// Accumulators
-//				dullAccumulator, enderAccumulator, empoweredAccumulator, extremeAccumulator,
+//				// Pearlers
+//				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter,
 //
 //				// Food
-//				enderFruit,
+//				enderFruit, dullBlockPorter,
 //
 //				// Blocks
 //				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
 //				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem,
-//				ModBlocks.enderPedestal.blockItem);
+//				ModBlocks.enderPedestal.blockItem, ModBlocks.dullEnderOre.blockItem, ModBlocks.enderOre.blockItem,
+//				ModBlocks.empoweredEnderOre.blockItem, ModBlocks.extremeEnderOre.blockItem);
+
+		// Pickaxes
+		if (Config.PICKAXE.get())
+			event.getRegistry().registerAll(dullEnderPickaxe, enderPickaxe, empoweredEnderPickaxe, extremeEnderPickaxe);
+		// Shovels
+		if (Config.SHOVEL.get())
+			event.getRegistry().registerAll(dullEnderShovel, enderShovel, empoweredEnderShovel, extremeEnderShovel);
+		// Axes
+		if (Config.AXE.get())
+			event.getRegistry().registerAll(dullEnderAxe, enderAxe, empoweredEnderAxe, extremeEnderAxe);
+		// Hoes
+		if (Config.HOE.get())
+			event.getRegistry().registerAll(dullEnderHoe, enderHoe, empoweredEnderHoe, extremeEnderHoe);
+		// Swords
+		if (Config.SWORD.get())
+			event.getRegistry().registerAll(dullEnderSword, enderSword, empoweredEnderSword, extremeEnderSword);
+		// Multi Tools
+		if (Config.MULTITOOL.get() && Config.PICKAXE.get() && Config.SHOVEL.get() && Config.AXE.get())
+			event.getRegistry().registerAll(dullEnderTool, enderTool, empoweredEnderTool, extremeEnderTool);
+
+		event.getRegistry().registerAll(
+				// Pearls
+				dullEnderPearl, empoweredEnderPearl, extremeEnderPearl,
+
+				// Sticks
+				dullEnderStick, enderStick, empoweredEnderStick, extremeEnderStick,
+
+				// Helmets
+				dullEnderHelmet, enderHelmet, empoweredEnderHelmet, extremeEnderHelmet,
+
+				// Chestplates
+				dullEnderChestplate, enderChestplate, empoweredEnderChestplate, extremeEnderChestplate,
+
+				// Leggings
+				dullEnderLeggings, enderLeggings, empoweredEnderLeggings, extremeEnderLeggings,
+
+				// Boots
+				dullEnderBoots, enderBoots, empoweredEnderBoots, extremeEnderBoots,
+
+				// Porters
+				dullEnderPorter, enderPorter, empoweredEnderPorter, extremeEnderPorter, dullBlockPorter,
+
+				// Agitators
+				dullEnderAgitator, enderAgitator, empoweredEnderAgitator, extremeEnderAgitator,
+
+				// Accumulators
+				dullAccumulator, enderAccumulator, empoweredAccumulator, extremeAccumulator,
+
+				// Food
+				enderFruit,
+
+				// Blocks
+				ModBlocks.dullEnderBlock.blockItem, ModBlocks.enderBlock.blockItem,
+				ModBlocks.empoweredEnderBlock.blockItem, ModBlocks.extremeEnderBlock.blockItem);
+
+		if (Config.PEDESTAL_ENABLED.get())
+			event.getRegistry().registerAll(ModBlocks.enderPedestal.blockItem);
+
+		if (Config.ORES_ENABLED.get())
+			event.getRegistry().registerAll(ModBlocks.dullEnderOre.blockItem, ModBlocks.enderOre.blockItem,
+					ModBlocks.empoweredEnderOre.blockItem, ModBlocks.extremeEnderOre.blockItem);
 	}
 
 }
