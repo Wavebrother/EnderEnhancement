@@ -205,16 +205,16 @@ public enum EnderTier {
 			int[] damageReductionAmountArray = new int[] { 13, 15, 16, 11 };
 			switch (EnderTier.this) {
 			case DULL:
-				damageReductionAmountArray = new int[] { 2, 5, 3, 1 };
+				damageReductionAmountArray = new int[] { 1, 2, 5, 2 };
 				break;
 			case ENDER:
-				damageReductionAmountArray = new int[] { 2, 6, 4, 2 };
+				damageReductionAmountArray = new int[] { 2, 4, 6, 2 };
 				break;
 			case EMPOWERED:
-				damageReductionAmountArray = new int[] { 3, 7, 5, 2 };
+				damageReductionAmountArray = new int[] { 2, 5, 7, 3 };
 				break;
 			case EXTREME:
-				damageReductionAmountArray = new int[] { 3, 8, 6, 3 };
+				damageReductionAmountArray = new int[] { 3, 6, 8, 3 };
 				break;
 			}
 			return damageReductionAmountArray[slotIn.getIndex()];
