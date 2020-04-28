@@ -205,7 +205,7 @@ public enum EnderTier {
 			int[] damageReductionAmountArray = new int[] { 13, 15, 16, 11 };
 			switch (EnderTier.this) {
 			case DULL:
-				damageReductionAmountArray = new int[] { 1, 2, 5, 2 };
+				damageReductionAmountArray = new int[] { 1, 3, 5, 2 };
 				break;
 			case ENDER:
 				damageReductionAmountArray = new int[] { 2, 4, 6, 2 };
